@@ -10,8 +10,11 @@
  Created: 2025
 */
 
-package com.om.DataMagic.check;
+package com.om.DataMagic.infrastructure.pgDB.mapper;
 
-public class check {
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
 
+public interface UserDOMapper extends BaseMapper<UserDO> {
+    
 }

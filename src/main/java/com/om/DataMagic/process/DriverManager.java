@@ -10,8 +10,8 @@
  Created: 2025
 */
 
-package com.om.DataMagic.check;
+package com.om.DataMagic.process;
 
-public class check {
-
+public interface DriverManager {
+    public void run();
 }

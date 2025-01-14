@@ -9,14 +9,17 @@
  See the Mulan PSL v2 for more details.
  Created: 2025
 */
+
+package com.om.DataMagic.client.codePlatform.gitee;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class giteeClient {
+public class GiteeClient {
 
     /**
      * Logger for logging messages in App class.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(giteeClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GiteeClient.class);
 
 }
