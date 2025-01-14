@@ -9,14 +9,16 @@
  See the Mulan PSL v2 for more details.
  Created: 2025
 */
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class TaskManager {
+package com.om.DataMagic.infrastructure.pgDB.service;
 
-    /**
-     * Logger for logging messages in App class.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(TaskManager.class);
+import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
+import com.om.DataMagic.infrastructure.pgDB.mapper.UserDOMapper;
+
+@Service
+public class UserServiceImpl extends ServiceImpl<UserDOMapper, UserDO> implements UserService {
+    
 }

@@ -10,8 +10,11 @@
  Created: 2025
 */
 
-package com.om.DataMagic.check;
+package com.om.DataMagic.infrastructure.pgDB.service;
 
-public class check {
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
 
+public interface  UserService extends IService<UserDO> {
+    
 }
