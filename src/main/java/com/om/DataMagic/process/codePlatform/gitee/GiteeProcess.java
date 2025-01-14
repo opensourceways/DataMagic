@@ -9,14 +9,36 @@
  See the Mulan PSL v2 for more details.
  Created: 2025
 */
+
+package com.om.DataMagic.process.codePlatform.gitee;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
+import com.om.DataMagic.infrastructure.pgDB.service.UserService;
+import com.om.DataMagic.process.DriverManager;
 
-public class giteeProcess {
+@Component
+public class GiteeProcess implements DriverManager {
+
+    @Autowired
+    UserService userService;
 
     /**
      * Logger for logging messages in App class.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(giteeProcess.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GiteeProcess.class);
+    
+    @Override
+    public void run() {
+        Collection<UserDO> objList = new ArrayList<>();
+        LOGGER.info("gitee");
+        userService.saveOrUpdateBatch(objList);
+    }
 
 }
