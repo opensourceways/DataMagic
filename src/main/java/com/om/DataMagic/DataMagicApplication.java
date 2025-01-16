@@ -6,10 +6,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.retry.annotation.EnableRetry;
 
 import com.om.DataMagic.task.TaskManager;
 
 @SpringBootApplication
+@EnableRetry
 @ComponentScan(basePackages = { "com.om.DataMagic.*" })
 @MapperScan("com.om.DataMagic.infrastructure.pgDB.mapper")
 public class DataMagicApplication implements CommandLineRunner {

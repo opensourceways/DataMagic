@@ -12,6 +12,8 @@
 
 package com.om.DataMagic.common.util;
 
+import java.io.IOException;
+
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -21,15 +23,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.stereotype.Component;
 
 import com.om.DataMagic.common.constant.HttpConstant;
 
-public final class HttpClientUtil {
-    // Private constructor to prevent instantiation of the utility class
-    private HttpClientUtil() {
-        // private constructor to hide the implicit public one
-        throw new AssertionError("HttpClientUtil class cannot be instantiated.");
-    }
+@Component
+public class HttpClientUtil {
 
     /**
      * Logger for HttpClientUtil.
@@ -46,11 +47,13 @@ public final class HttpClientUtil {
     /**
      * Get an HTTP client with specified parameters.
      *
-     * @param uri       The URI for the HTTP client.
-     * @param header     The request header.
+     * @param uri    The URI for the HTTP client.
+     * @param header The request header.
      * @return The HTTP client as a string.
+     * @throws IOException
      */
-    public static String getHttpClient(final String uri, final Header header) {
+    @Retryable(recover = "recoverApiResp", value = { IOException.class }, maxAttempts = 3)
+    public String getHttpClient(final String uri, final Header header) throws IOException {
         HttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri);
         httpGet.setConfig(REQUEST_CONFIG);
@@ -58,19 +61,25 @@ public final class HttpClientUtil {
         if (header != null) {
             httpGet.addHeader(header);
         }
-
-        String responseRes = "";
-        try {
-            HttpResponse response = httpClient.execute(httpGet);
-            if (response.getStatusLine().getStatusCode() != 200) {
-                LOGGER.info(response.getEntity().toString());
-            }
-            responseRes = EntityUtils.toString(response.getEntity());
-        } catch (Exception e) {
-            LOGGER.error("error happend in get request - {}", e.getMessage());
+        HttpResponse response = httpClient.execute(httpGet);
+        if (response.getStatusLine().getStatusCode() != 200) {
+            throw new IOException(EntityUtils.toString(response.getEntity()));
         }
+        String responseRes = EntityUtils.toString(response.getEntity());
         return responseRes;
     }
 
+    /**
+     * Get an HTTP client with specified parameters.
+     *
+     * @param e      The IOException.
+     * @param uri    The URI for the HTTP client.
+     * @param header The request header.
+     * @return The recover response as a string.
+     */
+    @Recover
+    public String recoverApiResp(IOException e, final String uri, final Header header) {
+        LOGGER.info(uri + e.getMessage());
+        return "Retry 3 times failed: " + uri;
+    }
 }
-
