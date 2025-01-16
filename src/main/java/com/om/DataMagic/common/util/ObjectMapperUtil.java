@@ -58,7 +58,7 @@ public final class ObjectMapperUtil {
     /**
      * Convert a content to object.
      *
-     * @param clazz The class of object
+     * @param clazz   The class of object
      * @param content The content to convert to JsonNode
      * @return JsonNode representing the input content
      */
@@ -76,4 +76,3 @@ public final class ObjectMapperUtil {
         }
     }
 }
-
