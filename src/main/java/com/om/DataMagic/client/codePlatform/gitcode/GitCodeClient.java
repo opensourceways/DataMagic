@@ -66,6 +66,12 @@ public class GitCodeClient {
         return callApi(path, null);
     }
 
+    /**
+     * 分页获取某个组织下所有仓库数据
+     * @param orgName 组织名称
+     * @param page 当前页
+     * @return 仓库数据字符串
+     */
     public String getRepoInfo(String orgName, int page) {
         String path = String.format("/orgs/%s/repos", orgName);
         Map<String,String> params = new HashMap<>();
@@ -74,6 +80,13 @@ public class GitCodeClient {
         return callApi(path,params);
     }
 
+    /**
+     * 分页获取仓库所有者下的某个仓库的pr数据
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @param page 当前页
+     * @return pr数据字符串
+     */
     public String getPRInfo(String ownerName, String repoName, int page) {
         String path = String.format("/repos/%s/%s/pulls", ownerName, repoName);
         Map<String,String> params = new HashMap<>();
