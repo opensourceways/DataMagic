@@ -48,6 +48,12 @@ public class GitcodeProcess implements DriverManager {
         saveData(users);
     }
 
+    /**
+     * Parese user api response string to object.
+     *
+     * @param userInfo The user api response content.
+     * @return UserDO.
+     */
     public UserDO parseUser(String userInfo) {
         JsonNode userJson = ObjectMapperUtil.toJsonNode(userInfo);
         UserDO user = new UserDO();
@@ -67,13 +73,16 @@ public class GitcodeProcess implements DriverManager {
      * @return Result.
      */
     public boolean saveData(List<String> users) {
+        boolean res = false;
         Collection<UserDO> userDetail = new ArrayList<>();
         for (String user : users) {
             String userInfo = client.getUserInfo(user);
             UserDO obj = parseUser(userInfo);
             userDetail.add(obj);
         }
-        boolean res = userService.saveOrUpdateBatch(userDetail);
+        if (!userDetail.isEmpty()) {
+            res = userService.saveOrUpdateBatch(userDetail);
+        }
         return res;
     }
 

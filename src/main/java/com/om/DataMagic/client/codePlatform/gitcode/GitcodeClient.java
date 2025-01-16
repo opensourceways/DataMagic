@@ -12,9 +12,11 @@
 
 package com.om.DataMagic.client.codePlatform.gitcode;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.apache.http.Header;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,38 +31,53 @@ public class GitcodeClient {
 
     @Autowired
     TaskConfig config;
-    
+
+    @Autowired
+    HttpClientUtil client;
+
     /**
      * Logger for logging messages in App class.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(GitcodeClient.class);
 
     /**
-     * Send a POST request using an HTTP client to the specified URI with the given request body.
+     * Send a POST request using an HTTP client to the specified URI with the given
+     * request body.
      *
-     * @param path         The path for the api request.
+     * @param path   The path for the api request.
      * @param params The params for the api request.
      * @return The response from the request as a string.
      */
     public String callApi(String path, Map<String, String> params) {
-        StringBuilder urlBuilder = new StringBuilder(config.getBaseApi()).append(path);
-        
-        if (params != null && !params.isEmpty()) {
-            urlBuilder.append("?");
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                urlBuilder.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
+        String url = "";
+        try {
+            URIBuilder uriBuilder = new URIBuilder(config.getBaseApi() + path);
+            if (params != null && !params.isEmpty()) {
+                for (Map.Entry<String, String> entry : params.entrySet()) {
+                    uriBuilder.addParameter(entry.getKey(), entry.getValue());
+                }
             }
-            urlBuilder.deleteCharAt(urlBuilder.length() - 1);
+            url = uriBuilder.build().toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
 
         Header header = new BasicHeader("Authorization", "Bearer " + config.getToken());
 
-        String response = HttpClientUtil.getHttpClient(urlBuilder.toString(), header);
+        String response = "";
+        try {
+            response = client.getHttpClient(url, header);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
         return response;
     }
 
     public String getUserInfo(String username) {
         String path = "/users/" + username;
-        return callApi(path, null);
+        Map<String, String> params = Map.of(
+                "page", "1",
+                "pageSize", "100");
+        return callApi(path, params);
     }
 }
