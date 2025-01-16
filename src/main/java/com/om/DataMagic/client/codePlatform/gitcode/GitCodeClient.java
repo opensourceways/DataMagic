@@ -12,8 +12,10 @@
 
 package com.om.DataMagic.client.codePlatform.gitcode;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
@@ -25,7 +27,7 @@ import com.om.DataMagic.common.config.TaskConfig;
 import com.om.DataMagic.common.util.HttpClientUtil;
 
 @Component
-public class GitcodeClient {
+public class GitCodeClient {
 
     @Autowired
     TaskConfig config;
@@ -33,7 +35,7 @@ public class GitcodeClient {
     /**
      * Logger for logging messages in App class.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(GitcodeClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GitCodeClient.class);
 
     /**
      * Send a POST request using an HTTP client to the specified URI with the given request body.
@@ -62,5 +64,34 @@ public class GitcodeClient {
     public String getUserInfo(String username) {
         String path = "/users/" + username;
         return callApi(path, null);
+    }
+
+    /**
+     * 分页获取某个组织下所有仓库数据
+     * @param orgName 组织名称
+     * @param page 当前页
+     * @return 仓库数据字符串
+     */
+    public String getRepoInfo(String orgName, int page) {
+        String path = String.format("/orgs/%s/repos", orgName);
+        Map<String,String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
+        return callApi(path,params);
+    }
+
+    /**
+     * 分页获取仓库所有者下的某个仓库的pr数据
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @param page 当前页
+     * @return pr数据字符串
+     */
+    public String getPRInfo(String ownerName, String repoName, int page) {
+        String path = String.format("/repos/%s/%s/pulls", ownerName, repoName);
+        Map<String,String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
+        return callApi(path,params);
     }
 }
