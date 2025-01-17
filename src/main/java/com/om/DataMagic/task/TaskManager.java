@@ -38,7 +38,8 @@ public class TaskManager {
      * Map of task mappings.
      */
     public static final Map<String, String> TASK_MAPPING = Map.of(
-            "gitcode_user", "com.om.DataMagic.process.codePlatform.gitcode.GitcodeProcess",
+            "gitcode_user", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeProcess",
+            "gitcode_repo", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeRepoProcess",
             "gitee_user", "com.om.DataMagic.process.codePlatform.gitee.GiteeProcess"
     );
             
