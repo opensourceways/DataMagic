@@ -22,25 +22,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitcodeClient;
+import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
 import com.om.DataMagic.infrastructure.pgDB.service.UserService;
 import com.om.DataMagic.process.DriverManager;
 
 @Component
-public class GitcodeProcess implements DriverManager {
+public class GitCodeProcess implements DriverManager {
 
     @Autowired
     UserService userService;
 
     @Autowired
-    GitcodeClient client;
+    GitCodeClient client;
 
     /**
      * Logger for logging messages in App class.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(GitcodeProcess.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GitCodeProcess.class);
 
     @Override
     public void run() {
