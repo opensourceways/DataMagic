@@ -13,9 +13,7 @@
 package com.om.DataMagic.infrastructure.pgDB.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
-import com.om.DataMagic.infrastructure.pgDB.mapper.RepoDOMapper;
 import com.om.DataMagic.infrastructure.pgDB.mapper.StarDOMapper;
 import org.springframework.stereotype.Service;
 

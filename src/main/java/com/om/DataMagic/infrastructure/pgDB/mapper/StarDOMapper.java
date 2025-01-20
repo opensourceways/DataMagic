@@ -14,7 +14,6 @@ package com.om.DataMagic.infrastructure.pgDB.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
 
 public interface StarDOMapper extends BaseMapper<StarDO> {
     
