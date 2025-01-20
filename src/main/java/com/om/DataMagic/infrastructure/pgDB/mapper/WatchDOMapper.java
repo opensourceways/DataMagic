@@ -13,7 +13,6 @@
 package com.om.DataMagic.infrastructure.pgDB.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.WatchDO;
 
 public interface WatchDOMapper extends BaseMapper<WatchDO> {

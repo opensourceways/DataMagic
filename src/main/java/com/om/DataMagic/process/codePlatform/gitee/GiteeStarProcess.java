@@ -13,13 +13,12 @@
 package com.om.DataMagic.process.codePlatform.gitee;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
 import com.om.DataMagic.client.codePlatform.gitee.GiteeClient;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import com.om.DataMagic.infrastructure.pgDB.converter.StarConverter;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
 import com.om.DataMagic.infrastructure.pgDB.service.RepoService;
 import com.om.DataMagic.infrastructure.pgDB.service.StarService;
 import com.om.DataMagic.process.DriverManager;

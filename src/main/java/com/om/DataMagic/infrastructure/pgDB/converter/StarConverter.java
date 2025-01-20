@@ -12,13 +12,11 @@
 
 package com.om.DataMagic.infrastructure.pgDB.converter;
 
-import  com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -60,14 +58,11 @@ public class StarConverter {
         starDO.setUserLogin(repoJson.path("login").asText());
         String dateString = repoJson.get("star_at")==null?null:repoJson.get("star_at").asText();
         if (null!=dateString){
-            DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-            ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateString, formatter);
-            Date date = Date.from(zonedDateTime.toInstant());
-            starDO.setCreatedAt(date);
+            ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateString, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            starDO.setCreatedAt(Date.from(zonedDateTime.toInstant()));
         }
         starDO.setRepoPath(String.format("/%s/%s",owner,repo));
         starDO.setType(repoJson.path("type")==null?null:repoJson.path("type").asText());
-
         starDO.setNamespace(owner);
         starDO.setCodePlatform(codePlatForm);
         return starDO;

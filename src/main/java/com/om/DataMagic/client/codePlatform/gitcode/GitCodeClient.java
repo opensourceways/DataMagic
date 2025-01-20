@@ -12,12 +12,10 @@
 
 package com.om.DataMagic.client.codePlatform.gitcode;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.om.DataMagic.common.config.PlatformAccessConfig;
 import com.om.DataMagic.common.config.PlatformBaseApiConfig;
+import com.om.DataMagic.common.config.TaskConfig;
+import com.om.DataMagic.common.util.HttpClientUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import org.apache.http.Header;
 import org.apache.http.client.utils.URIBuilder;
@@ -27,8 +25,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.om.DataMagic.common.config.TaskConfig;
-import com.om.DataMagic.common.util.HttpClientUtil;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class GitCodeClient {
@@ -87,7 +86,7 @@ public class GitCodeClient {
     public String callApiByPlatform(String path, Map<String, String> params) {
         String url = "";
         try {
-            URIBuilder uriBuilder = new URIBuilder(baseApiConfig.getGitcode() + path);
+            URIBuilder uriBuilder = new URIBuilder(config.getBaseApi() + path);
             if (params != null && !params.isEmpty()) {
                 for (Map.Entry<String, String> entry : params.entrySet()) {
                     uriBuilder.addParameter(entry.getKey(), entry.getValue());
@@ -98,7 +97,7 @@ public class GitCodeClient {
             throw new RuntimeException(e.getMessage());
         }
 
-        Header header = new BasicHeader("Authorization", "Bearer " + accessConfig.getGitcode());
+        Header header = new BasicHeader("Authorization", "Bearer " + config.getToken());
 
         String response = "";
         try {
