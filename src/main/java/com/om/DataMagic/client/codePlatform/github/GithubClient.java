@@ -10,9 +10,8 @@
  Created: 2025
 */
 
-package com.om.DataMagic.client.codePlatform.gitee;
+package com.om.DataMagic.client.codePlatform.github;
 
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
 import com.om.DataMagic.common.config.PlatformAccessConfig;
 import com.om.DataMagic.common.config.PlatformBaseApiConfig;
 import com.om.DataMagic.common.config.TaskConfig;
@@ -31,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class GiteeClient {
+public class GithubClient {
 
 
     @Autowired
@@ -50,7 +49,7 @@ public class GiteeClient {
     /**
      * Logger for logging messages in App class.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(GitCodeClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GithubClient.class);
 
     /**
      * Send a POST request using an HTTP client to the specified URI with the given
@@ -59,6 +58,11 @@ public class GiteeClient {
      * @param path   The path for the api request.
      * @param params The params for the api request.
      * @return The response from the request as a string.
+     * curl -L \
+     *   -H "Accept: application/vnd.github+json" \
+     *   -H "Authorization: Bearer <YOUR-TOKEN>" \
+     *   -H "X-GitHub-Api-Version: 2022-11-28" \
+     *   https://api.github.com/repos/OWNER/REPO/stargazers
      */
     public String callApi(String path, Map<String, String> params) {
         String url = "";
@@ -85,10 +89,11 @@ public class GiteeClient {
         return response;
     }
 
+
     public String callApiByPlatform(String path, Map<String, String> params) {
         String url = "";
         try {
-            URIBuilder uriBuilder = new URIBuilder(baseApiConfig.getGitee() + path);
+            URIBuilder uriBuilder = new URIBuilder(baseApiConfig.getGithub() + path);
             if (params != null && !params.isEmpty()) {
                 for (Map.Entry<String, String> entry : params.entrySet()) {
                     uriBuilder.addParameter(entry.getKey(), entry.getValue());
@@ -99,7 +104,7 @@ public class GiteeClient {
             throw new RuntimeException(e.getMessage());
         }
 
-        Header header = new BasicHeader("Authorization", "Bearer " + accessConfig.getGitee());
+        Header header = new BasicHeader("Authorization", "Bearer " + accessConfig.getGithub());
 
         String response = "";
         try {
@@ -177,8 +182,8 @@ public class GiteeClient {
         Map<String,String> params = new HashMap<>();
         params.put("page", String.valueOf(page));
         params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
-        params.put("access_token",accessConfig.getGitee());
-        return callApiAcessToken(path,params);
+//        params.put("access_token","***");
+        return callApiByPlatform(path,params);
     }
 
 
@@ -195,10 +200,9 @@ public class GiteeClient {
         Map<String,String> params = new HashMap<>();
         params.put("page", String.valueOf(page));
         params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
-        params.put("access_token",accessConfig.getGitee());
-
-        return callApi(path,params);
+        return callApiByPlatform(path,params);
     }
+
 
     /**
      * 分页获取仓库所有者下的某个仓库的fork数据
