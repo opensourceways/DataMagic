@@ -38,7 +38,7 @@ ENV WORKSPACE=/home/datamagic
 
 WORKDIR ${WORKSPACE}
 
-COPY --chown=easysoftware --from=Builder /DataMagic/target/DataMagic-0.0.1-SNAPSHOT.jar ${WORKSPACE}/target/DataMagic-0.0.1-SNAPSHOT.jar
+COPY --chown=datamagic --from=Builder /DataMagic/target/DataMagic-0.0.1-SNAPSHOT.jar ${WORKSPACE}/target/DataMagic-0.0.1-SNAPSHOT.jar
 
 RUN echo "umask 027" >> /home/datamagic/.bashrc \
     && echo "umask 027" >> /root/.bashrc \
