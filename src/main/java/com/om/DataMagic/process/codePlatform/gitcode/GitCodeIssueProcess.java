@@ -60,21 +60,21 @@ public class GitCodeIssueProcess implements DriverManager {
     }
 
     /**
-     * 获取GitCode平台仓库下PR信息
+     * 获取GitCode平台仓库下Issue信息
      *
      * @param repoDO 仓库信息
-     * @return PR信息字符串
+     * @return issue信息字符串
      */
     private List<IssueDO> getIssueList(RepoDO repoDO) {
         List<String> issueArrayList = new ArrayList<>();
         int page = 1;
         while (true) {
-            String prInfo = client.getIssueInfo(repoDO.getOwnerName(), repoDO.getRepoName(), page);
-            if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(prInfo)) {
+            String issueInfo = client.getIssueInfo(repoDO.getOwnerName(), repoDO.getRepoName(), page);
+            if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(issueInfo)) {
                 break;
             }
             page++;
-            issueArrayList.add(prInfo);
+            issueArrayList.add(issueInfo);
         }
         return formatStr(repoDO,issueArrayList);
     }
@@ -83,12 +83,12 @@ public class GitCodeIssueProcess implements DriverManager {
      * 转化并组装IssueDO数据
      *
      * @param repoDO     仓库信息
-     * @param prInfoList pr信息字符串
+     * @param issueInfoList issue信息字符串
      * @return issue do 对象
      */
-    private List<IssueDO> formatStr(RepoDO repoDO, List<String> prInfoList) {
-        List<ArrayNode> arrayNodeList = prInfoList.stream().map(
-                prArray -> ObjectMapperUtil.toObject(ArrayNode.class, prArray)).toList();
+    private List<IssueDO> formatStr(RepoDO repoDO, List<String> issueInfoList) {
+        List<ArrayNode> arrayNodeList = issueInfoList.stream().map(
+                issueArray -> ObjectMapperUtil.toObject(ArrayNode.class, issueArray)).toList();
         List<IssueDO> issueDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
             issueDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName()));

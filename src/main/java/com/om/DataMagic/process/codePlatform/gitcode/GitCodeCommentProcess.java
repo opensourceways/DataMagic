@@ -18,8 +18,8 @@ import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import com.om.DataMagic.infrastructure.pgDB.converter.CommentConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import com.om.DataMagic.infrastructure.pgDB.service.*;
 import com.om.DataMagic.process.DriverManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class GitCodeCommentProcess implements DriverManager {
     PRService prService;
 
     @Autowired
-    RepoService repoService;
+    IssueService issueService;
 
     @Autowired
     CommentService commentService;
@@ -59,14 +59,14 @@ public class GitCodeCommentProcess implements DriverManager {
     public void run() {
         List<CommentDO> commentDOList = new ArrayList<>();
 
-        List<RepoDO> repoDOList = repoService.list();
-        for (RepoDO repoDO : repoDOList) {
-            commentDOList.addAll(getCommentListByIssue(repoDO));
-        }
-
         List<PRDO> prdoList = prService.list();
         for (PRDO prdo : prdoList) {
             commentDOList.addAll(getCommentListByPr(prdo));
+        }
+
+        List<IssueDO> issueDOList = issueService.list();
+        for (IssueDO issueDO : issueDOList) {
+            commentDOList.addAll(getCommentListByIssue(issueDO));
         }
 
         commentService.saveOrUpdateBatch(commentDOList);
@@ -77,7 +77,7 @@ public class GitCodeCommentProcess implements DriverManager {
      * 获取GitCode平台仓库下PR下评论信息
      *
      * @param prdo PR信息
-     * @return PR信息字符串
+     * @return comment信息字符串
      */
     private List<CommentDO> getCommentListByPr(PRDO prdo) {
         List<String> commentArrayList = new ArrayList<>();
@@ -102,7 +102,7 @@ public class GitCodeCommentProcess implements DriverManager {
      */
     private List<CommentDO> formatStrByPr(PRDO prdo, List<String> commentArrayList) {
         List<ArrayNode> arrayNodeList = commentArrayList.stream().map(
-                prArray -> ObjectMapperUtil.toObject(ArrayNode.class, prArray)).toList();
+                commentArray -> ObjectMapperUtil.toObject(ArrayNode.class, commentArray)).toList();
         List<CommentDO> commentDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
             commentDOList.addAll(converter.toDOList(arrayNode, prdo));
@@ -114,36 +114,36 @@ public class GitCodeCommentProcess implements DriverManager {
     /**
      * 获取GitCode平台仓库下ISSUE评论信息
      *
-     * @param repoDO 仓库信息
-     * @return PR信息字符串
+     * @param issueDO issue信息
+     * @return comment信息字符串
      */
-    private List<CommentDO> getCommentListByIssue(RepoDO repoDO) {
+    private List<CommentDO> getCommentListByIssue(IssueDO issueDO) {
         List<String> commentArrayList = new ArrayList<>();
         int page = 1;
         while (true) {
-            String commentInfo = client.getCommentInfoByIssue(repoDO.getOwnerName(), repoDO.getRepoName(), page);
+            String commentInfo = client.getCommentInfoByIssue(issueDO.getNamespace(), issueDO.getRepoName(), issueDO.getNumber(), page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(commentInfo)) {
                 break;
             }
             page++;
             commentArrayList.add(commentInfo);
         }
-        return formatStrByIssue(repoDO, commentArrayList);
+        return formatStrByIssue(issueDO, commentArrayList);
     }
 
     /**
      * 转化并组装CommentDO数据
      *
-     * @param repoDO           仓库信息
+     * @param issueDO          issue信息
      * @param commentArrayList comment信息字符串
      * @return comment do 对象
      */
-    private List<CommentDO> formatStrByIssue(RepoDO repoDO, List<String> commentArrayList) {
+    private List<CommentDO> formatStrByIssue(IssueDO issueDO, List<String> commentArrayList) {
         List<ArrayNode> arrayNodeList = commentArrayList.stream().map(
-                prArray -> ObjectMapperUtil.toObject(ArrayNode.class, prArray)).toList();
+                commentArray -> ObjectMapperUtil.toObject(ArrayNode.class, commentArray)).toList();
         List<CommentDO> commentDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            commentDOList.addAll(converter.toDOList(arrayNode, repoDO));
+            commentDOList.addAll(converter.toDOList(arrayNode, issueDO));
         }
         return commentDOList;
     }

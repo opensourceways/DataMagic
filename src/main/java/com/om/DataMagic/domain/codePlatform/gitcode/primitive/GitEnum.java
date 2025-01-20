@@ -28,10 +28,6 @@ public enum GitEnum {
      */
     COMMENT_PR("pr_comment","pr评论"),
     COMMENT_ISSUE("issue_comment","issue评论"),
-    /**
-     * issue网页地址模板， 1-所属者，2-仓库，3-issue number
-     */
-    ISSUE_URL_TEMPLATE("https://gitcode.com/%s/%s/issues/%s","issue网页地址模板"),
 
     COMMENT("comment","评论");
 
