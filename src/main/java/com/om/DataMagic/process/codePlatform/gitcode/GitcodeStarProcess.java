@@ -16,12 +16,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
-import com.om.DataMagic.infrastructure.pgDB.converter.PRConverter;
 import com.om.DataMagic.infrastructure.pgDB.converter.StarConverter;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
-import com.om.DataMagic.infrastructure.pgDB.service.PRService;
 import com.om.DataMagic.infrastructure.pgDB.service.RepoService;
 import com.om.DataMagic.infrastructure.pgDB.service.StarService;
 import com.om.DataMagic.process.DriverManager;
@@ -57,12 +54,7 @@ public class GitCodeStarProcess implements DriverManager {
      */
     @Override
     public void run() {
-        List<RepoDO> repoDOList = new ArrayList<>();
-//        /doocs/advanced-java
-        RepoDO repoDOs = new RepoDO();
-        repoDOs.setRepoName("advanced-java");
-        repoDOs.setOwnerName("doocs");
-        repoDOList.add(repoDOs);
+        List<RepoDO> repoDOList = repoService.list();
         List<StarDO> starDOList = new ArrayList<>();
         for (RepoDO repoDO : repoDOList) {
             starDOList.addAll(getStarList(repoDO));
