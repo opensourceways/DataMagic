@@ -67,9 +67,6 @@ public class CommentDO {
     @TableField("tag_url")
     private String tagUrl;
 
-    @TableField("author_id")
-    private String authorId;
-
     @TableField("self")
     private String isSelf;
 }
