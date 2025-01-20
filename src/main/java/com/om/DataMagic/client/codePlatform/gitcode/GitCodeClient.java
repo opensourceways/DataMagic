@@ -113,6 +113,22 @@ public class GitCodeClient {
     }
 
     /**
+     * 分页获取仓库所有者下的某个仓库的pr下所有评论
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @param number pr 序号
+     * @param page 当前页
+     * @return comment数据字符串
+     */
+    public String getCommentInfoByPR(String ownerName, String repoName,  String number, int page) {
+        String path = String.format("/repos/%s/%s/pulls/%s/comments", ownerName, repoName, number);
+        Map<String,String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
+        return callApi(path,params);
+    }
+
+    /**
      * 分页获取仓库所有者下的某个仓库的issue数据
      * @param ownerName 仓库所有者
      * @param repoName 仓库名称
@@ -126,4 +142,20 @@ public class GitCodeClient {
         params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
         return callApi(path,params);
     }
+
+    /**
+     * 分页获取仓库所有者下的某个仓库的issue评论数据
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @param page 当前页
+     * @return comment数据字符串
+     */
+    public String getCommentInfoByIssue(String ownerName, String repoName, int page) {
+        String path = String.format("/repos/%s/%s/issues/comments", ownerName, repoName);
+        Map<String,String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
+        return callApi(path,params);
+    }
+
 }
