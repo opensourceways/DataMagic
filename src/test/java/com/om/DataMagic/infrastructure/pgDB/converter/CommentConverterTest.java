@@ -14,7 +14,9 @@ package com.om.DataMagic.infrastructure.pgDB.converter;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
+import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import org.junit.jupiter.api.Assertions;
@@ -39,6 +41,7 @@ public class CommentConverterTest {
     void testTODOSuccessByPR() {
         PRDO prdo = new PRDO();
         prdo.setHtmlUrl("prHtmlUrl");
+        prdo.setUserId("708");
 
         CommentConverter converter = new CommentConverter();
 
@@ -47,26 +50,28 @@ public class CommentConverterTest {
 
         List<CommentDO> doList = converter.toDOList(arrayNode, prdo);
         Assertions.assertEquals(1, doList.size());
-        Assertions.assertEquals("pr_comment", doList.get(0).getCommentType());
+        Assertions.assertEquals(GitEnum.COMMENT_PR.getValue(), doList.get(0).getCommentType());
         Assertions.assertEquals("prHtmlUrl", doList.get(0).getTagUrl());
+        Assertions.assertEquals("true", doList.get(0).getIsSelf());
     }
 
     @Test
     @DisplayName("json数组转化为DO数组 Issue")
     void testTODOSuccessByIssue() {
-        RepoDO repoDO = new RepoDO();
-        repoDO.setOwnerName("owner");
-        repoDO.setRepoName("repo");
+        IssueDO issueDO = new IssueDO();
+        issueDO.setHtmlUrl("issueHtmlUrl");
+        issueDO.setUserId("661ce4eab470b1430d456154");
 
         CommentConverter converter = new CommentConverter();
 
         ArrayNode arrayNode = ObjectMapperUtil.toObject(ArrayNode.class, getCommentByIssueFromAPI());
         Assertions.assertNotNull(arrayNode);
 
-        List<CommentDO> doList = converter.toDOList(arrayNode, repoDO);
+        List<CommentDO> doList = converter.toDOList(arrayNode, issueDO);
         Assertions.assertEquals(1, doList.size());
-        Assertions.assertEquals("issue_comment", doList.get(0).getCommentType());
-        Assertions.assertEquals("https://gitcode.com/owner/repo/issues/15", doList.get(0).getTagUrl());
+        Assertions.assertEquals(GitEnum.COMMENT_ISSUE.getValue(), doList.get(0).getCommentType());
+        Assertions.assertEquals("issueHtmlUrl", doList.get(0).getTagUrl());
+        Assertions.assertEquals("true", doList.get(0).getIsSelf());
     }
 
     public String getCommentByPRFromAPI(){
@@ -90,8 +95,8 @@ public class CommentConverterTest {
     public String getCommentByIssueFromAPI(){
         return "[\n" +
                 "  {\n" +
-                "    \"id\": 272201,\n" +
-                "    \"body\": \"daetete\",\n" +
+                "    \"id\": 271624,\n" +
+                "    \"body\": \"评论内容。\",\n" +
                 "    \"user\": {\n" +
                 "      \"avatar_url\": \"https://gitcode-img.obs.cn-south-1.myhuaweicloud.com:443/fa/fe/f32a9fecc53e890afbd48fd098b0f6c5f20f062581400c76c85e5baab3f0d5b2.png\",\n" +
                 "      \"events_url\": null,\n" +
@@ -114,13 +119,13 @@ public class CommentConverterTest {
                 "    },\n" +
                 "    \"target\": {\n" +
                 "      \"issue\": {\n" +
-                "        \"id\": 152642,\n" +
-                "        \"title\": \"半月据\",\n" +
-                "        \"nubmer\": 15\n" +
+                "        \"id\": 152134,\n" +
+                "        \"title\": \"\",\n" +
+                "        \"nubmer\": 1\n" +
                 "      }\n" +
                 "    },\n" +
-                "    \"created_at\": \"2024-04-20T15:20:30.104+08:00\",\n" +
-                "    \"updated_at\": null\n" +
+                "    \"created_at\": \"2024-04-19T17:50:18.199+08:00\",\n" +
+                "    \"updated_at\": \"2024-04-19T17:50:18.199+08:00\"\n" +
                 "  }\n" +
                 "]\n";
     }
