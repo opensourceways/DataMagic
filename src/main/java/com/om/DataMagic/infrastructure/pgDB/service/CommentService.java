@@ -10,24 +10,16 @@
  Created: 2025
 */
 
-package com.om.DataMagic.common.util;
+package com.om.DataMagic.infrastructure.pgDB.service;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-
-import java.time.OffsetDateTime;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
 
 /**
- * 注释
+ * comment service 接口
  *
  * @author zhaoyan
- * @since 2025-01-16
+ * @since 2025-01-17
  */
-public class DateUtil {
-
-    public static OffsetDateTime parse(String dateStr) {
-        if (StringUtils.isEmpty(dateStr) || "null".equals(dateStr)){
-            return  null;
-        }
-        return OffsetDateTime.parse(dateStr);
-    }
+public interface CommentService extends IService<CommentDO> {
 }
