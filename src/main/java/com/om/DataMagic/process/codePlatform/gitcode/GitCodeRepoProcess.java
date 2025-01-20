@@ -14,6 +14,7 @@ package com.om.DataMagic.process.codePlatform.gitcode;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
+import com.om.DataMagic.common.config.TaskConfig;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.infrastructure.pgDB.converter.RepoConverter;
@@ -21,7 +22,6 @@ import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import com.om.DataMagic.infrastructure.pgDB.service.RepoService;
 import com.om.DataMagic.process.DriverManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -45,15 +45,15 @@ public class GitCodeRepoProcess implements DriverManager {
     @Autowired
     RepoService repoService;
 
-    @Value("${orgs}")
-    String orgs;
+    @Autowired
+    TaskConfig config;
 
     /**
      * 执行 拉取并更新指定组织下仓库信息
      */
     @Override
     public void run() {
-        String[] split = orgs.split(",");
+        String[] split = config.getOrgs().split(",");
         List<String> repoList = new ArrayList<>();
         for (String orgName : split) {
             repoList.addAll(getRepoList(orgName));

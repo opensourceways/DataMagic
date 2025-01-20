@@ -12,15 +12,14 @@
 
 package com.om.DataMagic.infrastructure.pgDB.converter;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.common.util.DateUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ public class CommentConverter {
             CommentDO commentDO = toDO(issueNode);
             commentDO.setCommentType(GitEnum.COMMENT_PR.getValue());
             commentDO.setTagUrl(prdo.getHtmlUrl());
+            commentDO.setIsSelf(String.valueOf(prdo.getUserId().equals(commentDO.getUserId())));
             issueDOList.add(commentDO);
         }
         return issueDOList;
@@ -57,17 +57,16 @@ public class CommentConverter {
      * 将Comment json数组转化为DO list
      *
      * @param arrayNode json数组
-     * @param repoDO    仓库
+     * @param issueDO   issue对象
      * @return DO list
      */
-    public List<CommentDO> toDOList(ArrayNode arrayNode, RepoDO repoDO) {
+    public List<CommentDO> toDOList(ArrayNode arrayNode, IssueDO issueDO) {
         List<CommentDO> issueDOList = new ArrayList<>();
         for (JsonNode issueNode : arrayNode) {
             CommentDO commentDO = toDO(issueNode);
             commentDO.setCommentType(GitEnum.COMMENT_ISSUE.getValue());
-            String url = String.format(GitEnum.ISSUE_URL_TEMPLATE.getValue(),
-                    repoDO.getOwnerName(), repoDO.getRepoName(), commentDO.getTagUrl());
-            commentDO.setTagUrl(url);
+            commentDO.setTagUrl(issueDO.getHtmlUrl());
+            commentDO.setIsSelf(String.valueOf(issueDO.getUserId().equals(commentDO.getUserId())));
             issueDOList.add(commentDO);
         }
         return issueDOList;
@@ -77,17 +76,13 @@ public class CommentConverter {
         CommentDO commentDO = new CommentDO();
         commentDO.setId(commentJson.path("id").asText());
         commentDO.setCodePlatform(CodePlatformEnum.GITCODE.getText());
+        commentDO.setUuid(CodePlatformEnum.GITCODE.getText() + "-" + commentDO.getId());
         commentDO.setHtmlUrl(null);
         commentDO.setBody(commentJson.path("body").asText());
         commentDO.setCreatedAt(DateUtil.parse(commentJson.path("created_at").asText()));
         commentDO.setUpdatedAt(DateUtil.parse(commentJson.path("updated_at").asText()));
         commentDO.setUserId(commentJson.path("user").path("id").asText());
         commentDO.setUserLogin(commentJson.path("user").path("login").asText());
-        String number = commentJson.path("target").
-                path("issue").path("nubmer").asText();
-        if (!StringUtils.isEmpty(number)) {
-            commentDO.setTagUrl(number);
-        }
         return commentDO;
     }
 }

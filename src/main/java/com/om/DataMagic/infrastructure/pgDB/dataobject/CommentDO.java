@@ -35,6 +35,9 @@ public class CommentDO {
     private static final long serialVersionUID = 1L;
 
     @TableId
+    private String uuid;
+
+    @TableField("id")
     private String id;
 
     @TableField("html_url")
@@ -63,4 +66,10 @@ public class CommentDO {
 
     @TableField("tag_url")
     private String tagUrl;
+
+    @TableField("author_id")
+    private String authorId;
+
+    @TableField("self")
+    private String isSelf;
 }
