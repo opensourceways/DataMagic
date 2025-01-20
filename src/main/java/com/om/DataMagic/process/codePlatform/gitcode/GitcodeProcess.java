@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitcodeClient;
+import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
 import com.om.DataMagic.infrastructure.pgDB.service.UserService;
@@ -35,7 +35,7 @@ public class GitcodeProcess implements DriverManager {
     UserService userService;
 
     @Autowired
-    GitcodeClient client;
+    GitCodeClient client;
 
     /**
      * Logger for logging messages in App class.
