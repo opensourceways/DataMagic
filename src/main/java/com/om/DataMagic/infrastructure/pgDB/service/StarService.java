@@ -13,7 +13,6 @@
 package com.om.DataMagic.infrastructure.pgDB.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
 
 /**

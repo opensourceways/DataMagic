@@ -12,16 +12,15 @@
 
 package com.om.DataMagic.task;
 
-import java.util.Map;
-
+import com.om.DataMagic.common.config.TaskConfig;
+import com.om.DataMagic.process.DriverManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.om.DataMagic.common.config.TaskConfig;
-import com.om.DataMagic.process.DriverManager;
+import java.util.Map;
 
 @Component
 public class TaskManager {
@@ -46,9 +45,10 @@ public class TaskManager {
 //            "gitcode_star", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeStarProcess"
 //            "gitee_star", "com.om.DataMagic.process.codePlatform.gitee.GiteeStarProcess"
 //            "github_star", "com.om.DataMagic.process.codePlatform.github.GithubStarProcess",
-            "gitcode_fork", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeForkProcess"
+            "gitcode_fork", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeForkProcess",
+            "gitcode_star", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeStarProcess",
 
-//            "github_fork", "com.om.DataMagic.process.codePlatform.github.GithubForkProcess"
+            "gitcode_watch", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeWatchProcess"
 
     );
             
