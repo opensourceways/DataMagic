@@ -54,6 +54,8 @@ public class IssueConverter {
         IssueDO issueDO = new IssueDO();
         issueDO.setId(issueJson.path("id").asText());
         issueDO.setCodePlatform(CodePlatformEnum.GITCODE.getText());
+        issueDO.setUuid(CodePlatformEnum.GITCODE.getText() + "-" + issueDO.getId());
+        issueDO.setNumber(issueJson.path("number").asText());
         issueDO.setUrl(issueJson.path("url").asText());
         issueDO.setHtmlUrl(issueJson.path("html_url").asText());
         issueDO.setTitle(issueJson.path("title").asText());

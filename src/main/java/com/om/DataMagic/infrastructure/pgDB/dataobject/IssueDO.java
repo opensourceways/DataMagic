@@ -35,10 +35,16 @@ public class IssueDO {
     private static final long serialVersionUID = 1L;
 
     @TableId
+    private String uuid;
+
+    @TableField("id")
     private String id;
 
     @TableField("url")
     private String url;
+
+    @TableField("number")
+    private String number;
 
     @TableField("html_url")
     private String htmlUrl;
