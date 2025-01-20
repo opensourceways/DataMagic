@@ -6,14 +6,14 @@ RUN sed -i "s|repo.openeuler.org|mirrors.nju.edu.cn/openeuler|g" /etc/yum.repos.
 
 RUN cd / \
     && yum install -y wget \
-    && wget https://mirrors.tuna.tsinghua.edu.cn/Adoptium/17/jdk/x64/linux/OpenJDK17U-jdk_x64_linux_hotspot_17.0.12_7.tar.gz \
-    && tar -zxvf OpenJDK17U-jdk_x64_linux_hotspot_17.0.12_7.tar.gz \
+    && wget https://mirrors.tuna.tsinghua.edu.cn/Adoptium/17/jdk/x64/linux/OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz \
+    && tar -zxvf OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz \
     && wget https://repo.huaweicloud.com/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz \
     && tar -zxvf apache-maven-3.8.1-bin.tar.gz
 
 COPY . /DataMagic
 
-ENV JAVA_HOME=/jdk-17.0.12+7
+ENV JAVA_HOME=/jdk-17.0.13+11
 ENV PATH=${JAVA_HOME}/bin:$PATH
 
 ENV MAVEN_HOME=/apache-maven-3.8.1
@@ -57,10 +57,10 @@ RUN passwd -l datamagic \
     && echo "export TMOUT=1800 readonly TMOUT" >> /etc/profile
 
 RUN dnf install -y wget \
-    && wget https://mirrors.tuna.tsinghua.edu.cn/Adoptium/17/jre/x64/linux/OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz \
-    && tar -zxvf OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz \
-    && rm OpenJDK17U-jre_x64_linux_hotspot_17.0.12_7.tar.gz \
-    && chown -R datamagic:datamagic jdk-17.0.12+7-jre
+    && wget https://mirrors.tuna.tsinghua.edu.cn/Adoptium/17/jre/x64/linux/OpenJDK17U-jre_x64_linux_hotspot_17.0.13_11.tar.gz \
+    && tar -zxvf OpenJDK17U-jre_x64_linux_hotspot_17.0.13_11.tar.gz \
+    && rm OpenJDK17U-jre_x64_linux_hotspot_17.0.13_11.tar.gz \
+    && chown -R datamagic:datamagic jdk-17.0.13+11-jre
 
 RUN rm -rf `find / -iname "*tcpdump*"` \
     && rm -rf `find / -iname "*sniffer*"` \
@@ -76,10 +76,10 @@ RUN rm -rf `find / -iname "*tcpdump*"` \
     && rm -rf `find / -iname "*JDK*"` \
     && rm -rf /root/.m2/repository/* \
     && rm -rf /tmp/* \
-    && rm -rf ${WORKSPACE}/jdk-17.0.11+9-jre/bin/jfr \
-    && rm -rf ${WORKSPACE}/jdk-17.0.11+9-jre/bin/jrunscript \
-    && rm -rf ${WORKSPACE}/jdk-17.0.11+9-jre/bin/keytool \
-    && rm -rf ${WORKSPACE}/jdk-17.0.11+9-jre/bin/rmiregistry
+    && rm -rf ${WORKSPACE}/jdk-17.0.13+11-jre/bin/jfr \
+    && rm -rf ${WORKSPACE}/jdk-17.0.13+11-jre/bin/jrunscript \
+    && rm -rf ${WORKSPACE}/jdk-17.0.13+11-jre/bin/keytool \
+    && rm -rf ${WORKSPACE}/jdk-17.0.13+11-jre/bin/rmiregistry
 
 RUN rm -rf /usr/bin/gdb* \
     && rm -rf /usr/share/gdb \
@@ -88,11 +88,10 @@ RUN rm -rf /usr/bin/gdb* \
     && yum clean all \
     && chmod 700 -R /home/datamagic
 
-ENV JAVA_HOME=${WORKSPACE}/jdk-17.0.12+7-jre
+ENV JAVA_HOME=${WORKSPACE}/jdk-17.0.13+11-jre
 ENV PATH=${JAVA_HOME}/bin:$PATH
 ENV LANG="C.UTF-8"
 
-
 USER datamagic
 
-CMD java -Xmx6144m -Xms1024m -jar ${WORKSPACE}/target/DataMagic-0.0.1-SNAPSHOT.jar --spring.config.location=${APPLICATION_PATH} --iservice=${ISERVICE}
+CMD java -Xmx6144m -Xms1024m -jar ${WORKSPACE}/target/DataMagic-0.0.1-SNAPSHOT.jar --spring.config.location=${APPLICATION_PATH}
