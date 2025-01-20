@@ -111,4 +111,19 @@ public class GitCodeClient {
         params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
         return callApi(path,params);
     }
+
+    /**
+     * 分页获取仓库所有者下的某个仓库的issue数据
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @param page 当前页
+     * @return issue数据字符串
+     */
+    public String getIssueInfo(String ownerName, String repoName, int page) {
+        String path = String.format("/repos/%s/%s/issues", ownerName, repoName);
+        Map<String,String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
+        return callApi(path,params);
+    }
 }
