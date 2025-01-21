@@ -13,7 +13,7 @@
 package com.om.DataMagic.process.codePlatform.gitcode;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitcodeClient;
+import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import com.om.DataMagic.infrastructure.pgDB.converter.StarConverter;
@@ -38,7 +38,7 @@ import java.util.List;
 public class GitCodeStarProcess implements DriverManager {
 
     @Autowired
-    GitcodeClient client;
+    GitCodeClient client;
 
     @Autowired
     StarConverter converter;
