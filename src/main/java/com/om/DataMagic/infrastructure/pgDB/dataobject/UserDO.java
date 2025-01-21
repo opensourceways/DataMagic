@@ -14,7 +14,8 @@ package com.om.DataMagic.infrastructure.pgDB.dataobject;
 
 import java.io.Serial;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.om.DataMagic.common.constant.TableConstant;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -24,13 +25,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@TableName("users")
+@TableName(TableConstant.USER)
 public class UserDO {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(type = IdType.AUTO)
-    private Integer uid;
+    @TableId()
+    private String uuid;
     
     @TableField("user_name")
     private String userName;
