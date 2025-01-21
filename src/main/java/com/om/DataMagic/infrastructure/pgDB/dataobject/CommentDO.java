@@ -12,43 +12,61 @@
 
 package com.om.DataMagic.infrastructure.pgDB.dataobject;
 
-import java.io.Serial;
-
-import com.om.DataMagic.common.constant.TableConstant;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
+import java.time.OffsetDateTime;
+
+/**
+ * Comment DO对象
+ *
+ * @author zhaoyan
+ * @since 2025-01-17
+ */
 @Getter
 @Setter
-@TableName(TableConstant.USER)
-public class UserDO {
+@TableName("fact_gitcode_comment")
+public class CommentDO {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId()
+    @TableId
     private String uuid;
-    
-    @TableField("user_name")
-    private String userName;
 
-    @TableField("user_login")
-    public String userLogin;
+    @TableField("id")
+    private String id;
+
+    @TableField("html_url")
+    private String htmlUrl;
+
+    @TableField("body")
+    private String body;
+
+    @TableField("created_at")
+    private OffsetDateTime createdAt;
+
+    @TableField("updated_at")
+    private OffsetDateTime updatedAt;
 
     @TableField("user_id")
-    public String userId;
+    private String userId;
 
-    @TableField("avatar_url")
-    public String avatarUrl;
+    @TableField("user_login")
+    private String userLogin;
 
-    public String email;
+    @TableField("comment_type")
+    private String commentType;
 
-    public String platform;
+    @TableField("code_platform")
+    private String codePlatform;
 
-    public UserDO() {
-    }
+    @TableField("tag_url")
+    private String tagUrl;
+
+    @TableField("self")
+    private String isSelf;
 }

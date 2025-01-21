@@ -10,22 +10,19 @@
  Created: 2025
 */
 
-package com.om.DataMagic.common.config;
+package com.om.DataMagic.infrastructure.pgDB.service;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
+import com.om.DataMagic.infrastructure.pgDB.mapper.PRDOMapper;
+import org.springframework.stereotype.Service;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Component
-@ConfigurationProperties(prefix = "task")
-@Setter
-@Getter
-public class TaskConfig {
-    private String orgs;
-    private String tasks;
-    private String platform;
-    private String baseApi;
-    private String token;
+/**
+ * pr service 实现类
+ *
+ * @author zhaoyan
+ * @since 2025-01-14
+ */
+@Service
+public class PRServiceImpl extends ServiceImpl<PRDOMapper, PRDO> implements PRService {
 }

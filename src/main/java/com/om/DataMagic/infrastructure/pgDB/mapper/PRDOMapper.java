@@ -10,22 +10,16 @@
  Created: 2025
 */
 
-package com.om.DataMagic.common.config;
+package com.om.DataMagic.infrastructure.pgDB.mapper;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Component
-@ConfigurationProperties(prefix = "task")
-@Setter
-@Getter
-public class TaskConfig {
-    private String orgs;
-    private String tasks;
-    private String platform;
-    private String baseApi;
-    private String token;
+/**
+ * PRDO mapper接口
+ *
+ * @author zhaoyan
+ * @since 2025-01-14
+ */
+public interface PRDOMapper extends BaseMapper<PRDO> {
 }

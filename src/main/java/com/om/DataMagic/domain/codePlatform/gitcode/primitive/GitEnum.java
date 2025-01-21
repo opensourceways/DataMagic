@@ -10,22 +10,33 @@
  Created: 2025
 */
 
-package com.om.DataMagic.common.config;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+package com.om.DataMagic.domain.codePlatform.gitcode.primitive;
 
 import lombok.Getter;
-import lombok.Setter;
 
-@Component
-@ConfigurationProperties(prefix = "task")
-@Setter
+/**
+ * git基本对象枚举
+ *
+ * @author zhaoyan
+ * @since 2025-01-17
+ */
 @Getter
-public class TaskConfig {
-    private String orgs;
-    private String tasks;
-    private String platform;
-    private String baseApi;
-    private String token;
+public enum GitEnum {
+
+    /**
+     * 评论类型
+     */
+    COMMENT_PR("pr_comment","pr评论"),
+    COMMENT_ISSUE("issue_comment","issue评论"),
+
+    COMMENT("comment","评论");
+
+    private final String value;
+
+    private final String text;
+
+    GitEnum(String value, String text) {
+        this.value = value;
+        this.text = text;
+    }
 }
