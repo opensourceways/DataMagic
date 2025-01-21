@@ -19,35 +19,69 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serial;
+import java.time.OffsetDateTime;
 
 /**
- * 仓库 PO 对象
+ * 仓库事实表 对象
  *
  * @author zhaoyan
- * @since 2025-01-14
+ * @since 2025-01-20
  */
 @Getter
 @Setter
-@TableName("dim_repo")
+@TableName("fact_gitcode_repo")
 public class RepoDO {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @TableId
-    private Integer repoId;
+    private String uuid;
 
-    @TableField("repo_name")
-    private String repoName;
+    @TableField("id")
+    private String id;
 
-    @TableField("repo_url")
-    private String repoUrl;
+    @TableField("name")
+    private String name;
 
-    @TableField("owner")
-    private String ownerName;
+    @TableField("path")
+    private String path;
 
-    @TableField("user_id")
-    private Integer userId;
+    @TableField("body")
+    private String body;
 
-    @TableField("sig_name")
-    private String sigName;
+    @TableField("created_at")
+    private OffsetDateTime createdAt;
+
+    @TableField("updated_at")
+    private OffsetDateTime updatedAt;
+
+    @TableField("pushed_at")
+    private OffsetDateTime pushedAt;
+
+    @TableField("html_url")
+    private String htmlUrl;
+
+    @TableField("status")
+    private String status;
+
+    @TableField("user_login")
+    private String userLogin;
+
+    @TableField("private")
+    private String isPrivate;
+
+    @TableField("public")
+    private String isPublic;
+
+    @TableField("internal")
+    private String isInternal;
+
+    @TableField("fork")
+    private String isFork;
+
+    @TableField("namespace")
+    private String namespace;
+
+    @TableField("code_platform")
+    private String codePlatform;
 }

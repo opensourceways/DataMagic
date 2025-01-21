@@ -14,6 +14,8 @@ package com.om.DataMagic.infrastructure.pgDB.converter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.om.DataMagic.common.util.DateUtil;
+import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import org.springframework.stereotype.Component;
 
@@ -49,12 +51,23 @@ public class RepoConverter {
      */
     public RepoDO toDO(JsonNode repoJson){
         RepoDO repoDO = new RepoDO();
-        repoDO.setRepoId(repoJson.path("id").asInt());
-        repoDO.setRepoName(repoJson.path("name").asText());
-        repoDO.setRepoUrl(repoJson.path("html_url").asText());
-        repoDO.setOwnerName(repoJson.path("namespace").path("name").asText());
-        repoDO.setUserId(repoJson.path("namespace").path("id").asInt());
-        repoDO.setSigName("sigName");
+        repoDO.setId(repoJson.path("id").asText());
+        repoDO.setCodePlatform(CodePlatformEnum.GITCODE.getText());
+        repoDO.setUuid(CodePlatformEnum.GITCODE.getText() + "-" + repoDO.getId());
+        repoDO.setName(repoJson.path("name").asText());
+        repoDO.setPath(repoJson.path("path").asText());
+        repoDO.setBody(repoJson.path("body").asText());
+        repoDO.setHtmlUrl(repoJson.path("html_url").asText());
+        repoDO.setCreatedAt(DateUtil.parse(repoJson.path("created_at").asText()));
+        repoDO.setUpdatedAt(DateUtil.parse(repoJson.path("updated_at").asText()));
+        repoDO.setPushedAt(DateUtil.parse(repoJson.path("pushed_at").asText()));
+        repoDO.setStatus(repoJson.path("status").asText());
+        repoDO.setUserLogin(repoJson.path("project_creator").asText());
+        repoDO.setIsPrivate(repoJson.path("private").asText());
+        repoDO.setIsPublic(repoJson.path("public").asText());
+        repoDO.setIsInternal(null);
+        repoDO.setIsFork(null);
+        repoDO.setNamespace(repoJson.path("namespace").path("name").asText());
         return repoDO;
     }
 }

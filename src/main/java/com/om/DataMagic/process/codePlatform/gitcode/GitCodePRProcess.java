@@ -72,7 +72,7 @@ public class GitCodePRProcess implements DriverManager {
         List<String> prArrayList = new ArrayList<>();
         int page = 1;
         while (true) {
-            String prInfo = client.getPRInfo(repoDO.getOwnerName(), repoDO.getRepoName(), page);
+            String prInfo = client.getPRInfo(repoDO.getNamespace(), repoDO.getName(), page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(prInfo)) {
                 break;
             }
@@ -94,7 +94,7 @@ public class GitCodePRProcess implements DriverManager {
                 prArray -> ObjectMapperUtil.toObject(ArrayNode.class, prArray)).toList();
         List<PRDO> prDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName()));
+            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace()));
         }
         return prDOList;
     }
