@@ -12,13 +12,14 @@
 
 package com.om.DataMagic.infrastructure.pgDB.service;
 
-import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.ForkDO;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
-import com.om.DataMagic.infrastructure.pgDB.mapper.UserDOMapper;
-
-@Service
-public class UserServiceImpl extends ServiceImpl<UserDOMapper, UserDO> implements UserService {
-    
+/**
+ * fork service 接口
+ *
+ * @author pengyue
+ * @since 2025-01-14
+ */
+public interface ForkService extends IService<ForkDO> {
 }

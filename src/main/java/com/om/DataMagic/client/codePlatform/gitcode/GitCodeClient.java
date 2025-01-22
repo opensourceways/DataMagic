@@ -159,4 +159,55 @@ public class GitCodeClient {
         return callApi(path,params);
     }
 
+
+
+    /**
+     * 分页获取仓库所有者下的某个仓库的star数据
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @param page 当前页
+     * @return issue数据字符串
+     * GET https://api.gitcode.com/api/v5/repos/{owner}/{repo}/stargazers
+     */
+    public String getStarInfo(String ownerName, String repoName, int page) {
+        String path = String.format("/repos/%s/%s/stargazers", ownerName, repoName);
+        Map<String,String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
+        return callApi(path,params);
+    }
+
+
+    /**
+     * 分页获取仓库所有者下的某个仓库的watch数据
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @param page 当前页
+     * @return issue数据字符串
+     * GET https://api.gitcode.com/api/v5/repos/{owner}/{repo}/subscribers
+     */
+    public String getWatchInfo(String ownerName, String repoName, int page) {
+        String path = String.format("/repos/%s/%s/subscribers", ownerName, repoName);
+        Map<String,String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
+        return callApi(path,params);
+    }
+
+    /**
+     * 分页获取仓库所有者下的某个仓库的fork数据
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @param page 当前页
+     * @return issue数据字符串
+     * GET https://api.gitcode.com/api/v5/repos/{owner}/{repo}/forks
+     */
+    public String getForkInfo(String ownerName, String repoName, int page) {
+        String path = String.format("/repos/%s/%s/forks", ownerName, repoName);
+        Map<String,String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
+        return callApi(path,params);
+    }
+
 }
