@@ -13,9 +13,13 @@
 package com.om.DataMagic.client.codePlatform.gitcode;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import org.apache.http.Header;
 import org.apache.http.client.utils.URIBuilder;
@@ -157,6 +161,66 @@ public class GitCodeClient {
         params.put("page", String.valueOf(page));
         params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
         return callApi(path,params);
+    }
+
+    /**
+     * 分页获取仓库所有者下的某个仓库的star数据
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @return star数据字符串
+     */
+    public List<ArrayNode> getStarInfo(String ownerName, String repoName) {
+        return geGitCodeArrayNodeByApi("/repos/%s/%s/stargazers",ownerName,repoName);
+    }
+
+    /**
+     * 分页获取仓库所有者下的某个仓库的watch数据
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @return issue数据字符串
+     */
+    public List<ArrayNode> getWatchInfo(String ownerName, String repoName) {
+        return geGitCodeArrayNodeByApi("/repos/%s/%s/subscribers",ownerName,repoName);
+    }
+    /**
+     * 分页获取仓库所有者下的某个仓库的fork数据
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @return fork数据字符串
+     */
+    public List<ArrayNode> getForkInfo(String ownerName, String repoName) {
+        return geGitCodeArrayNodeByApi("/repos/%s/%s/forks",ownerName,repoName);
+    }
+
+    /**
+     * 分页获取仓库所有者下的某个仓库的分页接口的数据
+     * @param ownerName 仓库所有者
+     * @param repoName 仓库名称
+     * @return 接口返回的json数据字符串
+     */
+    public List<ArrayNode> geGitCodeArrayNodeByApi(String api,String ownerName, String repoName) {
+        String path = String.format(api, ownerName, repoName);
+        Map<String,String> params = new HashMap<>();
+        int page = 1;
+        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
+        List<ArrayNode> list = new ArrayList<>();
+        while (true) {
+            params.put("page", String.valueOf(page));
+            String jsonInfo = callApi(path,params);
+            try {
+                ArrayNode object = ObjectMapperUtil.toObject(ArrayNode.class, jsonInfo);
+                list.add(object);
+                if (object.size() < GitCodeConstant.MAX_PER_PAGE) {
+                    break;
+                }
+            }catch (Exception e) {
+                LOGGER.error("api:{},response:{}",path,jsonInfo);
+                LOGGER.error("接口获取数据失败");
+                break;
+            }
+            page++;
+        }
+        return list;
     }
 
 }
