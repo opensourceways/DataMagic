@@ -150,4 +150,10 @@ public class PRDO {
 
     @TableField("code_platform")
     private String codePlatform;
+
+    @TableField("added_lines")
+    private Long addedLines;
+
+    @TableField("removed_lines")
+    private Long removedLines;
 }

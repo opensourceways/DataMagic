@@ -20,12 +20,47 @@ public final class TableConstant {
     }
 
     /**
-     * The user table prefix.
+     * The platform user table prefix.
      */
-    public static final String USER = "user";
+    public static final String PLATFORM_USER = "platform_user";
 
     /**
      * The fact pr table prefix.
      */
     public static final String PR = "fact_pr";
+
+    /**
+     * The fact dws contribute table prefix.
+     */
+    public static final String DWS_CONTRIB = "fact_contribute_gitcode";
+
+    /**
+     * The dws user table prefix.
+     */
+    public static final String DWS_USER = "dws_user";
+
+    /**
+     * The default start date.
+     */
+    public static final String START_DATE = "1979-01-01T00:00:00+08:00";
+
+    /**
+     * The default end date.
+     */
+    public static final String END_DATE = "2050-01-01T00:00:00+08:00";
+
+    /**
+     * The default company.
+     */
+    public static final String INDEPENDENT = "independent";
+
+    /**
+     * The default company type.
+     */
+    public static final String PERSONAL = "个人贡献者";
+
+    /**
+     * The default sig name.
+     */
+    public static final String SIG = "NO-SIG";
 }

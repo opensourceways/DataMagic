@@ -10,23 +10,11 @@
  Created: 2025
 */
 
-package com.om.DataMagic.common.config;
+package com.om.DataMagic.infrastructure.pgDB.service.platform;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.PlatformUserDO;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Component
-@ConfigurationProperties(prefix = "task")
-@Setter
-@Getter
-public class TaskConfig {
-    private String orgs;
-    private String tasks;
-    private String platform;
-    private String baseApi;
-    private String token;
-    private String robots;
+public interface  PlatformUserService extends IService<PlatformUserDO> {
+    
 }

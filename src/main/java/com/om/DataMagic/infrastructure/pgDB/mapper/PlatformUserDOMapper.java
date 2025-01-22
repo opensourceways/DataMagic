@@ -10,11 +10,11 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service;
+package com.om.DataMagic.infrastructure.pgDB.mapper;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.PlatformUserDO;
 
-public interface  UserService extends IService<UserDO> {
+public interface PlatformUserDOMapper extends BaseMapper<PlatformUserDO> {
     
 }

@@ -9,12 +9,15 @@
  See the Mulan PSL v2 for more details.
  Created: 2025
 */
+package com.om.DataMagic.infrastructure.pgDB.service.dws;
 
-package com.om.DataMagic.infrastructure.pgDB.mapper;
+import org.springframework.stereotype.Service;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.dws.ContributeDO;
+import com.om.DataMagic.infrastructure.pgDB.mapper.dws.ContributeDOMapper;
 
-public interface UserDOMapper extends BaseMapper<UserDO> {
+@Service
+public class ContributeServiceImpl extends ServiceImpl<ContributeDOMapper, ContributeDO> implements ContributeService{
     
 }

@@ -10,21 +10,20 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service.platformImpl;
+package com.om.DataMagic.infrastructure.pgDB.service.platform;
 
 import java.util.Collection;
 
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
-import com.om.DataMagic.infrastructure.pgDB.mapper.UserDOMapper;
-import com.om.DataMagic.infrastructure.pgDB.service.UserService;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.PlatformUserDO;
+import com.om.DataMagic.infrastructure.pgDB.mapper.PlatformUserDOMapper;
 
 @Service
-public class UserServiceImpl extends ServiceImpl<UserDOMapper, UserDO> implements UserService {
+public class PlatformUserServiceImpl extends ServiceImpl<PlatformUserDOMapper, PlatformUserDO> implements PlatformUserService {
     @Override
-    public boolean saveOrUpdateBatch(Collection<UserDO> entityList) {
+    public boolean saveOrUpdateBatch(Collection<PlatformUserDO> entityList) {
         return super.saveOrUpdateBatch(entityList);
     }
 }

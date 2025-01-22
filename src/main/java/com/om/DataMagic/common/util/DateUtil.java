@@ -14,6 +14,7 @@ package com.om.DataMagic.common.util;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 
+import java.time.Duration;
 import java.time.OffsetDateTime;
 
 /**
@@ -22,12 +23,46 @@ import java.time.OffsetDateTime;
  * @author zhaoyan
  * @since 2025-01-16
  */
-public class DateUtil {
+public final class DateUtil {
 
     public static OffsetDateTime parse(String dateStr) {
         if (StringUtils.isEmpty(dateStr) || "null".equals(dateStr)){
             return  null;
         }
         return OffsetDateTime.parse(dateStr);
+    }
+
+    /**
+     * The function is to get duration between start and end.
+     *
+     * @param start The date of start
+     * @param end The date of end
+     * @return The seconds of duration
+     */
+    public static Long getDuration(OffsetDateTime start, OffsetDateTime end) {
+        if (null == start || null == end) {
+            return null;
+        }
+        Duration duration = Duration.between(start, end);
+        return duration.toSeconds();
+    }
+
+    /**
+     * The function is to determine whether the date is between start and end.
+     * closed interval in front, open interval in back
+     *
+     * @param cur The date of cur
+     * @param start The date of start
+     * @param end The date of end
+     * @return boolean
+     */
+    public static boolean betweenDuration(OffsetDateTime cur, OffsetDateTime start, OffsetDateTime end) {
+        if (null == start || null == end) {
+            return false;
+        }
+        if ((cur.isEqual(start) || cur.isAfter(start)) && cur.isBefore(end)) {
+            return true;
+        }
+        return false;
     }
 }
