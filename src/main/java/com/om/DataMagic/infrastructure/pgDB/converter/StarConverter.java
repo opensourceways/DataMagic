@@ -63,7 +63,8 @@ public class StarConverter {
             String dateString = repoJson.get("star_at")==null?null:repoJson.get("star_at").asText();
             starDO.setCreatedAt(null==dateString?null:DateUtil.parse(dateString));
         }
-        starDO.setRepoPath(String.format("/%s/%s",owner,repo));
+        starDO.setRepoPath(repo);
+        starDO.setRepoFullName(String.format("/%s/%s",owner,repo));
         starDO.setType(repoJson.path("type")==null?null:repoJson.path("type").asText());
         starDO.setNamespace(owner);
         starDO.setCodePlatform(codePlatForm);

@@ -23,6 +23,8 @@ import org.springframework.stereotype.Component;
 import com.om.DataMagic.common.config.TaskConfig;
 import com.om.DataMagic.process.DriverManager;
 
+import static java.util.Map.entry;
+
 @Component
 public class TaskManager {
     @Autowired
@@ -37,19 +39,21 @@ public class TaskManager {
     /**
      * Map of task mappings.
      */
-    public static final Map<String, String> TASK_MAPPING = Map.of(
-            "gitcode_user", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeProcess",
-            "gitcode_repo", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeRepoProcess",
-            "gitcode_pr", "com.om.DataMagic.process.codePlatform.gitcode.GitCodePRProcess",
-            "gitcode_issue", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeIssueProcess",
-            "gitcode_comment", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeCommentProcess",
-            "gitee_user", "com.om.DataMagic.process.codePlatform.gitee.GiteeProcess",
-            "gitcode_star", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeStarProcess",
-            "gitcode_watch", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeWatchProcess",
-            "gitcode_fork", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeForkProcess"
-            "gitcode_dws_contribute", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeContributeProcess"
-
-    );
+    public static final Map<String, String> TASK_MAPPING = Map.ofEntries(
+                entry( "gitcode_user", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeProcess"),
+                entry( "gitcode_repo", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeRepoProcess"),
+                entry( "gitcode_pr", "com.om.DataMagic.process.codePlatform.gitcode.GitCodePRProcess"),
+                entry( "gitcode_issue", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeIssueProcess"),
+                entry( "gitcode_comment", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeCommentProcess"),
+                entry( "gitee_user", "com.om.DataMagic.process.codePlatform.gitee.GiteeProcess"),
+                entry( "gitcode_star", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeStarProcess"),
+                entry( "gitcode_watch", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeWatchProcess"),
+                entry( "gitcode_fork", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeForkProcess"),
+                entry( "gitcode_dws_contribute", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeContributeProcess"),
+                entry( "gitee_fork", "com.om.DataMagic.process.codePlatform.gitee.GiteeForkProcess"),
+                entry( "gitee_star", "com.om.DataMagic.process.codePlatform.gitee.GiteeStarProcess"),
+                entry( "gitee_watch", "com.om.DataMagic.process.codePlatform.gitee.GiteeWatchProcess")
+            );
             
 
     /**

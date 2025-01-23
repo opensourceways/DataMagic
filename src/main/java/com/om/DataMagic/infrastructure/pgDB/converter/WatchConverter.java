@@ -61,7 +61,8 @@ public class WatchConverter {
         if (null!=dateString){
             watchDO.setCreatedAt(DateUtil.parse(dateString));
         }
-        watchDO.setRepoPath(String.format("/%s/%s",owner,repo));
+        watchDO.setRepoPath(repo);
+        watchDO.setRepoFullName(String.format("/%s/%s",owner,repo));
         watchDO.setType(repoJson.path("type")==null?null:repoJson.path("type").asText());
         watchDO.setNamespace(owner);
         watchDO.setCodePlatform(codePlatForm);

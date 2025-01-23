@@ -15,6 +15,7 @@ package com.om.DataMagic.process.codePlatform.gitcode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
+import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
 import com.om.DataMagic.infrastructure.pgDB.converter.ForkConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.ForkDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
@@ -77,7 +78,7 @@ public class GitCodeForkProcess implements DriverManager {
     private List<ForkDO> formatStr(RepoDO repoDO, List<ArrayNode> arrayNodeList) {
         List<ForkDO> prDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName(),repoDO.getRepoName(),"gitcode"));
+            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName(),repoDO.getRepoName(), CodePlatformEnum.GITCODE.getText()));
         }
         return prDOList;
     }

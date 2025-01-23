@@ -10,15 +10,16 @@
  Created: 2025
 */
 
-package com.om.DataMagic.process.codePlatform.gitcode;
+package com.om.DataMagic.process.codePlatform.gitee;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
+import com.om.DataMagic.client.codePlatform.gitee.GiteeClient;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import com.om.DataMagic.infrastructure.pgDB.converter.WatchConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.WatchDO;
 import com.om.DataMagic.infrastructure.pgDB.service.RepoService;
 import com.om.DataMagic.infrastructure.pgDB.service.WatchService;
@@ -30,16 +31,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * pr application service
- *
- * @author zhaoyan
+ * watch application service
+ * @author pengyue
  * @since 2025-01-15
  */
 @Component
-public class GitCodeWatchProcess implements DriverManager {
+public class GiteeWatchProcess implements DriverManager {
 
     @Autowired
-    GitCodeClient client;
+    GiteeClient client;
 
     @Autowired
     WatchConverter converter;
@@ -76,11 +76,12 @@ public class GitCodeWatchProcess implements DriverManager {
      * @param arrayNodeList watch信息
      * @return watchdo 对象
      */
+
     private List<WatchDO> formatStr(RepoDO repoDO, List<ArrayNode> arrayNodeList) {
-        List<WatchDO> prDOList = new ArrayList<>();
+        List<WatchDO> watchDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName(),repoDO.getRepoName(), CodePlatformEnum.GITCODE.getText()));
+            watchDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName(),repoDO.getRepoName(), CodePlatformEnum.GITEE.getText()));
         }
-        return prDOList;
+        return watchDOList;
     }
 }

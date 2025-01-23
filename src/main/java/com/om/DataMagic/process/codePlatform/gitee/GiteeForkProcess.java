@@ -10,18 +10,17 @@
  Created: 2025
 */
 
-package com.om.DataMagic.process.codePlatform.gitcode;
+package com.om.DataMagic.process.codePlatform.gitee;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
+import com.om.DataMagic.client.codePlatform.gitee.GiteeClient;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
-import com.om.DataMagic.infrastructure.pgDB.converter.WatchConverter;
+import com.om.DataMagic.infrastructure.pgDB.converter.ForkConverter;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.ForkDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.WatchDO;
+import com.om.DataMagic.infrastructure.pgDB.service.ForkService;
 import com.om.DataMagic.infrastructure.pgDB.service.RepoService;
-import com.om.DataMagic.infrastructure.pgDB.service.WatchService;
 import com.om.DataMagic.process.DriverManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,19 +35,19 @@ import java.util.List;
  * @since 2025-01-15
  */
 @Component
-public class GitCodeWatchProcess implements DriverManager {
+public class GiteeForkProcess implements DriverManager {
 
     @Autowired
-    GitCodeClient client;
+    GiteeClient client;
 
     @Autowired
-    WatchConverter converter;
+    ForkConverter converter;
 
     @Autowired
     RepoService repoService;
 
     @Autowired
-    WatchService watchService;
+    ForkService forkService;
 
     /**
      * 执行 拉取并更新指定组织下仓库信息
@@ -56,30 +55,30 @@ public class GitCodeWatchProcess implements DriverManager {
     @Override
     public void run() {
         List<RepoDO> repoDOList = repoService.list();
-        List<WatchDO> prList = new ArrayList<>();
+        List<ForkDO> prList = new ArrayList<>();
         for (RepoDO repoDO : repoDOList) {
-            prList.addAll(getWatchList(repoDO));
+            prList.addAll(getForkList(repoDO));
         }
-        watchService.saveOrUpdateBatch(prList);
+        forkService.saveOrUpdateBatch(prList);
     }
     /**
-     * 获取GitCode平台仓库下PR信息
+     * 获取GitCode平台仓库下Fork信息
      * @param repoDO 仓库信息
-     * @return Watch信息字符串
+     * @return Fork信息字符串
      */
-    private List<WatchDO> getWatchList(RepoDO repoDO) {
-        return formatStr(repoDO, client.getWatchInfo(repoDO.getOwnerName(), repoDO.getRepoName()));
+    private List<ForkDO> getForkList(RepoDO repoDO) {
+        return formatStr(repoDO, client.getForkInfo(repoDO.getOwnerName(), repoDO.getRepoName()));
     }
     /**
-     * 转化并组装WatchDO数据
+     * 转化并组装ForkDO数据
      * @param repoDO     仓库信息
-     * @param arrayNodeList watch信息
-     * @return watchdo 对象
+     * @param arrayNodeList pr信息字符串
+     * @return ForkDO 对象
      */
-    private List<WatchDO> formatStr(RepoDO repoDO, List<ArrayNode> arrayNodeList) {
-        List<WatchDO> prDOList = new ArrayList<>();
+    private List<ForkDO> formatStr(RepoDO repoDO, List<ArrayNode> arrayNodeList) {
+        List<ForkDO> prDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName(),repoDO.getRepoName(), CodePlatformEnum.GITCODE.getText()));
+            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName(),repoDO.getRepoName(), CodePlatformEnum.GITEE.getText()));
         }
         return prDOList;
     }
