@@ -9,24 +9,11 @@
  See the Mulan PSL v2 for more details.
  Created: 2025
 */
+package com.om.DataMagic.infrastructure.pgDB.mapper.dws;
 
-package com.om.DataMagic.common.config;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.dws.ContributeDO;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
-import lombok.Getter;
-import lombok.Setter;
-
-@Component
-@ConfigurationProperties(prefix = "task")
-@Setter
-@Getter
-public class TaskConfig {
-    private String orgs;
-    private String tasks;
-    private String platform;
-    private String baseApi;
-    private String token;
-    private String robots;
+public interface ContributeDOMapper extends BaseMapper<ContributeDO> {
+    
 }

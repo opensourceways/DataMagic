@@ -10,11 +10,11 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service;
+package com.om.DataMagic.infrastructure.pgDB.service.dws;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.dws.UserDO;
 
-public interface  UserService extends IService<UserDO> {
+public interface UserService extends IService<UserDO> {
     
 }

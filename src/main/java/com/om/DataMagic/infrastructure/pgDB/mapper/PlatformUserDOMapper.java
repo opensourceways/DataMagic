@@ -13,8 +13,8 @@
 package com.om.DataMagic.infrastructure.pgDB.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.PlatformUserDO;
 
-public interface UserDOMapper extends BaseMapper<UserDO> {
+public interface PlatformUserDOMapper extends BaseMapper<PlatformUserDO> {
     
 }

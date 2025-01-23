@@ -19,15 +19,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
-import com.om.DataMagic.infrastructure.pgDB.service.UserService;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.PlatformUserDO;
+import com.om.DataMagic.infrastructure.pgDB.service.platform.PlatformUserService;
 import com.om.DataMagic.process.DriverManager;
 
 @Component
 public class GiteeProcess implements DriverManager {
 
     @Autowired
-    UserService userService;
+    PlatformUserService userService;
 
     /**
      * Logger for logging messages in App class.
@@ -36,7 +36,7 @@ public class GiteeProcess implements DriverManager {
     
     @Override
     public void run() {
-        Collection<UserDO> objList = new ArrayList<>();
+        Collection<PlatformUserDO> objList = new ArrayList<>();
         LOGGER.info("gitee");
         userService.saveOrUpdateBatch(objList);
     }

@@ -47,6 +47,8 @@ public class TaskManager {
             "gitcode_star", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeStarProcess",
             "gitcode_watch", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeWatchProcess",
             "gitcode_fork", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeForkProcess"
+            "gitcode_dws_contribute", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeContributeProcess"
+
     );
             
 

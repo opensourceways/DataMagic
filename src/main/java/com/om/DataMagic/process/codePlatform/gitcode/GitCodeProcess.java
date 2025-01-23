@@ -24,15 +24,15 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
-import com.om.DataMagic.infrastructure.pgDB.service.UserService;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.PlatformUserDO;
+import com.om.DataMagic.infrastructure.pgDB.service.platform.PlatformUserService;
 import com.om.DataMagic.process.DriverManager;
 
 @Component
 public class GitCodeProcess implements DriverManager {
 
     @Autowired
-    UserService userService;
+    PlatformUserService userService;
 
     @Autowired
     GitCodeClient client;
@@ -54,15 +54,15 @@ public class GitCodeProcess implements DriverManager {
      * @param userInfo The user api response content.
      * @return UserDO.
      */
-    public UserDO parseUser(String userInfo) {
+    public PlatformUserDO parseUser(String userInfo) {
         JsonNode userJson = ObjectMapperUtil.toJsonNode(userInfo);
-        UserDO user = new UserDO();
+        PlatformUserDO user = new PlatformUserDO();
         user.setUserLogin(userJson.path("login").asText());
         user.setUserName(userJson.path("name").asText());
         user.setUserId(userJson.path("id").asText());
         user.setAvatarUrl(userJson.path("avatar_url").asText());
         user.setEmail(userJson.path("email").asText());
-        user.setPlatform("gitcode");
+        user.setCodePlatform("gitcode");
         return user;
     }
 
@@ -74,10 +74,10 @@ public class GitCodeProcess implements DriverManager {
      */
     public boolean saveData(List<String> users) {
         boolean res = false;
-        Collection<UserDO> userDetail = new ArrayList<>();
+        Collection<PlatformUserDO> userDetail = new ArrayList<>();
         for (String user : users) {
             String userInfo = client.getUserInfo(user);
-            UserDO obj = parseUser(userInfo);
+            PlatformUserDO obj = parseUser(userInfo);
             userDetail.add(obj);
         }
         if (!userDetail.isEmpty()) {
