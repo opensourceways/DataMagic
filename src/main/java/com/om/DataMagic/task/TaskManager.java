@@ -43,6 +43,7 @@ public class TaskManager {
             "gitcode_pr", "com.om.DataMagic.process.codePlatform.gitcode.GitCodePRProcess",
             "gitcode_issue", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeIssueProcess",
             "gitcode_comment", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeCommentProcess",
+            "gitcode_dws_contribute", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeContributeProcess",
             "gitee_user", "com.om.DataMagic.process.codePlatform.gitee.GiteeProcess"
     );
             

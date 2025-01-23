@@ -10,11 +10,12 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.dataobject;
-
-import java.io.Serial;
+package com.om.DataMagic.infrastructure.pgDB.dataobject.dws;
 
 import com.om.DataMagic.common.constant.TableConstant;
+
+import java.io.Serial;
+import java.time.OffsetDateTime;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -25,7 +26,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@TableName(TableConstant.USER)
+@TableName(TableConstant.DWS_USER)
 public class UserDO {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -45,10 +46,28 @@ public class UserDO {
     @TableField("avatar_url")
     public String avatarUrl;
 
+    @TableField("start_date")
+    private OffsetDateTime startDate;
+
+    @TableField("end_date")
+    private OffsetDateTime endDate;
+
+    @TableField("synced_at")
+    private OffsetDateTime syncedAt;
+
+    @TableField("company_type")
+    private String companyType;
+
+    public String company;
+
+    public Integer internal;
+
     public String email;
 
-    public String platform;
+    public String role;
 
-    public UserDO() {
-    }
+    @TableField("code_platform")
+    public String codePlatform;
+
+    
 }

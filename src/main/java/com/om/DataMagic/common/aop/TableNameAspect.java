@@ -34,7 +34,7 @@ public class TableNameAspect {
     /**
      * Add the table name before executing sql operations.
      */
-    @Before("execution(* com.om.DataMagic.infrastructure.pgDB.service.platformImpl.*.*(..))")
+    @Before("execution(* com.om.DataMagic.infrastructure.pgDB.service.platform.*.*(..))")
     public void beforeExec() {
         PlatformTableNameHandler.setName(config.getPlatform());
     }
@@ -42,7 +42,7 @@ public class TableNameAspect {
     /**
      * Remove the table name before executing sql operations.
      */
-    @After("execution(* com.om.DataMagic.infrastructure.pgDB.service.platformImpl.*.*(..))")
+    @After("execution(* com.om.DataMagic.infrastructure.pgDB.service.platform.*.*(..))")
     public void afterExec() {
         PlatformTableNameHandler.removeName();
     }

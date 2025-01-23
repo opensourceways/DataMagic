@@ -10,23 +10,15 @@
  Created: 2025
 */
 
-package com.om.DataMagic.common.config;
+package com.om.DataMagic.infrastructure.pgDB.service.dws;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.dws.UserDO;
+import com.om.DataMagic.infrastructure.pgDB.mapper.dws.UserDOMapper;
 
-@Component
-@ConfigurationProperties(prefix = "task")
-@Setter
-@Getter
-public class TaskConfig {
-    private String orgs;
-    private String tasks;
-    private String platform;
-    private String baseApi;
-    private String token;
-    private String robots;
+@Service
+public class UserServiceImpl extends ServiceImpl<UserDOMapper, UserDO> implements UserService {
+    
 }

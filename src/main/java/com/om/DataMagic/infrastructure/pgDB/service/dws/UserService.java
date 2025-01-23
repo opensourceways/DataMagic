@@ -10,15 +10,11 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service;
+package com.om.DataMagic.infrastructure.pgDB.service.dws;
 
-import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.dws.UserDO;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.UserDO;
-import com.om.DataMagic.infrastructure.pgDB.mapper.UserDOMapper;
-
-@Service
-public class UserServiceImpl extends ServiceImpl<UserDOMapper, UserDO> implements UserService {
+public interface UserService extends IService<UserDO> {
     
 }
