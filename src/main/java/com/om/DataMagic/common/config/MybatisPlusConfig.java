@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.DynamicTableNameInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.om.DataMagic.common.constant.TableConstant;
 import com.om.DataMagic.common.handler.PlatformTableNameHandler;
 
@@ -32,8 +33,12 @@ public class MybatisPlusConfig {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         DynamicTableNameInnerInterceptor dynamicTableNameYearInnerInterceptor = new DynamicTableNameInnerInterceptor();
         dynamicTableNameYearInnerInterceptor.setTableNameHandler(
-                new PlatformTableNameHandler(TableConstant.PLATFORM_USER, TableConstant.PR));
+                new PlatformTableNameHandler(TableConstant.PLATFORM_USER, TableConstant.DWS_USER,
+                        TableConstant.DWS_CONTRIB));
         interceptor.addInnerInterceptor(dynamicTableNameYearInnerInterceptor);
+
+        PaginationInnerInterceptor paginationInterceptor = new PaginationInnerInterceptor();
+        interceptor.addInnerInterceptor(paginationInterceptor);
         return interceptor;
     }
 }

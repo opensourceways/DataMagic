@@ -15,7 +15,6 @@ package com.om.DataMagic.common.constant;
 public final class TableConstant {
     // Private constructor to prevent instantiation of the TableConstant class
     private TableConstant() {
-        // private constructor to hide the implicit public one
         throw new AssertionError("TableConstant class cannot be instantiated.");
     }
 
@@ -32,7 +31,7 @@ public final class TableConstant {
     /**
      * The fact dws contribute table prefix.
      */
-    public static final String DWS_CONTRIB = "fact_contribute_gitcode";
+    public static final String DWS_CONTRIB = "fact_contribute";
 
     /**
      * The dws user table prefix.
@@ -63,4 +62,9 @@ public final class TableConstant {
      * The default sig name.
      */
     public static final String SIG = "NO-SIG";
+
+    /**
+     * The default page size.
+     */
+    public static final Integer PAGE_SIZE = 500;
 }

@@ -25,9 +25,14 @@ import java.time.OffsetDateTime;
  */
 public final class DateUtil {
 
+    // Private constructor to prevent instantiation of the utility class
+    private DateUtil() {
+        throw new AssertionError("DateUtil class cannot be instantiated.");
+    }
+
     public static OffsetDateTime parse(String dateStr) {
-        if (StringUtils.isEmpty(dateStr) || "null".equals(dateStr)){
-            return  null;
+        if (StringUtils.isEmpty(dateStr) || "null".equals(dateStr)) {
+            return null;
         }
         return OffsetDateTime.parse(dateStr);
     }
@@ -36,7 +41,7 @@ public final class DateUtil {
      * The function is to get duration between start and end.
      *
      * @param start The date of start
-     * @param end The date of end
+     * @param end   The date of end
      * @return The seconds of duration
      */
     public static Long getDuration(OffsetDateTime start, OffsetDateTime end) {
@@ -51,9 +56,9 @@ public final class DateUtil {
      * The function is to determine whether the date is between start and end.
      * closed interval in front, open interval in back
      *
-     * @param cur The date of cur
+     * @param cur   The date of cur
      * @param start The date of start
-     * @param end The date of end
+     * @param end   The date of end
      * @return boolean
      */
     public static boolean betweenDuration(OffsetDateTime cur, OffsetDateTime start, OffsetDateTime end) {

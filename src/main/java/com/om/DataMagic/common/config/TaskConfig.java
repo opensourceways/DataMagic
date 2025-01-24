@@ -23,10 +23,38 @@ import lombok.Setter;
 @Setter
 @Getter
 public class TaskConfig {
+    /**
+     * orgs of task.
+     */
     private String orgs;
+
+    /**
+     * Names of task.
+     */
     private String tasks;
+
+    /**
+     * Platform of task.
+     */
     private String platform;
+
+    /**
+     * Base api of platform.
+     */
     private String baseApi;
+
+    /**
+     * Token of platform org.
+     */
     private String token;
+
+    /**
+     * Robots of community.
+     */
     private String robots;
+
+    /**
+     * Name of community.
+     */
+    private String community;
 }
