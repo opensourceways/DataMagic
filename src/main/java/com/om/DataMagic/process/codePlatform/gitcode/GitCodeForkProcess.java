@@ -13,8 +13,7 @@
 package com.om.DataMagic.process.codePlatform.gitcode;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
-import com.om.DataMagic.common.util.ObjectMapperUtil;
+import com.om.DataMagic.client.codePlatform.gitcode.GitCodeService;
 import com.om.DataMagic.infrastructure.pgDB.converter.ForkConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.ForkDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
@@ -37,7 +36,7 @@ import java.util.List;
 public class GitCodeForkProcess implements DriverManager {
 
     @Autowired
-    GitCodeClient client;
+    GitCodeService service;
 
     @Autowired
     ForkConverter converter;
@@ -66,7 +65,7 @@ public class GitCodeForkProcess implements DriverManager {
      * @return Fork信息字符串
      */
     private List<ForkDO> getForkList(RepoDO repoDO) {
-        return formatStr(repoDO, client.getForkInfo(repoDO.getOwnerName(), repoDO.getRepoName()));
+        return formatStr(repoDO, service.getForkInfo(repoDO.getOwnerName(), repoDO.getRepoName()));
     }
     /**
      * 转化并组装ForkDO数据

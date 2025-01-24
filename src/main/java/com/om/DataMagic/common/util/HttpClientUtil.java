@@ -14,6 +14,8 @@ package com.om.DataMagic.common.util;
 
 import java.io.IOException;
 
+import com.om.DataMagic.common.config.RetryConfig;
+import com.om.DataMagic.common.exception.RateLimitException;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -23,6 +25,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
@@ -31,6 +34,9 @@ import com.om.DataMagic.common.constant.HttpConstant;
 
 @Component
 public class HttpClientUtil {
+
+    @Autowired
+    RetryConfig retryConfig;
 
     /**
      * Logger for HttpClientUtil.
@@ -52,8 +58,8 @@ public class HttpClientUtil {
      * @return The HTTP client as a string.
      * @throws IOException
      */
-    @Retryable(recover = "recoverApiResp", value = { IOException.class }, maxAttempts = 3)
-    public String getHttpClient(final String uri, final Header header) throws IOException {
+    @Retryable(recover = "recoverApiResp", value = {IOException.class, RateLimitException.class}, maxAttemptsExpression = "#{@retryConfig.maxAttempts}")
+    public String getHttpClient(final String uri, final Header header) throws IOException, RateLimitException {
         HttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri);
         httpGet.setConfig(REQUEST_CONFIG);
@@ -62,10 +68,14 @@ public class HttpClientUtil {
             httpGet.addHeader(header);
         }
         HttpResponse response = httpClient.execute(httpGet);
-        if (response.getStatusLine().getStatusCode() != 200) {
-            throw new IOException(EntityUtils.toString(response.getEntity()));
-        }
         String responseRes = EntityUtils.toString(response.getEntity());
+        // 400 次数超出限制 404 找不到用户
+        if (response.getStatusLine().getStatusCode() == 400) {
+            throw new RateLimitException("limit error");
+        }
+        if (response.getStatusLine().getStatusCode() != 404 && response.getStatusLine().getStatusCode() != 200) {
+            throw new IOException(responseRes);
+        }
         return responseRes;
     }
 
@@ -80,6 +90,20 @@ public class HttpClientUtil {
     @Recover
     public String recoverApiResp(IOException e, final String uri, final Header header) {
         LOGGER.info(uri + e.getMessage());
-        return "Retry 3 times failed: " + uri;
+        return "IOException retry 3 times failed: " + uri;
+    }
+
+    /**
+     * Handle rate limit exception when retry still error.
+     *
+     * @param e      The RateLimitException.
+     * @param uri    The URI for the HTTP client.
+     * @param header The request header.
+     * @return The recover response as a string.
+     */
+    @Recover
+    public String recoverApiResp(RateLimitException e, final String uri, final Header header) {
+        LOGGER.info(uri + e.getMessage());
+        return "RateLimitException retry 3 times failed: " + uri;
     }
 }

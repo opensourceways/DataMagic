@@ -13,20 +13,19 @@
 package com.om.DataMagic.client.codePlatform.gitcode;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.common.util.ObjectMapperUtil;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
+import com.om.DataMagic.common.config.RetryConfig;
+import com.om.DataMagic.common.exception.RateLimitException;
 import org.apache.http.Header;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
 import com.om.DataMagic.common.config.TaskConfig;
@@ -37,6 +36,9 @@ public class GitCodeClient {
 
     @Autowired
     TaskConfig config;
+
+    @Autowired
+    RetryConfig retryConfig;
 
     @Autowired
     HttpClientUtil client;
@@ -54,7 +56,9 @@ public class GitCodeClient {
      * @param params The params for the api request.
      * @return The response from the request as a string.
      */
-    public String callApi(String path, Map<String, String> params) {
+    @Retryable(recover = "recoverRateLimit", value = {RateLimitException.class}, maxAttemptsExpression = "#{@retryConfig.maxAttempts}",
+            backoff = @Backoff(delayExpression = "#{@retryConfig.delay}", multiplierExpression = "#{@retryConfig.multiplier}"))
+    public String callApi(String path, Map<String, String> params) throws RateLimitException {
         String url = "";
         try {
             URIBuilder uriBuilder = new URIBuilder(config.getBaseApi() + path);
@@ -67,160 +71,37 @@ public class GitCodeClient {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-
-        Header header = new BasicHeader("Authorization", "Bearer " + config.getToken());
-
-        String response = "";
-        try {
-            response = client.getHttpClient(url, header);
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-        return response;
-    }
-
-    public String getUserInfo(String username) {
-        String path = "/users/" + username;
-        Map<String, String> params = Map.of(
-                "page", "1",
-                "pageSize", "100");
-        return callApi(path, params);
-    }
-
-    /**
-     * 分页获取某个组织下所有仓库数据
-     * @param orgName 组织名称
-     * @param page 当前页
-     * @return 仓库数据字符串
-     */
-    public String getRepoInfo(String orgName, int page) {
-        String path = String.format("/orgs/%s/repos", orgName);
-        Map<String,String> params = new HashMap<>();
-        params.put("page", String.valueOf(page));
-        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
-        return callApi(path,params);
-    }
-
-    /**
-     * 分页获取仓库所有者下的某个仓库的pr数据
-     * @param ownerName 仓库所有者
-     * @param repoName 仓库名称
-     * @param page 当前页
-     * @return pr数据字符串
-     */
-    public String getPRInfo(String ownerName, String repoName, int page) {
-        String path = String.format("/repos/%s/%s/pulls", ownerName, repoName);
-        Map<String,String> params = new HashMap<>();
-        params.put("page", String.valueOf(page));
-        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
-        return callApi(path,params);
-    }
-
-    /**
-     * 分页获取仓库所有者下的某个仓库的pr下所有评论
-     * @param ownerName 仓库所有者
-     * @param repoName 仓库名称
-     * @param number pr 序号
-     * @param page 当前页
-     * @return comment数据字符串
-     */
-    public String getCommentInfoByPR(String ownerName, String repoName,  String number, int page) {
-        String path = String.format("/repos/%s/%s/pulls/%s/comments", ownerName, repoName, number);
-        Map<String,String> params = new HashMap<>();
-        params.put("page", String.valueOf(page));
-        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
-        return callApi(path,params);
-    }
-
-    /**
-     * 分页获取仓库所有者下的某个仓库的issue数据
-     * @param ownerName 仓库所有者
-     * @param repoName 仓库名称
-     * @param page 当前页
-     * @return issue数据字符串
-     */
-    public String getIssueInfo(String ownerName, String repoName, int page) {
-        String path = String.format("/repos/%s/%s/issues", ownerName, repoName);
-        Map<String,String> params = new HashMap<>();
-        params.put("page", String.valueOf(page));
-        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
-        return callApi(path,params);
-    }
-
-    /**
-     * 分页获取仓库所有者下的某个仓库的issue评论数据
-     * @param ownerName 仓库所有者
-     * @param repoName 仓库名称
-     * @param number issue 序号
-     * @param page 当前页
-     * @return comment数据字符串
-     */
-    public String getCommentInfoByIssue(String ownerName, String repoName, String number, int page) {
-        String path = String.format("/repos/%s/%s/issues/%s/comments", ownerName, repoName,number);
-        Map<String,String> params = new HashMap<>();
-        params.put("page", String.valueOf(page));
-        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
-        return callApi(path,params);
-    }
-
-    /**
-     * 分页获取仓库所有者下的某个仓库的star数据
-     * @param ownerName 仓库所有者
-     * @param repoName 仓库名称
-     * @return star数据字符串
-     */
-    public List<ArrayNode> getStarInfo(String ownerName, String repoName) {
-        return geGitCodeArrayNodeByApi("/repos/%s/%s/stargazers",ownerName,repoName);
-    }
-
-    /**
-     * 分页获取仓库所有者下的某个仓库的watch数据
-     * @param ownerName 仓库所有者
-     * @param repoName 仓库名称
-     * @return issue数据字符串
-     */
-    public List<ArrayNode> getWatchInfo(String ownerName, String repoName) {
-        return geGitCodeArrayNodeByApi("/repos/%s/%s/subscribers",ownerName,repoName);
-    }
-    /**
-     * 分页获取仓库所有者下的某个仓库的fork数据
-     * @param ownerName 仓库所有者
-     * @param repoName 仓库名称
-     * @return fork数据字符串
-     */
-    public List<ArrayNode> getForkInfo(String ownerName, String repoName) {
-        return geGitCodeArrayNodeByApi("/repos/%s/%s/forks",ownerName,repoName);
-    }
-
-    /**
-     * 分页获取仓库所有者下的某个仓库的分页接口的数据
-     * @param ownerName 仓库所有者
-     * @param repoName 仓库名称
-     * @return 接口返回的json数据字符串
-     */
-    public List<ArrayNode> geGitCodeArrayNodeByApi(String api,String ownerName, String repoName) {
-        String path = String.format(api, ownerName, repoName);
-        Map<String,String> params = new HashMap<>();
-        int page = 1;
-        params.put("per_page", String.valueOf(GitCodeConstant.MAX_PER_PAGE));
-        List<ArrayNode> list = new ArrayList<>();
-        while (true) {
-            params.put("page", String.valueOf(page));
-            String jsonInfo = callApi(path,params);
+        List<String> tokenList = Arrays.stream(config.getToken().split(",")).toList();
+        for (String token : tokenList) {
+            Header header = new BasicHeader("Authorization", "Bearer " + token);
+            String response = "";
             try {
-                ArrayNode object = ObjectMapperUtil.toObject(ArrayNode.class, jsonInfo);
-                list.add(object);
-                if (object.size() < GitCodeConstant.MAX_PER_PAGE) {
-                    break;
+                response = client.getHttpClient(url, header);
+                if (response.startsWith("RateLimitException retry 3 times failed: ")){
+                    LOGGER.info("reach limit and change token");
+                    continue;
                 }
-            }catch (Exception e) {
-                LOGGER.error("api:{},response:{}",path,jsonInfo);
-                LOGGER.error("接口获取数据失败");
-                break;
+            } catch (RateLimitException | IOException e) {
+                throw new RuntimeException(e.getMessage());
             }
-            page++;
+            return response;
         }
-        return list;
+        LOGGER.error("all token reach limit error!");
+        throw new RateLimitException(url);
+    }
+
+    /**
+     * handle retry failed call and set default response.
+     *
+     * @param e The RateLimitException.
+     * @param path   The path for the api request.
+     * @param params The params for the api request.
+     * @return The default response.
+     */
+    @Recover
+    public String recoverRateLimit(RateLimitException e, String path, Map<String, String> params) {
+        LOGGER.info(path + e.getMessage());
+        return "Too Many Requests :" + path;
     }
 
 }

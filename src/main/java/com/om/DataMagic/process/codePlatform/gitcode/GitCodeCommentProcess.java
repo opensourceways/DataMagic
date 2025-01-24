@@ -13,7 +13,7 @@
 package com.om.DataMagic.process.codePlatform.gitcode;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
+import com.om.DataMagic.client.codePlatform.gitcode.GitCodeService;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import com.om.DataMagic.infrastructure.pgDB.converter.CommentConverter;
@@ -38,7 +38,7 @@ import java.util.List;
 public class GitCodeCommentProcess implements DriverManager {
 
     @Autowired
-    GitCodeClient client;
+    GitCodeService service;
 
     @Autowired
     CommentConverter converter;
@@ -85,7 +85,7 @@ public class GitCodeCommentProcess implements DriverManager {
         List<String> commentArrayList = new ArrayList<>();
         int page = 1;
         while (true) {
-            String commentInfo = client.getCommentInfoByPR(prdo.getNamespace(), prdo.getRepoName(), prdo.getNumber(), page);
+            String commentInfo = service.getCommentInfoByPR(prdo.getNamespace(), prdo.getRepoName(), prdo.getNumber(), page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(commentInfo)) {
                 break;
             }
@@ -124,7 +124,7 @@ public class GitCodeCommentProcess implements DriverManager {
         List<String> commentArrayList = new ArrayList<>();
         int page = 1;
         while (page < GitCodeConstant.MAX_PAGE) {
-            String commentInfo = client.getCommentInfoByIssue(issueDO.getNamespace(), issueDO.getRepoName(), issueDO.getNumber(), page);
+            String commentInfo = service.getCommentInfoByIssue(issueDO.getNamespace(), issueDO.getRepoName(), issueDO.getNumber(), page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(commentInfo)) {
                 break;
             }

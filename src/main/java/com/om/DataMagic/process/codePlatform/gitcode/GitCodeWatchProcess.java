@@ -13,9 +13,7 @@
 package com.om.DataMagic.process.codePlatform.gitcode;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
-import com.om.DataMagic.common.util.ObjectMapperUtil;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
+import com.om.DataMagic.client.codePlatform.gitcode.GitCodeService;
 import com.om.DataMagic.infrastructure.pgDB.converter.WatchConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.WatchDO;
@@ -38,7 +36,7 @@ import java.util.List;
 public class GitCodeWatchProcess implements DriverManager {
 
     @Autowired
-    GitCodeClient client;
+    GitCodeService service;
 
     @Autowired
     WatchConverter converter;
@@ -67,7 +65,7 @@ public class GitCodeWatchProcess implements DriverManager {
      * @return Watch信息字符串
      */
     private List<WatchDO> getWatchList(RepoDO repoDO) {
-        return formatStr(repoDO, client.getWatchInfo(repoDO.getOwnerName(), repoDO.getRepoName()));
+        return formatStr(repoDO, service.getWatchInfo(repoDO.getOwnerName(), repoDO.getRepoName()));
     }
     /**
      * 转化并组装WatchDO数据

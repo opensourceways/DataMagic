@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.om.DataMagic.client.codePlatform.gitcode.GitCodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PlatformUserDO;
 import com.om.DataMagic.infrastructure.pgDB.service.platform.PlatformUserService;
@@ -35,7 +35,7 @@ public class GitCodeProcess implements DriverManager {
     PlatformUserService userService;
 
     @Autowired
-    GitCodeClient client;
+    GitCodeService service;
 
     /**
      * Logger for logging messages in App class.
@@ -76,7 +76,7 @@ public class GitCodeProcess implements DriverManager {
         boolean res = false;
         Collection<PlatformUserDO> userDetail = new ArrayList<>();
         for (String user : users) {
-            String userInfo = client.getUserInfo(user);
+            String userInfo = service.getUserInfo(user);
             PlatformUserDO obj = parseUser(userInfo);
             userDetail.add(obj);
         }
