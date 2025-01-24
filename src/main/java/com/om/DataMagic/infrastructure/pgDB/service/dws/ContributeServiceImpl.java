@@ -11,6 +11,8 @@
 */
 package com.om.DataMagic.infrastructure.pgDB.service.dws;
 
+import java.util.Collection;
+
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -18,6 +20,15 @@ import com.om.DataMagic.infrastructure.pgDB.dataobject.dws.ContributeDO;
 import com.om.DataMagic.infrastructure.pgDB.mapper.dws.ContributeDOMapper;
 
 @Service
-public class ContributeServiceImpl extends ServiceImpl<ContributeDOMapper, ContributeDO> implements ContributeService{
-    
+public class ContributeServiceImpl extends ServiceImpl<ContributeDOMapper, ContributeDO> implements ContributeService {
+    /**
+     * Save or update by batch.
+     *
+     * @param entityList The list of ContributeDO entities
+     * @return boolean
+     */
+    @Override
+    public boolean saveOrUpdateBatch(Collection<ContributeDO> entityList) {
+        return super.saveOrUpdateBatch(entityList);
+    }
 }

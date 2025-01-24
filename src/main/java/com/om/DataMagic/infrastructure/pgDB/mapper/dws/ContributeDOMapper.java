@@ -15,5 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.dws.ContributeDO;
 
 public interface ContributeDOMapper extends BaseMapper<ContributeDO> {
-    
+
 }

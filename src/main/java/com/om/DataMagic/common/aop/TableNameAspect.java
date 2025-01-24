@@ -32,18 +32,34 @@ public class TableNameAspect {
     TaskConfig config;
 
     /**
-     * Add the table name before executing sql operations.
+     * Add the platform table name before executing sql operations.
      */
     @Before("execution(* com.om.DataMagic.infrastructure.pgDB.service.platform.*.*(..))")
-    public void beforeExec() {
+    public void beforeExecPlatform() {
         PlatformTableNameHandler.setName(config.getPlatform());
     }
 
     /**
-     * Remove the table name before executing sql operations.
+     * Remove the platform table name before executing sql operations.
      */
     @After("execution(* com.om.DataMagic.infrastructure.pgDB.service.platform.*.*(..))")
-    public void afterExec() {
+    public void afterExecPlatform() {
+        PlatformTableNameHandler.removeName();
+    }
+
+    /**
+     * Add the community table name before executing sql operations.
+     */
+    @Before("execution(* com.om.DataMagic.infrastructure.pgDB.service.dws.*.*(..))")
+    public void beforeExecCommunity() {
+        PlatformTableNameHandler.setName(config.getCommunity());
+    }
+
+    /**
+     * Remove the community table name before executing sql operations.
+     */
+    @After("execution(* com.om.DataMagic.infrastructure.pgDB.service.dws.*.*(..))")
+    public void afterExecCommunity() {
         PlatformTableNameHandler.removeName();
     }
 }

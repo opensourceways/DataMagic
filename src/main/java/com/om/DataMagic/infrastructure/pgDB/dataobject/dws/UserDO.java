@@ -28,46 +28,90 @@ import lombok.Setter;
 @Setter
 @TableName(TableConstant.DWS_USER)
 public class UserDO {
+    /**
+     * Serializable class with a defined serial version UID.
+     */
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * uuid of data.
+     */
     @TableId()
     private String uuid;
-    
+
+    /**
+     * Name of user.
+     */
     @TableField("user_name")
     private String userName;
 
+    /**
+     * Login of user.
+     */
     @TableField("user_login")
-    public String userLogin;
+    private String userLogin;
 
+    /**
+     * id of user.
+     */
     @TableField("user_id")
-    public String userId;
+    private String userId;
 
+    /**
+     * avatar_url of user.
+     */
     @TableField("avatar_url")
-    public String avatarUrl;
+    private String avatarUrl;
 
+    /**
+     * The date when user join  a company.
+     */
     @TableField("start_date")
     private OffsetDateTime startDate;
 
+    /**
+     * The date when user leave  a company.
+     */
     @TableField("end_date")
     private OffsetDateTime endDate;
 
+    /**
+     * The date when task start.
+     */
     @TableField("synced_at")
     private OffsetDateTime syncedAt;
 
+    /**
+     * The type of a company.
+     */
     @TableField("company_type")
     private String companyType;
 
-    public String company;
+    /**
+     * The name of a company.
+     */
+    private String company;
 
-    public Integer internal;
+    /**
+     * The internal or external attribute of user.
+     */
+    private String internal;
 
-    public String email;
+    /**
+     * The email of a user.
+     */
+    private String email;
 
-    public String role;
+    /**
+     * The sig role of a user.
+     */
+    private String role;
 
+    /**
+     * The platform of a user.
+     */
     @TableField("code_platform")
-    public String codePlatform;
+    private String codePlatform;
 
-    
 }

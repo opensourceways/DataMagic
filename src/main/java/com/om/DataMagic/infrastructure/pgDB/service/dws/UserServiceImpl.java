@@ -12,13 +12,25 @@
 
 package com.om.DataMagic.infrastructure.pgDB.service.dws;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.dws.UserDO;
 import com.om.DataMagic.infrastructure.pgDB.mapper.dws.UserDOMapper;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserDOMapper, UserDO> implements UserService {
-    
+    /**
+     * List user info.
+     *
+     * @param queryWrapper The query wrapper
+     * @return A list of users
+     */
+    @Override
+    public List<UserDO> list(Wrapper<UserDO> queryWrapper){
+        return super.list(queryWrapper);
+    }
 }
