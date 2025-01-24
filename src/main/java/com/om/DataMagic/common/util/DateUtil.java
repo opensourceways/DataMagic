@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 /**
  * 注释
@@ -34,7 +35,7 @@ public final class DateUtil {
         if (StringUtils.isEmpty(dateStr) || "null".equals(dateStr)) {
             return null;
         }
-        return OffsetDateTime.parse(dateStr);
+        return OffsetDateTime.parse(dateStr).withOffsetSameInstant(ZoneOffset.UTC);
     }
 
     /**

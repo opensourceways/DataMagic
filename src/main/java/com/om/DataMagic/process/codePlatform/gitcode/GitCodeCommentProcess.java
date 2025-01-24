@@ -69,7 +69,9 @@ public class GitCodeCommentProcess implements DriverManager {
             commentDOList.addAll(getCommentListByIssue(issueDO));
         }
 
-        commentService.saveOrUpdateBatch(commentDOList);
+        if (!commentDOList.isEmpty()){
+            commentService.saveOrUpdateBatch(commentDOList);
+        }
     }
 
 
@@ -113,6 +115,7 @@ public class GitCodeCommentProcess implements DriverManager {
 
     /**
      * 获取GitCode平台仓库下ISSUE评论信息
+     * 此接口存在bug，接口调用任意page值均有返回，会导致无法停止循环
      *
      * @param issueDO issue信息
      * @return comment信息字符串
@@ -120,7 +123,7 @@ public class GitCodeCommentProcess implements DriverManager {
     private List<CommentDO> getCommentListByIssue(IssueDO issueDO) {
         List<String> commentArrayList = new ArrayList<>();
         int page = 1;
-        while (true) {
+        while (page < GitCodeConstant.MAX_PAGE) {
             String commentInfo = client.getCommentInfoByIssue(issueDO.getNamespace(), issueDO.getRepoName(), issueDO.getNumber(), page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(commentInfo)) {
                 break;

@@ -108,6 +108,8 @@ public class PRConverter {
         prDO.setIsPrivate(prJson.path("base").path("private").asText());
         prDO.setInternal(prJson.path("base").path("internal").asText());
         prDO.setNamespace(prJson.path("base").path("internal").asText());
+        prDO.setAddedLines(prJson.path("added_lines").asLong());
+        prDO.setRemovedLines(prJson.path("removed_lines").asLong());
         return prDO;
     }
 }

@@ -18,7 +18,6 @@ import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,6 +52,7 @@ public class CommentConverterTest {
         Assertions.assertEquals(GitEnum.COMMENT_PR.getValue(), doList.get(0).getCommentType());
         Assertions.assertEquals("prHtmlUrl", doList.get(0).getTagUrl());
         Assertions.assertEquals("true", doList.get(0).getIsSelf());
+        Assertions.assertEquals("prHtmlUrl#tid-de772738e6dab92174c0e86c052ccf9bed24f747", doList.get(0).getHtmlUrl());
     }
 
     @Test
@@ -72,6 +72,7 @@ public class CommentConverterTest {
         Assertions.assertEquals(GitEnum.COMMENT_ISSUE.getValue(), doList.get(0).getCommentType());
         Assertions.assertEquals("issueHtmlUrl", doList.get(0).getTagUrl());
         Assertions.assertEquals("true", doList.get(0).getIsSelf());
+        Assertions.assertEquals("issueHtmlUrl#tid-271624", doList.get(0).getHtmlUrl());
     }
 
     public String getCommentByPRFromAPI(){

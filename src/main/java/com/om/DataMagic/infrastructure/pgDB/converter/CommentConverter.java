@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.common.util.DateUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
+import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
@@ -45,9 +46,12 @@ public class CommentConverter {
         List<CommentDO> issueDOList = new ArrayList<>();
         for (JsonNode issueNode : arrayNode) {
             CommentDO commentDO = toDO(issueNode);
+            commentDO.setHtmlUrl(prdo.getHtmlUrl() + GitCodeConstant.COMMENT_URL_PARAM + commentDO.getId());
             commentDO.setCommentType(GitEnum.COMMENT_PR.getValue());
             commentDO.setTagUrl(prdo.getHtmlUrl());
             commentDO.setIsSelf(String.valueOf(prdo.getUserId().equals(commentDO.getUserId())));
+            commentDO.setNamespace(prdo.getNamespace());
+            commentDO.setRepoPath(prdo.getRepoPath());
             issueDOList.add(commentDO);
         }
         return issueDOList;
@@ -64,9 +68,12 @@ public class CommentConverter {
         List<CommentDO> issueDOList = new ArrayList<>();
         for (JsonNode issueNode : arrayNode) {
             CommentDO commentDO = toDO(issueNode);
+            commentDO.setHtmlUrl(issueDO.getHtmlUrl() + GitCodeConstant.COMMENT_URL_PARAM + commentDO.getId());
             commentDO.setCommentType(GitEnum.COMMENT_ISSUE.getValue());
             commentDO.setTagUrl(issueDO.getHtmlUrl());
             commentDO.setIsSelf(String.valueOf(issueDO.getUserId().equals(commentDO.getUserId())));
+            commentDO.setNamespace(issueDO.getNamespace());
+            commentDO.setRepoPath(issueDO.getRepoPath());
             issueDOList.add(commentDO);
         }
         return issueDOList;

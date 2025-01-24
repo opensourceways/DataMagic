@@ -45,6 +45,7 @@ public class PRConverterTest {
         List<PRDO> doList = prConverter.toDOList(arrayNode, ORG_NAME);
         Assertions.assertEquals(2, doList.size());
         Assertions.assertEquals(ORG_NAME, doList.get(0).getNamespace());
+        Assertions.assertEquals(0, doList.get(0).getAddedLines());
     }
 
     public String getPRListFromAPI(){

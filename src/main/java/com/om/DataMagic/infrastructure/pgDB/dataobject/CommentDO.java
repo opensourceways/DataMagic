@@ -69,4 +69,9 @@ public class CommentDO {
 
     @TableField("self")
     private String isSelf;
+
+    private String namespace;
+
+    @TableField("repo_path")
+    private String repoPath;
 }

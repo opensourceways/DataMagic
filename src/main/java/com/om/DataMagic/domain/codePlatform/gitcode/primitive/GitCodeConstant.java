@@ -26,8 +26,16 @@ public class GitCodeConstant {
     public static final Integer MAX_PER_PAGE = 100;
 
     /**
+     * 列表查询，最大页数，最大为 100，用于临时处理gitcode-传入任何页数均可返回数据-bug
+     * 当前存在问题接口：issue评论获取接口、fork评论接口
+     */
+    public static final Integer MAX_PAGE = 10;
+
+    /**
      * 列表查询，空数组响应
      */
     public static final String NULL_ARRAY_RESPONSE = "[]";
+
+    public static final String COMMENT_URL_PARAM = "#tid-";
 
 }
