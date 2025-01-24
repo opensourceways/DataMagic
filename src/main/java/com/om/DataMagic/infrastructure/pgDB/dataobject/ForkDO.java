@@ -29,49 +29,79 @@ import java.util.Date;
 public class ForkDO {
     @Serial
     private static final long serialVersionUID = 1L;
-
+    /**
+     * .
+     */
     @TableId(type = IdType.AUTO)
     private String uuid;
-
+    /**
+     * .
+     */
     @TableField("id")
     private String id;
-
+    /**
+     * .
+     */
     @TableField("user_name")
     private String userName;
-
+    /**
+     * .
+     */
     @TableField("user_id")
     private String userId;
-
+    /**
+     * .
+     */
     @TableField("user_login")
     private String userLogin;
-
+    /**
+     * .
+     */
     @TableField("url")
     private String url;
-
+    /**
+     * .
+     */
     @TableField("full_name")
     private String fullName;
-
+    /**
+     * .
+     */
     @TableField("namespace")
     private String namespace;
-
+    /**
+     * .
+     */
     @TableField("repo_name")
     private String repoName;
-
+    /**
+     * .
+     */
     @TableField("repo_path")
     private String repoPath;
-
+    /**
+     * .
+     */
     @TableField("created_at")
     private OffsetDateTime createdAt;
-
+    /**
+     * .
+     */
     @TableField("updated_at")
     private OffsetDateTime updatedAt;
-
+    /**
+     * .
+     */
     @TableField("pushed_at")
     private OffsetDateTime pushedAt;
-
+    /**
+     * .
+     */
     @TableField("code_platform")
-    public String codePlatform;
-
+    private String codePlatform;
+    /**
+     * .
+     */
     public ForkDO() {
     }
 }

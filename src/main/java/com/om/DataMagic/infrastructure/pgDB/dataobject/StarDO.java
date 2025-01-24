@@ -21,7 +21,6 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.time.OffsetDateTime;
-import java.util.Date;
 
 
 @Getter
@@ -30,37 +29,60 @@ import java.util.Date;
 public class StarDO {
     @Serial
     private static final long serialVersionUID = 1L;
-
+    /**
+     * .
+     */
     @TableId(type = IdType.AUTO)
     private String uuid;
-
+    /**
+     * .
+     */
     @TableField("id")
     private String id;
-
+    /**
+     * .
+     */
     @TableField("user_name")
     private String userName;
-
+    /**
+     * .
+     */
     @TableField("user_login")
-    public String userLogin;
-
+    private String userLogin;
+    /**
+     * .
+     */
     @TableField("type")
-    public String type;
-
+    private String type;
+    /**
+     * .
+     */
     @TableField("created_at")
-    public OffsetDateTime createdAt;
-
+    private OffsetDateTime createdAt;
+    /**
+     * .
+     */
     @TableField("namespace")
-    public String namespace;
-
+    private String namespace;
+    /**
+     * .
+     */
     @TableField("repo_path")
-    public String repoPath;
-
+    private String repoPath;
+    /**
+     * .
+     */
     @TableField("repo_full_name")
-    public String repoFullName;
-
+    private String repoFullName;
+    /**
+     * .
+     */
     @TableField("code_platform")
-    public String codePlatform;
+    private String codePlatform;
 
+    /**
+     * .
+     */
     public StarDO() {
     }
 }
