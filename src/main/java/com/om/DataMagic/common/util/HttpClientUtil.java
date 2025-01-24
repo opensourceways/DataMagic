@@ -14,6 +14,7 @@ package com.om.DataMagic.common.util;
 
 import java.io.IOException;
 
+import com.om.DataMagic.common.exception.RateLimitException;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -53,7 +54,7 @@ public class HttpClientUtil {
      * @throws IOException
      */
     @Retryable(recover = "recoverApiResp", value = { IOException.class }, maxAttempts = 3)
-    public String getHttpClient(final String uri, final Header header) throws IOException {
+    public String getHttpClient(final String uri, final Header header) throws IOException, RateLimitException {
         HttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri);
         httpGet.setConfig(REQUEST_CONFIG);
@@ -62,10 +63,14 @@ public class HttpClientUtil {
             httpGet.addHeader(header);
         }
         HttpResponse response = httpClient.execute(httpGet);
-        if (response.getStatusLine().getStatusCode() != 200) {
-            throw new IOException(EntityUtils.toString(response.getEntity()));
-        }
         String responseRes = EntityUtils.toString(response.getEntity());
+        // 400 次数超出限制 404 找不到用户
+        if (response.getStatusLine().getStatusCode() == 400) {
+            throw new RateLimitException(responseRes);
+        }
+        if (response.getStatusLine().getStatusCode() != 200) {
+            throw new IOException(responseRes);
+        }
         return responseRes;
     }
 
