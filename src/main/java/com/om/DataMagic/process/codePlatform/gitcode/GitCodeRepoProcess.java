@@ -13,7 +13,7 @@
 package com.om.DataMagic.process.codePlatform.gitcode;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
+import com.om.DataMagic.client.codePlatform.gitcode.GitCodeService;
 import com.om.DataMagic.common.config.TaskConfig;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
@@ -37,7 +37,7 @@ import java.util.List;
 public class GitCodeRepoProcess implements DriverManager {
 
     @Autowired
-    GitCodeClient client;
+    GitCodeService service;
 
     @Autowired
     RepoConverter converter;
@@ -70,7 +70,7 @@ public class GitCodeRepoProcess implements DriverManager {
         List<String> repoArrayList = new ArrayList<>();
         int page = 1;
         while (true) {
-            String repoInfo = client.getRepoInfo(orgName, page);
+            String repoInfo = service.getRepoInfo(orgName, page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(repoInfo)) {
                 break;
             }

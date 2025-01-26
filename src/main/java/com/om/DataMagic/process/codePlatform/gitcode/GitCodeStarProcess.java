@@ -13,9 +13,7 @@
 package com.om.DataMagic.process.codePlatform.gitcode;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
-import com.om.DataMagic.common.util.ObjectMapperUtil;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
+import com.om.DataMagic.client.codePlatform.gitcode.GitCodeService;
 import com.om.DataMagic.infrastructure.pgDB.converter.StarConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
@@ -38,7 +36,7 @@ import java.util.List;
 public class GitCodeStarProcess implements DriverManager {
 
     @Autowired
-    GitCodeClient client;
+    GitCodeService service;
 
     @Autowired
     StarConverter converter;
@@ -67,7 +65,7 @@ public class GitCodeStarProcess implements DriverManager {
      * @return Star信息字符串
      */
     private List<StarDO> getStarList(RepoDO repoDO) {
-        return formatStr(repoDO, client.getStarInfo(repoDO.getOwnerName(),repoDO.getRepoName()));
+        return formatStr(repoDO, service.getStarInfo(repoDO.getOwnerName(),repoDO.getRepoName()));
     }
 
     /**

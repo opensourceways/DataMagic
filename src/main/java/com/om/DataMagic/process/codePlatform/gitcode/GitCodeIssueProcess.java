@@ -13,7 +13,7 @@
 package com.om.DataMagic.process.codePlatform.gitcode;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeClient;
+import com.om.DataMagic.client.codePlatform.gitcode.GitCodeService;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
 import com.om.DataMagic.infrastructure.pgDB.converter.IssueConverter;
@@ -38,7 +38,7 @@ import java.util.List;
 public class GitCodeIssueProcess implements DriverManager {
 
     @Autowired
-    GitCodeClient client;
+    GitCodeService service;
 
     @Autowired
     IssueConverter converter;
@@ -69,7 +69,7 @@ public class GitCodeIssueProcess implements DriverManager {
         List<String> issueArrayList = new ArrayList<>();
         int page = 1;
         while (true) {
-            String issueInfo = client.getIssueInfo(repoDO.getOwnerName(), repoDO.getRepoName(), page);
+            String issueInfo = service.getIssueInfo(repoDO.getOwnerName(), repoDO.getRepoName(), page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(issueInfo)) {
                 break;
             }
