@@ -26,14 +26,20 @@ import com.om.DataMagic.process.DriverManager;
 @Component
 public class GiteeProcess implements DriverManager {
 
+    /**
+     * userservice.
+     */
     @Autowired
-    PlatformUserService userService;
+    private PlatformUserService userService;
 
     /**
      * Logger for logging messages in App class.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(GiteeProcess.class);
-    
+
+    /**
+     * pull userinfo.
+     */
     @Override
     public void run() {
         Collection<PlatformUserDO> objList = new ArrayList<>();

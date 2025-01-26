@@ -20,39 +20,44 @@ import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.ForkDO;
 import org.springframework.stereotype.Component;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
- * fork 转换器
+ * fork 转换器.
+ *
  * @author pengyue
  * @since 2025-01-15
  */
 @Component
 public class ForkConverter {
+
     /**
-     * 将fork json数组转化为DO list
-     * @param arrayNode json数组
-     * @return DO list
+     * @param arrayNode JSON对象。
+     * @param owner 仓库所有者
+     * @param repo 仓库所有者名称
+     * @param codePlatForm 平台
+     * @return  List<ForkDO>
      */
-    public List<ForkDO> toDOList(ArrayNode arrayNode, String owner, String repo, String codePlatForm){
+    public List<ForkDO> toDOList(ArrayNode arrayNode, String owner, String repo, String codePlatForm) {
         List<ForkDO> forkDOList = new ArrayList<>();
         for (JsonNode repoNode : arrayNode) {
-            forkDOList.add(toDO(repoNode,owner,repo, codePlatForm));
+            forkDOList.add(toDO(repoNode, owner, repo, codePlatForm));
         }
         return forkDOList;
     }
+
+
     /**
-     * 将fork json数据转换为DO对象
-     * @param repoJson repo json数据
-     * @return OD 对象
+     * @param repoJson JSON对象.
+     * @param owner 仓库所有者
+     * @param repo 仓库所有者名称
+     * @param codePlatForm 平台
+     * @return ForkDO
      */
-    public ForkDO toDO(JsonNode repoJson, String owner, String repo, String codePlatForm){
+    public ForkDO toDO(JsonNode repoJson, String owner, String repo, String codePlatForm) {
         ForkDO forkDO = new ForkDO();
-        forkDO.setUuid(codePlatForm+"-"+repoJson.path("id").asText());
+        forkDO.setUuid(codePlatForm + "-" + repoJson.path("id").asText());
         forkDO.setId(repoJson.path("id").asText());
         forkDO.setFullName(repoJson.path("full_name").asText());
         forkDO.setUrl(repoJson.path("url").asText());
@@ -62,20 +67,20 @@ public class ForkConverter {
         forkDO.setUserLogin(repoJson.path("owner").path("login").asText());
         forkDO.setRepoPath(repoJson.path("path").asText());
         forkDO.setRepoName(repoJson.path("name").asText());
-        String dateString = repoJson.get("created_at")==null?null:repoJson.get("created_at").asText();
-        forkDO.setCreatedAt(null==dateString?null:DateUtil.parse(dateString));
-        String updatedAt = repoJson.get("updated_at")==null?null:repoJson.get("updated_at").asText();
-        forkDO.setUpdatedAt(null==updatedAt?null:DateUtil.parse(updatedAt));
-        String pushedAt = repoJson.get("pushed_at")==null?null:repoJson.get("pushed_at").asText();
-        forkDO.setPushedAt(null==pushedAt?null:DateUtil.parse(pushedAt));
+        String dateString = repoJson.get("created_at") == null ? null : repoJson.get("created_at").asText();
+        forkDO.setCreatedAt(null == dateString ? null : DateUtil.parse(dateString));
+        String updatedAt = repoJson.get("updated_at") == null ? null : repoJson.get("updated_at").asText();
+        forkDO.setUpdatedAt(null == updatedAt ? null : DateUtil.parse(updatedAt));
+        String pushedAt = repoJson.get("pushed_at") == null ? null : repoJson.get("pushed_at").asText();
+        forkDO.setPushedAt(null == pushedAt ? null : DateUtil.parse(pushedAt));
         forkDO.setCodePlatform(codePlatForm);
-        if (StringUtils.isEmpty(forkDO.getNamespace()) && CodePlatformEnum.GITHUB.getText().equals(codePlatForm)){
+        if (StringUtils.isEmpty(forkDO.getNamespace()) && CodePlatformEnum.GITHUB.getText().equals(codePlatForm)) {
             forkDO.setNamespace(repoJson.path("owner").path("login").asText());
         }
-        if (StringUtils.isEmpty(forkDO.getRepoPath()) && CodePlatformEnum.GITHUB.getText().equals(codePlatForm)){
+        if (StringUtils.isEmpty(forkDO.getRepoPath()) && CodePlatformEnum.GITHUB.getText().equals(codePlatForm)) {
             forkDO.setRepoPath(repo);
         }
-        if ( CodePlatformEnum.GITCODE.getText().equals(codePlatForm)){
+        if (CodePlatformEnum.GITCODE.getText().equals(codePlatForm)) {
             forkDO.setRepoName(repo);
             forkDO.setRepoPath(repo);
         }

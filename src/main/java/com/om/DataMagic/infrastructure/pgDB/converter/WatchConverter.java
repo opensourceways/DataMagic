@@ -18,51 +18,54 @@ import com.om.DataMagic.common.util.DateUtil;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.WatchDO;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
- * watch 转换器
+ * watch 转换器.
+ *
  * @author pengyue
  * @since 2025-01-15
  */
 @Component
 public class WatchConverter {
+
     /**
-     * watch json数组转化为DO list
-     * @param arrayNode json数组
-     * @return DO list
+     * @param arrayNode JSON对象。
+     * @param owner 仓库所有者
+     * @param repo 仓库所有者名称
+     * @param codePlatForm 平台
+     * @return List<WatchDO>
      */
-    public List<WatchDO> toDOList(ArrayNode arrayNode, String owner, String repo, String codePlatForm){
+    public List<WatchDO> toDOList(ArrayNode arrayNode, String owner, String repo, String codePlatForm) {
         List<WatchDO> starDOList = new ArrayList<>();
         for (JsonNode repoNode : arrayNode) {
-            starDOList.add(toDO(repoNode,owner,repo,codePlatForm));
+            starDOList.add(toDO(repoNode, owner, repo, codePlatForm));
         }
         return starDOList;
     }
 
+
     /**
-     * 将watch json数据转换为DO对象
-     * @param repoJson repo json数据
-     * @return OD 对象
+     * @param repoJson JSON对象.
+     * @param owner 仓库所有者
+     * @param repo 仓库所有者名称
+     * @param codePlatForm 平台
+     * @return WatchDO
      */
-    public WatchDO toDO(JsonNode repoJson, String owner, String repo, String codePlatForm){
+    public WatchDO toDO(JsonNode repoJson, String owner, String repo, String codePlatForm) {
         WatchDO watchDO = new WatchDO();
-        watchDO.setUuid(codePlatForm+"-"+repoJson.path("id").asText());
+        watchDO.setUuid(codePlatForm + "-" + repoJson.path("id").asText());
         watchDO.setId(repoJson.path("id").asText());
         watchDO.setUserName(repoJson.path("name").asText());
         watchDO.setUserLogin(repoJson.path("login").asText());
-        String dateString = repoJson.get("watch_at") == null?null:repoJson.get("watch_at").asText();
+        String dateString = repoJson.get("watch_at") == null ? null : repoJson.get("watch_at").asText();
 
-        if (null!=dateString){
+        if (null != dateString) {
             watchDO.setCreatedAt(DateUtil.parse(dateString));
         }
-        watchDO.setRepoPath(String.format("/%s/%s",owner,repo));
-        watchDO.setType(repoJson.path("type")==null?null:repoJson.path("type").asText());
+        watchDO.setRepoPath(String.format("/%s/%s", owner, repo));
+        watchDO.setType(repoJson.path("type") == null ? null : repoJson.path("type").asText());
         watchDO.setNamespace(owner);
         watchDO.setCodePlatform(codePlatForm);
         return watchDO;
