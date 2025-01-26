@@ -21,7 +21,6 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.time.OffsetDateTime;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -70,7 +69,7 @@ public class ForkDO {
     private OffsetDateTime pushedAt;
 
     @TableField("code_platform")
-    public String codePlatform;
+    private String codePlatform;
 
     public ForkDO() {
     }

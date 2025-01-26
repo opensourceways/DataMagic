@@ -10,10 +10,10 @@
  Created: 2025
 */
 
-package com.om.DataMagic.process.codePlatform.gitcode;
+package com.om.DataMagic.process.codePlatform.gitee;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeService;
+import com.om.DataMagic.client.codePlatform.gitee.GiteeService;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
 import com.om.DataMagic.infrastructure.pgDB.converter.WatchConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
@@ -30,29 +30,28 @@ import java.util.List;
 /**
  * watch application service.
  *
- * @author zhaoyan
+ * @author pengyue
  * @since 2025-01-15
  */
 @Component
-public class GitCodeWatchProcess implements DriverManager {
-
-    /**
-     * client gitcode接口统一调用客户端.
+public class GiteeWatchProcess implements DriverManager {
+    /***
+     *  client gitee接口统一调用客户端.
      */
     @Autowired
-    private GitCodeService service;
+    private GiteeService service;
     /**
-     * converter json类型转换.
+     *  converter json类型转换.
      */
     @Autowired
     private WatchConverter converter;
     /**
-     * client 仓库服务.
+     *  client 仓库服务.
      */
     @Autowired
     private RepoService repoService;
     /**
-     * watch服务.
+     *   watch服务.
      */
     @Autowired
     private WatchService watchService;
@@ -71,7 +70,7 @@ public class GitCodeWatchProcess implements DriverManager {
     }
 
     /**
-     * 获取GitCode平台仓库下Watch信息.
+     * 获取GitCode平台仓库下PR信息.
      *
      * @param repoDO 仓库信息
      * @return Watch信息字符串
@@ -87,12 +86,13 @@ public class GitCodeWatchProcess implements DriverManager {
      * @param arrayNodeList watch信息
      * @return watchdo 对象
      */
+
     private List<WatchDO> formatStr(RepoDO repoDO, List<ArrayNode> arrayNodeList) {
-        List<WatchDO> prDOList = new ArrayList<>();
+        List<WatchDO> watchDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName(), repoDO.getRepoName(),
-                    CodePlatformEnum.GITCODE.getText()));
+            watchDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName(), repoDO.getRepoName(),
+                    CodePlatformEnum.GITEE.getText()));
         }
-        return prDOList;
+        return watchDOList;
     }
 }

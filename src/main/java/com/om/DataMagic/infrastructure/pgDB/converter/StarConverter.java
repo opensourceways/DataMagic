@@ -19,14 +19,12 @@ import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
 import org.springframework.stereotype.Component;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
- * star 转换器
+ * star 转换器.
+ *
  * @author pengyue
  * @since 2025-01-15
  */
@@ -34,37 +32,43 @@ import java.util.List;
 public class StarConverter {
 
     /**
-     * 将star json数组转化为DO list
-     * @param arrayNode json数组
-     * @return DO list
+     * @param arrayNode JSON对象。
+     * @param owner 仓库所有者
+     * @param repo 仓库所有者名称
+     * @param codePlatForm 平台
+     * @return List<StarDO>
      */
-    public List<StarDO> toDOList(ArrayNode arrayNode, String owner, String repo,String codePlatForm){
+    public List<StarDO> toDOList(ArrayNode arrayNode, String owner, String repo, String codePlatForm) {
         List<StarDO> starDOList = new ArrayList<>();
         for (JsonNode repoNode : arrayNode) {
-            starDOList.add(toDO(repoNode,owner,repo, codePlatForm));
+            starDOList.add(toDO(repoNode, owner, repo, codePlatForm));
         }
         return starDOList;
     }
+
+
     /**
-     * 将star json数据转换为DO对象
-     * @param repoJson star json数据
-     * @return OD 对象
+     * @param repoJson JSON对象.
+     * @param owner 仓库所有者
+     * @param repo 仓库所有者名称
+     * @param codePlatForm 平台
+     * @return StarDO
      */
-    public StarDO toDO(JsonNode repoJson, String owner, String repo,String codePlatForm){
+    public StarDO toDO(JsonNode repoJson, String owner, String repo, String codePlatForm) {
         StarDO starDO = new StarDO();
-        starDO.setUuid(codePlatForm+"-"+repoJson.path("id").asText());
+        starDO.setUuid(codePlatForm + "-" + repoJson.path("id").asText());
         starDO.setId(repoJson.path("id").asText());
         starDO.setUserName(repoJson.path("name").asText());
         starDO.setUserLogin(repoJson.path("login").asText());
-        if (CodePlatformEnum.GITCODE.getText().equals(codePlatForm)){
-            String startime = repoJson.get("starred_at")==null?null:repoJson.get("starred_at").asText();
-            starDO.setCreatedAt(null==startime?null:DateUtil.parse(startime));
-        }else {
-            String dateString = repoJson.get("star_at")==null?null:repoJson.get("star_at").asText();
-            starDO.setCreatedAt(null==dateString?null:DateUtil.parse(dateString));
+        if (CodePlatformEnum.GITCODE.getText().equals(codePlatForm)) {
+            String startime = repoJson.get("starred_at") == null ? null : repoJson.get("starred_at").asText();
+            starDO.setCreatedAt(null == startime ? null : DateUtil.parse(startime));
+        } else {
+            String dateString = repoJson.get("star_at") == null ? null : repoJson.get("star_at").asText();
+            starDO.setCreatedAt(null == dateString ? null : DateUtil.parse(dateString));
         }
-        starDO.setRepoPath(String.format("/%s/%s",owner,repo));
-        starDO.setType(repoJson.path("type")==null?null:repoJson.path("type").asText());
+        starDO.setRepoPath(String.format("/%s/%s", owner, repo));
+        starDO.setType(repoJson.path("type") == null ? null : repoJson.path("type").asText());
         starDO.setNamespace(owner);
         starDO.setCodePlatform(codePlatForm);
         return starDO;

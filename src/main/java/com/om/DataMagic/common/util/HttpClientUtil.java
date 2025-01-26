@@ -35,8 +35,11 @@ import com.om.DataMagic.common.constant.HttpConstant;
 @Component
 public class HttpClientUtil {
 
+    /**
+     * 重试配置.
+     */
     @Autowired
-    RetryConfig retryConfig;
+    private RetryConfig retryConfig;
 
     /**
      * Logger for HttpClientUtil.
@@ -58,7 +61,8 @@ public class HttpClientUtil {
      * @return The HTTP client as a string.
      * @throws IOException
      */
-    @Retryable(recover = "recoverApiResp", value = {IOException.class, RateLimitException.class}, maxAttemptsExpression = "#{@retryConfig.maxAttempts}")
+    @Retryable(recover = "recoverApiResp", value = {IOException.class,
+            RateLimitException.class}, maxAttemptsExpression = "#{@retryConfig.maxAttempts}")
     public String getHttpClient(final String uri, final Header header) throws IOException, RateLimitException {
         HttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri);

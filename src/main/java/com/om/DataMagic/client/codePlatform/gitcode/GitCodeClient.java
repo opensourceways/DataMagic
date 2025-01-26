@@ -13,7 +13,9 @@
 package com.om.DataMagic.client.codePlatform.gitcode;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import com.om.DataMagic.common.config.RetryConfig;
 import com.om.DataMagic.common.exception.RateLimitException;
@@ -34,14 +36,23 @@ import com.om.DataMagic.common.util.HttpClientUtil;
 @Component
 public class GitCodeClient {
 
+    /**
+     * 任务配置信息.
+     */
     @Autowired
-    TaskConfig config;
+    private TaskConfig config;
 
+    /**
+     * 重试机制配置信息.
+     */
     @Autowired
-    RetryConfig retryConfig;
+    private RetryConfig retryConfig;
 
+    /**
+     * httpclient .
+     */
     @Autowired
-    HttpClientUtil client;
+    private HttpClientUtil client;
 
     /**
      * Logger for logging messages in App class.
@@ -56,7 +67,8 @@ public class GitCodeClient {
      * @param params The params for the api request.
      * @return The response from the request as a string.
      */
-    @Retryable(recover = "recoverRateLimit", value = {RateLimitException.class}, maxAttemptsExpression = "#{@retryConfig.maxAttempts}",
+    @Retryable(recover = "recoverRateLimit", value = {
+            RateLimitException.class}, maxAttemptsExpression = "#{@retryConfig.maxAttempts}",
             backoff = @Backoff(delayExpression = "#{@retryConfig.delay}", multiplierExpression = "#{@retryConfig.multiplier}"))
     public String callApi(String path, Map<String, String> params) throws RateLimitException {
         String url = "";
@@ -77,7 +89,7 @@ public class GitCodeClient {
             String response = "";
             try {
                 response = client.getHttpClient(url, header);
-                if (response.startsWith("RateLimitException retry 3 times failed: ")){
+                if (response.startsWith("RateLimitException retry 3 times failed: ")) {
                     LOGGER.info("reach limit and change token");
                     continue;
                 }
@@ -93,7 +105,7 @@ public class GitCodeClient {
     /**
      * handle retry failed call and set default response.
      *
-     * @param e The RateLimitException.
+     * @param e      The RateLimitException.
      * @param path   The path for the api request.
      * @param params The params for the api request.
      * @return The default response.
