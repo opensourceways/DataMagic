@@ -69,7 +69,8 @@ public class GitCodeClient {
      */
     @Retryable(recover = "recoverRateLimit", value = {
             RateLimitException.class}, maxAttemptsExpression = "#{@retryConfig.maxAttempts}",
-            backoff = @Backoff(delayExpression = "#{@retryConfig.delay}", multiplierExpression = "#{@retryConfig.multiplier}"))
+            backoff = @Backoff(delayExpression = "#{@retryConfig.delay}",
+                    multiplierExpression = "#{@retryConfig.multiplier}"))
     public String callApi(String path, Map<String, String> params) throws RateLimitException {
         String url = "";
         try {

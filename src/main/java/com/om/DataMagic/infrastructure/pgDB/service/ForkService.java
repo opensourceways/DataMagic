@@ -16,10 +16,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.ForkDO;
 
 /**
- * fork service 接口
+ * fork service 接口.
  *
  * @author pengyue
  * @since 2025-01-14
  */
 public interface ForkService extends IService<ForkDO> {
 }
+

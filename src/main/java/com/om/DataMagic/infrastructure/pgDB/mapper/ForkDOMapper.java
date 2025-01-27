@@ -15,6 +15,12 @@ package com.om.DataMagic.infrastructure.pgDB.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.ForkDO;
 
+/**
+ * ForkDO mapper接口.
+ */
 public interface ForkDOMapper extends BaseMapper<ForkDO> {
-    
+
 }
+
+
+

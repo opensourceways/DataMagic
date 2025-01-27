@@ -29,48 +29,75 @@ public class ForkDO {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * uuid of data.
+     */
     @TableId(type = IdType.AUTO)
     private String uuid;
-
+    /**
+     * the fork data id.
+     */
     @TableField("id")
     private String id;
-
+    /**
+     * the fork user name.
+     */
     @TableField("user_name")
     private String userName;
-
+    /**
+     * the fork user id.
+     */
     @TableField("user_id")
     private String userId;
-
+    /**
+     * the fork user's login name.
+     */
     @TableField("user_login")
     private String userLogin;
-
+    /**
+     * the repo url.
+     */
     @TableField("url")
     private String url;
-
+    /**
+     * the repo full name.
+     */
     @TableField("full_name")
     private String fullName;
-
+    /**
+     * the repo namespace.
+     */
     @TableField("namespace")
     private String namespace;
-
+    /**
+     * the repo name.
+     */
     @TableField("repo_name")
     private String repoName;
-
+    /**
+     * the repo path.
+     */
     @TableField("repo_path")
     private String repoPath;
-
+    /**
+     * the create time of fork.
+     */
     @TableField("created_at")
     private OffsetDateTime createdAt;
-
+    /**
+     * the update time of fork.
+     */
     @TableField("updated_at")
     private OffsetDateTime updatedAt;
-
+    /**
+     * the push time of fork.
+     */
     @TableField("pushed_at")
     private OffsetDateTime pushedAt;
-
+    /**
+     * the data platform.
+     */
     @TableField("code_platform")
     private String codePlatform;
 
-    public ForkDO() {
-    }
 }

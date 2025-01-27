@@ -12,153 +12,77 @@
 
 package com.om.DataMagic.common.config;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
-
+@Setter
+@Getter
 public class YamlConfig {
+
+    /**
+     * yaml config feild hsitNDCG.
+     */
     private List<String> hostNDCG;
+    /**
+     * yaml config feild portNDCG.
+     */
     private int portNDCG;
+    /**
+     * yaml config feild protocolNDCG.
+     */
     private String protocolNDCG;
+    /**
+     * yaml config feild usernameNDCG.
+     */
     private String usernameNDCG;
+    /**
+     * yaml config feild passwordNDCG.
+     */
     private String passwordNDCG;
+    /**
+     * yaml config feild useCerNDCG.
+     */
     private boolean useCerNDCG;
+    /**
+     * yaml config feild cerFilePathNDCG.
+     */
     private String cerFilePathNDCG;
+    /**
+     * yaml config feild cerPasswordNDCG.
+     */
     private String cerPasswordNDCG;
-
-
+    /**
+     * yaml config feild host.
+     */
     private List<String> host;
+    /**
+     * yaml config feild port.
+     */
     private int port;
+    /**
+     * yaml config feild protocol.
+     */
     private String protocol;
+    /**
+     * yaml config feild username.
+     */
     private String username;
+    /**
+     * yaml config feild password.
+     */
     private String password;
+    /**
+     * yaml config feild useCer.
+     */
     private boolean useCer;
+    /**
+     * yaml config feild cerFilePath.
+     */
     private String cerFilePath;
+    /**
+     * yaml config feild cerPassword.
+     */
     private String cerPassword;
 
-    public List<String> getHostNDCG() {
-        return hostNDCG;
-    }
-
-    public void setHostNDCG(List<String> hostNDCG) {
-        this.hostNDCG = hostNDCG;
-    }
-
-    public int getPortNDCG() {
-        return portNDCG;
-    }
-
-    public void setPortNDCG(int portNDCG) {
-        this.portNDCG = portNDCG;
-    }
-
-    public String getProtocolNDCG() {
-        return protocolNDCG;
-    }
-
-    public void setProtocolNDCG(String protocolNDCG) {
-        this.protocolNDCG = protocolNDCG;
-    }
-
-    public String getUsernameNDCG() {
-        return usernameNDCG;
-    }
-
-    public void setUsernameNDCG(String usernameNDCG) {
-        this.usernameNDCG = usernameNDCG;
-    }
-
-    public String getPasswordNDCG() {
-        return passwordNDCG;
-    }
-
-    public void setPasswordNDCG(String passwordNDCG) {
-        this.passwordNDCG = passwordNDCG;
-    }
-
-    public boolean isUseCerNDCG() {
-        return useCerNDCG;
-    }
-
-    public void setUseCerNDCG(boolean useCerNDCG) {
-        this.useCerNDCG = useCerNDCG;
-    }
-
-    public String getCerFilePathNDCG() {
-        return cerFilePathNDCG;
-    }
-
-    public void setCerFilePathNDCG(String cerFilePathNDCG) {
-        this.cerFilePathNDCG = cerFilePathNDCG;
-    }
-
-    public String getCerPasswordNDCG() {
-        return cerPasswordNDCG;
-    }
-
-    public void setCerPasswordNDCG(String cerPasswordNDCG) {
-        this.cerPasswordNDCG = cerPasswordNDCG;
-    }
-
-    public List<String> getHost() {
-        return host;
-    }
-
-    public void setHost(List<String> host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public String getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isUseCer() {
-        return useCer;
-    }
-
-    public void setUseCer(boolean useCer) {
-        this.useCer = useCer;
-    }
-
-    public String getCerFilePath() {
-        return cerFilePath;
-    }
-
-    public void setCerFilePath(String cerFilePath) {
-        this.cerFilePath = cerFilePath;
-    }
-
-    public String getCerPassword() {
-        return cerPassword;
-    }
-
-    public void setCerPassword(String cerPassword) {
-        this.cerPassword = cerPassword;
-    }
 }

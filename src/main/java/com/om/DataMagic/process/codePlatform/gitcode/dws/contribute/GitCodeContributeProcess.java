@@ -83,6 +83,9 @@ public class GitCodeContributeProcess implements DriverManager {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(GitCodeContributeProcess.class);
 
+    /**
+     * running star here .
+     */
     @Override
     public void run() {
         List<String> robots = Arrays.asList(config.getRobots().split(","));
@@ -92,7 +95,7 @@ public class GitCodeContributeProcess implements DriverManager {
     }
 
     /**
-     * Compose DWS Issue.
+     * @param robots Compose DWS Issue.
      */
     public void composeIssue(List<String> robots) {
         List<IssueDO> doList = issueService.list();
@@ -108,8 +111,9 @@ public class GitCodeContributeProcess implements DriverManager {
         contributeService.saveOrUpdateBatch(items);
     }
 
+
     /**
-     * Compose DWS PR.
+     * @param robots Compose DWS PR.
      */
     public void composePR(List<String> robots) {
         List<PRDO> doList = prService.list();
@@ -152,6 +156,7 @@ public class GitCodeContributeProcess implements DriverManager {
     /**
      * Compute comment num of a pr or issue.
      *
+     * @param robots
      * @param htmlUrl The html url for pr or issue
      * @return comment num
      */
@@ -167,6 +172,7 @@ public class GitCodeContributeProcess implements DriverManager {
     /**
      * Get first comment of a pr or issue.
      *
+     * @param robots
      * @param htmlUrl The html url for pr or issue.
      * @return A comment.
      */
@@ -185,7 +191,8 @@ public class GitCodeContributeProcess implements DriverManager {
     /**
      * Compute comment num of a pr or issue.
      *
-     * @param BaseContribute The BaseContribute object
+     * @param robots
+     * @param obj    The BaseContribute object
      * @return The first reply time of a pr or issue
      */
     public Long computeReplyTime(BaseContribute obj, List<String> robots) {
@@ -200,7 +207,7 @@ public class GitCodeContributeProcess implements DriverManager {
     /**
      * Get user info of a pr or issue..
      *
-     * @param BaseContribute The BaseContribute object.
+     * @param obj The BaseContribute object.
      * @return A UserDO object.
      */
     public UserDO getUser(BaseContribute obj) {
@@ -226,7 +233,7 @@ public class GitCodeContributeProcess implements DriverManager {
     /**
      * Add user info to a pr or issue..
      *
-     * @param BaseContribute The BaseContribute object.
+     * @param obj The BaseContribute object.
      * @return A BaseContribute object.
      */
     public BaseContribute setUser(BaseContribute obj) {

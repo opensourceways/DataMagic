@@ -18,7 +18,7 @@ import com.om.DataMagic.infrastructure.pgDB.mapper.RepoDOMapper;
 import org.springframework.stereotype.Service;
 
 /**
- * repo service 实现类
+ * repo service 实现类.
  *
  * @author zhaoyan
  * @since 2025-01-14

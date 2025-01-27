@@ -15,6 +15,7 @@ package com.om.DataMagic.infrastructure.pgDB.service.platform;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PlatformUserDO;
 
-public interface  PlatformUserService extends IService<PlatformUserDO> {
-    
+public interface PlatformUserService extends IService<PlatformUserDO> {
+
 }
+

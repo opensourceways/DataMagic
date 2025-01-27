@@ -16,7 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
 
 /**
- * pr service 接口
+ * star service 接口.
  *
  * @author zhaoyan
  * @since 2025-01-14

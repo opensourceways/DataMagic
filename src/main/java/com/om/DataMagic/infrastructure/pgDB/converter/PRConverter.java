@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * pr 转换器
+ * pr 转换器.
  *
  * @author zhaoyan
  * @since 2025-01-15
@@ -34,7 +34,7 @@ import java.util.List;
 public class PRConverter {
 
     /**
-     * 将pr json数组转化为DO list
+     * 将pr json数组转化为DO list.
      *
      * @param arrayNode json数组
      * @param owner     所属者，用于设置namespace值
@@ -51,7 +51,7 @@ public class PRConverter {
     }
 
     /**
-     * 将pr json数据转换为DO对象
+     * 将pr json数据转换为DO对象.
      *
      * @param prJson pr json数据
      * @return PROD 对象

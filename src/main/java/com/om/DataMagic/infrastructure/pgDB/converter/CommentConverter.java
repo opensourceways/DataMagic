@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * comment 转换器
+ * comment 转换器.
  *
  * @author zhaoyan
  * @since 2025-01-17
@@ -36,7 +36,7 @@ import java.util.List;
 public class CommentConverter {
 
     /**
-     * 将Comment json数组转化为DO list
+     * 将Comment json数组转化为DO list.
      *
      * @param arrayNode json数组
      * @param prdo      pr对象
@@ -58,7 +58,7 @@ public class CommentConverter {
     }
 
     /**
-     * 将Comment json数组转化为DO list
+     * 将Comment json数组转化为DO list.
      *
      * @param arrayNode json数组
      * @param issueDO   issue对象
@@ -79,6 +79,10 @@ public class CommentConverter {
         return issueDOList;
     }
 
+    /**
+     * @param commentJson json.
+     * @return CommentDO
+     */
     public CommentDO toDO(JsonNode commentJson) {
         CommentDO commentDO = new CommentDO();
         commentDO.setId(commentJson.path("id").asText());

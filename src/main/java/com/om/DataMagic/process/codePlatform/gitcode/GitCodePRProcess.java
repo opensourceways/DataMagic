@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * pr application service
+ * pr application service.
  *
  * @author zhaoyan
  * @since 2025-01-15
@@ -37,20 +37,32 @@ import java.util.List;
 @Component
 public class GitCodePRProcess implements DriverManager {
 
+    /**
+     * gitcode service.
+     */
     @Autowired
-    GitCodeService service;
-
-    @Autowired
-    PRConverter converter;
-
-    @Autowired
-    RepoService repoService;
-
-    @Autowired
-    PRService prService;
+    private GitCodeService service;
 
     /**
-     * 执行 拉取并更新指定组织下仓库信息
+     * PR converter.
+     */
+    @Autowired
+    private PRConverter converter;
+
+    /**
+     * repo service.
+     */
+    @Autowired
+    private RepoService repoService;
+
+    /**
+     * PR service.
+     */
+    @Autowired
+    private PRService prService;
+
+    /**
+     * 执行 拉取并更新指定组织下仓库信息.
      */
     @Override
     public void run() {
@@ -63,7 +75,7 @@ public class GitCodePRProcess implements DriverManager {
     }
 
     /**
-     * 获取GitCode平台仓库下PR信息
+     * 获取GitCode平台仓库下PR信息.
      *
      * @param repoDO 仓库信息
      * @return PR信息字符串
@@ -83,7 +95,8 @@ public class GitCodePRProcess implements DriverManager {
     }
 
     /**
-     * 转化并组装PRDO数据
+     * 转化并组装PRDO数据.
+     *
      *
      * @param repoDO     仓库信息
      * @param prInfoList pr信息字符串

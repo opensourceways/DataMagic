@@ -13,13 +13,16 @@
 package com.om.DataMagic.common.exception;
 
 /**
- * 接口调用限制异常
+ * 接口调用限制异常.
  *
  * @author zhaoyan
  * @since 2025-01-23
  */
 public class RateLimitException extends Exception {
 
+    /**
+     * @param message 异常信息 .
+     */
     public RateLimitException(String message) {
         super(message);
     }

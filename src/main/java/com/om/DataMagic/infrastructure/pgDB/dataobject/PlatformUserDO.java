@@ -30,24 +30,39 @@ public class PlatformUserDO {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * the data uuid.
+     */
     @TableId()
     private String uuid;
-    
+    /**
+     * username.
+     */
     @TableField("user_name")
     private String userName;
-
+    /**
+     * login name.
+     */
     @TableField("user_login")
-    public String userLogin;
-
+    private String userLogin;
+    /**
+     * user id.
+     */
     @TableField("user_id")
-    public String userId;
-
+    private String userId;
+    /**
+     * user avatar url.
+     */
     @TableField("avatar_url")
-    public String avatarUrl;
-
-    public String email;
-
+    private String avatarUrl;
+    /**
+     * user email.
+     */
+    private String email;
+    /**
+     * the data platform.
+     */
     @TableField("code_platform")
-    public String codePlatform;
+    private String codePlatform;
 
 }

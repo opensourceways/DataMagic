@@ -30,36 +30,56 @@ public class StarDO {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * the data uuid.
+     */
     @TableId(type = IdType.AUTO)
     private String uuid;
-
+    /**
+     * the star data id.
+     */
     @TableField("id")
     private String id;
-
+    /**
+     * the star's user name.
+     */
     @TableField("user_name")
     private String userName;
-
+    /**
+     * the star's login name.
+     */
     @TableField("user_login")
     private String userLogin;
-
+    /**
+     * the star type.
+     */
     @TableField("type")
     private String type;
-
+    /**
+     * the create time of star.
+     */
     @TableField("created_at")
     private OffsetDateTime createdAt;
-
+    /**
+     * the repo namespace.
+     */
     @TableField("namespace")
     private String namespace;
-
+    /**
+     * the repo path.
+     */
     @TableField("repo_path")
     private String repoPath;
-
+    /**
+     * the repo fullpath.
+     */
     @TableField("repo_full_name")
     private String repoFullName;
-
+    /**
+     * the data platform.
+     */
     @TableField("code_platform")
     private String codePlatform;
 
-    public StarDO() {
-    }
+
 }

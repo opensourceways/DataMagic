@@ -15,6 +15,10 @@ package com.om.DataMagic.infrastructure.pgDB.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.WatchDO;
 
+/**
+ * WatchDO mapper接口.
+ */
 public interface WatchDOMapper extends BaseMapper<WatchDO> {
-    
+
 }
+
