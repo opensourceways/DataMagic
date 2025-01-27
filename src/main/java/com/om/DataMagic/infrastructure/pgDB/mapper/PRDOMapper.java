@@ -16,7 +16,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
 
 /**
- * PRDO mapper接口
+ * PRDO mapper接口.
  *
  * @author zhaoyan
  * @since 2025-01-14

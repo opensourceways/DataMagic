@@ -26,9 +26,8 @@ public class PlatformTableNameHandler implements TableNameHandler {
 
     /**
      * Constructor dynamic table name processor.
-     * 
+     *
      * @param tableNames tableNames parameter
-     * @return PlatformTableNameHandler.
      */
     public PlatformTableNameHandler(String... tableNames) {
         this.tableNames = Arrays.asList(tableNames);
@@ -41,7 +40,7 @@ public class PlatformTableNameHandler implements TableNameHandler {
 
     /**
      * Set a table name.
-     * 
+     *
      * @param paltform table name parameter
      */
     public static void setName(String paltform) {
@@ -57,7 +56,7 @@ public class PlatformTableNameHandler implements TableNameHandler {
 
     /**
      * Set dynamic table name.
-     * 
+     *
      * @param sql       sql string
      * @param tableName table name parameter
      * @return dynamic table name.

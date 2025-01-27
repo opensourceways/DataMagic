@@ -14,6 +14,6 @@ package com.om.DataMagic.infrastructure.pgDB.service.dws;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.dws.ContributeDO;
 
-public interface ContributeService extends IService<ContributeDO>{
-    
+public interface ContributeService extends IService<ContributeDO> {
+
 }

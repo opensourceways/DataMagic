@@ -29,7 +29,7 @@ public class TableNameAspect {
      * Autowired config for task.
      */
     @Autowired
-    TaskConfig config;
+    private TaskConfig config;
 
     /**
      * Add the platform table name before executing sql operations.

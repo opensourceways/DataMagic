@@ -15,7 +15,7 @@ package com.om.DataMagic.domain.codePlatform.gitcode.primitive;
 import lombok.Getter;
 
 /**
- * git基本对象枚举
+ * git基本对象枚举.
  *
  * @author zhaoyan
  * @since 2025-01-17
@@ -24,15 +24,26 @@ import lombok.Getter;
 public enum GitEnum {
 
     /**
-     * 评论类型
+     * PR评论.
      */
-    COMMENT_PR("pr_comment","pr评论"),
-    COMMENT_ISSUE("issue_comment","issue评论"),
+    COMMENT_PR("pr_comment", "pr评论"),
+    /**
+     * ISSUE评论.
+     */
+    COMMENT_ISSUE("issue_comment", "issue评论"),
+    /**
+     * 评论.
+     */
+    COMMENT("comment", "评论");
 
-    COMMENT("comment","评论");
-
+    /**
+     * 枚举value.
+     */
     private final String value;
 
+    /**
+     * 枚举code.
+     */
     private final String text;
 
     GitEnum(String value, String text) {

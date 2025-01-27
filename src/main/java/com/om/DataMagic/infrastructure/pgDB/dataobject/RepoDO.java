@@ -21,7 +21,7 @@ import lombok.Setter;
 import java.io.Serial;
 
 /**
- * 仓库 PO 对象
+ * 仓库 PO 对象.
  *
  * @author zhaoyan
  * @since 2025-01-14
@@ -33,21 +33,34 @@ public class RepoDO {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * the repo id.
+     */
     @TableId
     private Integer repoId;
-
+    /**
+     * the repo name.
+     */
     @TableField("repo_name")
     private String repoName;
-
+    /**
+     * the repo url.
+     */
     @TableField("repo_url")
     private String repoUrl;
-
+    /**
+     * the owner of repo.
+     */
     @TableField("owner")
     private String ownerName;
-
+    /**
+     * user id.
+     */
     @TableField("user_id")
     private Integer userId;
-
+    /**
+     * sig name.
+     */
     @TableField("sig_name")
     private String sigName;
 }

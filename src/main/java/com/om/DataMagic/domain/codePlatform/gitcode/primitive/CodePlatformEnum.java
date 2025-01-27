@@ -15,20 +15,38 @@ package com.om.DataMagic.domain.codePlatform.gitcode.primitive;
 import lombok.Getter;
 
 /**
- * 代码平台枚举
+ * 代码平台枚举.
  *
  * @author zhaoyan
  * @since 2025-01-15
  */
 @Getter
 public enum CodePlatformEnum {
+    /**
+     * GITEE.
+     */
     GITEE("1", "gitee"),
+    /**
+     * GITHUB.
+     */
     GITHUB("2", "github"),
+    /**
+     * GITCODE.
+     */
     GITCODE("3", "gitcode"),
+    /**
+     * GITLAB.
+     */
     GITLAB("4", "gitlab");
 
+    /**
+     * 枚举value.
+     */
     private final String value;
 
+    /**
+     * 枚举code.
+     */
     private final String text;
 
     CodePlatformEnum(String value, String text) {

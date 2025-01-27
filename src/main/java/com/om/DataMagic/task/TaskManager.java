@@ -54,7 +54,8 @@ public class TaskManager {
             entry("gitcode_star", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeStarProcess"),
             entry("gitcode_watch", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeWatchProcess"),
             entry("gitcode_fork", "com.om.DataMagic.process.codePlatform.gitcode.GitCodeForkProcess"),
-            entry("gitcode_dws_contribute", "com.om.DataMagic.process.codePlatform.gitcode.dws.contribute.GitCodeContributeProcess"),
+            entry("gitcode_dws_contribute",
+                    "com.om.DataMagic.process.codePlatform.gitcode.dws.contribute.GitCodeContributeProcess"),
             entry("gitee_fork", "com.om.DataMagic.process.codePlatform.gitee.GiteeForkProcess"),
             entry("gitee_star", "com.om.DataMagic.process.codePlatform.gitee.GiteeStarProcess"),
             entry("gitee_watch", "com.om.DataMagic.process.codePlatform.gitee.GiteeWatchProcess")
@@ -67,7 +68,7 @@ public class TaskManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskManager.class);
 
     /**
-     * 执行所以的任务.
+     * 执行任务的入口.
      */
     public void runTasks() {
         String[] driverNames = config.getTasks().split(",");

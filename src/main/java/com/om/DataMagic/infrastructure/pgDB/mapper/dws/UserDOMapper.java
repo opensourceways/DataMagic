@@ -16,5 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.dws.UserDO;
 
 public interface UserDOMapper extends BaseMapper<UserDO> {
-    
+
 }

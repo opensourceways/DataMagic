@@ -19,7 +19,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 /**
- * 注释
+ * 日期处理工具.
  *
  * @author zhaoyan
  * @since 2025-01-16
@@ -31,6 +31,10 @@ public final class DateUtil {
         throw new AssertionError("DateUtil class cannot be instantiated.");
     }
 
+    /**
+     * @param dateStr 字符串日期.
+     * @return 格式化后的日期
+     */
     public static OffsetDateTime parse(String dateStr) {
         if (StringUtils.isEmpty(dateStr) || "null".equals(dateStr)) {
             return null;

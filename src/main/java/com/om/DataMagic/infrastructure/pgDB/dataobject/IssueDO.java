@@ -22,7 +22,7 @@ import java.io.Serial;
 import java.time.OffsetDateTime;
 
 /**
- * Issue DO对象
+ * Issue DO对象.
  *
  * @author zhaoyan
  * @since 2025-01-17
@@ -34,87 +34,144 @@ public class IssueDO {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * the data uuid.
+     */
     @TableId
     private String uuid;
-
+    /**
+     * the issue id.
+     */
     @TableField("id")
     private String id;
-
+    /**
+     * the issue url.
+     */
     @TableField("url")
     private String url;
-
+    /**
+     * the issue number.
+     */
     @TableField("number")
     private String number;
-
+    /**
+     * the issue html url.
+     */
     @TableField("html_url")
     private String htmlUrl;
-
+    /**
+     * the issue title.
+     */
     @TableField("title")
     private String title;
-
+    /**
+     * the issue title.
+     */
     @TableField("body")
     private String body;
-
+    /**
+     * the create time of issue.
+     */
     @TableField("created_at")
     private OffsetDateTime createdAt;
-
+    /**
+     * the update time of issue.
+     */
     @TableField("updated_at")
     private OffsetDateTime updatedAt;
-
+    /**
+     * the close time of issue.
+     */
     @TableField("closed_at")
     private OffsetDateTime closedAt;
-
+    /**
+     * the deadline of issue.
+     */
     @TableField("deadline")
     private OffsetDateTime deadline;
-
+    /**
+     * the resolve plan of issue start at.
+     */
     @TableField("plan_started_at")
     private OffsetDateTime planStartedAt;
-
+    /**
+     * the issue user id.
+     */
     @TableField("user_id")
     private String userId;
-
+    /**
+     * the issue user login name.
+     */
     @TableField("user_login")
     private String userLogin;
-
+    /**
+     * the issue state.
+     */
     @TableField("state")
     private String state;
-
+    /**
+     * the issue assignees_user_ids.
+     */
     @TableField("assignees_user_ids")
     private String assigneesUserIds;
-
+    /**
+     * the issue labelsId.
+     */
     @TableField("labels_id")
     private String labelsId;
-
+    /**
+     * the issue labelsName.
+     */
     @TableField("labels_name")
     private String labelsName;
-
+    /**
+     * the issue state.
+     */
     @TableField("issue_state")
     private String issueState;
-
+    /**
+     * the type of issue .
+     */
     @TableField("issue_type")
     private String issueType;
-
+    /**
+     * the repo id.
+     */
     @TableField("repo_id")
     private String repoId;
-
+    /**
+     * the repo name.
+     */
     @TableField("repo_name")
     private String repoName;
-
+    /**
+     * the repo path.
+     */
     @TableField("repo_path")
     private String repoPath;
-
+    /**
+     * the repo namespace.
+     */
     @TableField("namespace")
     private String namespace;
-
+    /**
+     * the priority of.
+     */
     @TableField("priority")
     private String priority;
-
+    /**
+     * the issue program.
+     */
     @TableField("program")
     private String program;
-
+    /**
+     * the issue security_hole.
+     */
     @TableField("security_hole")
     private String securityHole;
-
+    /**
+     * the data platform.
+     */
     @TableField("code_platform")
     private String codePlatform;
 }

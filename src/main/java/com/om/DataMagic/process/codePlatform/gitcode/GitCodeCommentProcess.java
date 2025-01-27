@@ -20,7 +20,9 @@ import com.om.DataMagic.infrastructure.pgDB.converter.CommentConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
-import com.om.DataMagic.infrastructure.pgDB.service.*;
+import com.om.DataMagic.infrastructure.pgDB.service.CommentService;
+import com.om.DataMagic.infrastructure.pgDB.service.IssueService;
+import com.om.DataMagic.infrastructure.pgDB.service.PRService;
 import com.om.DataMagic.process.DriverManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * comment application service
+ * comment application service.
  *
  * @author zhaoyan
  * @since 2025-01-17
@@ -37,23 +39,38 @@ import java.util.List;
 @Component
 public class GitCodeCommentProcess implements DriverManager {
 
+    /**
+     * gitcode service .
+     */
     @Autowired
-    GitCodeService service;
-
-    @Autowired
-    CommentConverter converter;
-
-    @Autowired
-    PRService prService;
-
-    @Autowired
-    IssueService issueService;
-
-    @Autowired
-    CommentService commentService;
+    private GitCodeService service;
 
     /**
-     * 执行 拉取并更新指定组织下仓库下Comment信息
+     * comment converter .
+     */
+    @Autowired
+    private CommentConverter converter;
+
+    /**
+     * pr service.
+     */
+    @Autowired
+    private PRService prService;
+
+    /**
+     * issue service .
+     */
+    @Autowired
+    private IssueService issueService;
+
+    /**
+     * comment service .
+     */
+    @Autowired
+    private CommentService commentService;
+
+    /**
+     * 执行 拉取并更新指定组织下仓库下Comment信息.
      */
     @Override
     public void run() {
@@ -69,14 +86,14 @@ public class GitCodeCommentProcess implements DriverManager {
             commentDOList.addAll(getCommentListByIssue(issueDO));
         }
 
-        if (!commentDOList.isEmpty()){
+        if (!commentDOList.isEmpty()) {
             commentService.saveOrUpdateBatch(commentDOList);
         }
     }
 
 
     /**
-     * 获取GitCode平台仓库下PR下评论信息
+     * 获取GitCode平台仓库下PR下评论信息.
      *
      * @param prdo PR信息
      * @return comment信息字符串
@@ -85,7 +102,8 @@ public class GitCodeCommentProcess implements DriverManager {
         List<String> commentArrayList = new ArrayList<>();
         int page = 1;
         while (true) {
-            String commentInfo = service.getCommentInfoByPR(prdo.getNamespace(), prdo.getRepoName(), prdo.getNumber(), page);
+            String commentInfo =
+                    service.getCommentInfoByPR(prdo.getNamespace(), prdo.getRepoName(), prdo.getNumber(), page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(commentInfo)) {
                 break;
             }
@@ -96,7 +114,7 @@ public class GitCodeCommentProcess implements DriverManager {
     }
 
     /**
-     * 转化并组装CommentDO数据
+     * 转化并组装CommentDO数据.
      *
      * @param prdo             PR信息
      * @param commentArrayList comment信息字符串
@@ -114,7 +132,7 @@ public class GitCodeCommentProcess implements DriverManager {
 
 
     /**
-     * 获取GitCode平台仓库下ISSUE评论信息
+     * 获取GitCode平台仓库下ISSUE评论信息.
      * 此接口存在bug，接口调用任意page值均有返回，会导致无法停止循环
      *
      * @param issueDO issue信息
@@ -124,7 +142,9 @@ public class GitCodeCommentProcess implements DriverManager {
         List<String> commentArrayList = new ArrayList<>();
         int page = 1;
         while (page < GitCodeConstant.MAX_PAGE) {
-            String commentInfo = service.getCommentInfoByIssue(issueDO.getNamespace(), issueDO.getRepoName(), issueDO.getNumber(), page);
+            String commentInfo =
+                    service.getCommentInfoByIssue(issueDO.getNamespace(), issueDO.getRepoName(), issueDO.getNumber(),
+                            page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(commentInfo)) {
                 break;
             }
@@ -135,7 +155,7 @@ public class GitCodeCommentProcess implements DriverManager {
     }
 
     /**
-     * 转化并组装CommentDO数据
+     * 转化并组装CommentDO数据.
      *
      * @param issueDO          issue信息
      * @param commentArrayList comment信息字符串

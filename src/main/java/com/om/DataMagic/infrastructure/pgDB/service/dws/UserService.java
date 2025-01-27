@@ -16,5 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.dws.UserDO;
 
 public interface UserService extends IService<UserDO> {
-    
+
 }

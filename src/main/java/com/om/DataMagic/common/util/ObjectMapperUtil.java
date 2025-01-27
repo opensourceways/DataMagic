@@ -22,6 +22,7 @@ public final class ObjectMapperUtil {
         // private constructor to hide the implicit public one
         throw new AssertionError("ObjectMapperUtil class cannot be instantiated.");
     }
+
     /**
      * ObjectMapper instance for JSON serialization and deserialization.
      */
@@ -60,6 +61,7 @@ public final class ObjectMapperUtil {
      *
      * @param clazz   The class of object
      * @param content The content to convert to JsonNode
+     * @param <T>     class type
      * @return JsonNode representing the input content
      */
     public static <T> T toObject(Class<T> clazz, String content) {

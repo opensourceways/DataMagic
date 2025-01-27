@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * repo application service
+ * repo application service.
  *
  * @author zhaoyan
  * @since 2025-01-15
@@ -36,20 +36,32 @@ import java.util.List;
 @Component
 public class GitCodeRepoProcess implements DriverManager {
 
+    /**
+     * git code service.
+     */
     @Autowired
-    GitCodeService service;
-
-    @Autowired
-    RepoConverter converter;
-
-    @Autowired
-    RepoService repoService;
-
-    @Autowired
-    TaskConfig config;
+    private GitCodeService service;
 
     /**
-     * 执行 拉取并更新指定组织下仓库信息
+     * repo converter .
+     */
+    @Autowired
+    private RepoConverter converter;
+
+    /**
+     * repo service.
+     */
+    @Autowired
+    private RepoService repoService;
+
+    /**
+     * taskconfig .
+     */
+    @Autowired
+    private TaskConfig config;
+
+    /**
+     * 执行 拉取并更新指定组织下仓库信息.
      */
     @Override
     public void run() {
@@ -62,7 +74,8 @@ public class GitCodeRepoProcess implements DriverManager {
     }
 
     /**
-     * 获取gitcode平台组织下仓库信息
+     * 获取gitcode平台组织下仓库信息.
+     *
      * @param orgName 组织
      * @return 仓库信息字符串
      */
@@ -81,12 +94,13 @@ public class GitCodeRepoProcess implements DriverManager {
     }
 
     /**
-     * 保存仓库信息到数据库
+     * 保存仓库信息到数据库.
      *
      * @param repoList 仓库数据列表
      */
-    private void saveRepoData(List<String> repoList){
-        List<ArrayNode> arrayNodeList = repoList.stream().map(repoArray -> ObjectMapperUtil.toObject(ArrayNode.class, repoArray)).toList();
+    private void saveRepoData(List<String> repoList) {
+        List<ArrayNode> arrayNodeList =
+                repoList.stream().map(repoArray -> ObjectMapperUtil.toObject(ArrayNode.class, repoArray)).toList();
         List<RepoDO> repoDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
             repoDOList.addAll(converter.toDOList(arrayNode));

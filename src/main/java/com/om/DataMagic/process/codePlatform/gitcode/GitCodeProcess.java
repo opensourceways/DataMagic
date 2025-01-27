@@ -31,17 +31,26 @@ import com.om.DataMagic.process.DriverManager;
 @Component
 public class GitCodeProcess implements DriverManager {
 
+    /**
+     * user service.
+     */
     @Autowired
-    PlatformUserService userService;
+    private PlatformUserService userService;
 
+    /**
+     * gitcode service.
+     */
     @Autowired
-    GitCodeService service;
+    private GitCodeService service;
 
     /**
      * Logger for logging messages in App class.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(GitCodeProcess.class);
 
+    /**
+     * running start here.
+     */
     @Override
     public void run() {
         List<String> users = getUserList();
@@ -89,7 +98,7 @@ public class GitCodeProcess implements DriverManager {
     /**
      * Get a list of user login.
      *
-     @return a list of user login.
+     * @return a list of user login.
      */
     public List<String> getUserList() {
         List<String> users = new ArrayList<>();

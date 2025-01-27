@@ -18,7 +18,7 @@ import com.om.DataMagic.infrastructure.pgDB.mapper.ForkDOMapper;
 import org.springframework.stereotype.Service;
 
 /**
- * fork service 实现类
+ * fork service 实现类.
  *
  * @author pengyue
  * @since 2025-01-14
@@ -26,3 +26,4 @@ import org.springframework.stereotype.Service;
 @Service
 public class ForkServiceImpl extends ServiceImpl<ForkDOMapper, ForkDO> implements ForkService {
 }
+
