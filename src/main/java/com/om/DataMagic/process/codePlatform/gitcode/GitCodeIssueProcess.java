@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * issue application service
+ * issue application service.
  *
  * @author zhaoyan
  * @since 2025-01-17
@@ -37,18 +37,33 @@ import java.util.List;
 @Component
 public class GitCodeIssueProcess implements DriverManager {
 
+    /**
+     * gitcode service.
+     */
     @Autowired
-    GitCodeService service;
+    private GitCodeService service;
 
+    /**
+     * issue converter.
+     */
     @Autowired
-    IssueConverter converter;
+    private IssueConverter converter;
 
+    /**
+     * repo service.
+     */
     @Autowired
-    RepoService repoService;
+    private RepoService repoService;
 
+    /**
+     * issue service.
+     */
     @Autowired
-    IssueService issueService;
+    private IssueService issueService;
 
+    /**
+     * process start .
+     */
     @Override
     public void run() {
         List<RepoDO> repoDOList = repoService.list();
@@ -60,7 +75,7 @@ public class GitCodeIssueProcess implements DriverManager {
     }
 
     /**
-     * 获取GitCode平台仓库下Issue信息
+     * 获取GitCode平台仓库下Issue信息.
      *
      * @param repoDO 仓库信息
      * @return issue信息字符串
@@ -76,13 +91,13 @@ public class GitCodeIssueProcess implements DriverManager {
             page++;
             issueArrayList.add(issueInfo);
         }
-        return formatStr(repoDO,issueArrayList);
+        return formatStr(repoDO, issueArrayList);
     }
 
     /**
-     * 转化并组装IssueDO数据
+     * 转化并组装IssueDO数据.
      *
-     * @param repoDO     仓库信息
+     * @param repoDO        仓库信息
      * @param issueInfoList issue信息字符串
      * @return issue do 对象
      */

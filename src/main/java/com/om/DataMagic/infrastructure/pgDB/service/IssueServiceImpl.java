@@ -18,7 +18,7 @@ import com.om.DataMagic.infrastructure.pgDB.mapper.IssueDOMapper;
 import org.springframework.stereotype.Service;
 
 /**
- * Issue service 实现类
+ * Issue service 实现类.
  *
  * @author zhaoyan
  * @since 2025-01-17

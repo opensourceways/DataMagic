@@ -16,7 +16,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 
 /**
- * RepoDO mapper接口
+ * RepoDO mapper接口.
  *
  * @author zhaoyan
  * @since 2025-01-14

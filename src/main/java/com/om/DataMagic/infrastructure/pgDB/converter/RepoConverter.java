@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * repo 转换器
+ * repo 转换器.
  *
  * @author zhaoyan
  * @since 2025-01-15
@@ -30,11 +30,12 @@ import java.util.List;
 public class RepoConverter {
 
     /**
-     * 将repo json数组转化为DO list
+     * 将repo json数组转化为DO list.
+     *
      * @param arrayNode json数组
      * @return DO list
      */
-    public List<RepoDO> toDOList(ArrayNode arrayNode){
+    public List<RepoDO> toDOList(ArrayNode arrayNode) {
         List<RepoDO> repoDOList = new ArrayList<>();
         for (JsonNode repoNode : arrayNode) {
             repoDOList.add(toDO(repoNode));
@@ -43,11 +44,12 @@ public class RepoConverter {
     }
 
     /**
-     * 将repo json数据转换为DO对象
+     * 将repo json数据转换为DO对象.
+     *
      * @param repoJson repo json数据
      * @return OD 对象
      */
-    public RepoDO toDO(JsonNode repoJson){
+    public RepoDO toDO(JsonNode repoJson) {
         RepoDO repoDO = new RepoDO();
         repoDO.setRepoId(repoJson.path("id").asInt());
         repoDO.setRepoName(repoJson.path("name").asText());

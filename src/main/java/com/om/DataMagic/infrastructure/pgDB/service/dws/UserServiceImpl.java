@@ -30,7 +30,7 @@ public class UserServiceImpl extends ServiceImpl<UserDOMapper, UserDO> implement
      * @return A list of users
      */
     @Override
-    public List<UserDO> list(Wrapper<UserDO> queryWrapper){
+    public List<UserDO> list(Wrapper<UserDO> queryWrapper) {
         return super.list(queryWrapper);
     }
 }

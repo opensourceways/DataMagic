@@ -22,7 +22,7 @@ import java.io.Serial;
 import java.time.OffsetDateTime;
 
 /**
- * Comment DO对象
+ * Comment DO对象.
  *
  * @author zhaoyan
  * @since 2025-01-17
@@ -34,44 +34,86 @@ public class CommentDO {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * uuid .
+     */
     @TableId
     private String uuid;
 
+    /**
+     * comment is.
+     */
     @TableField("id")
     private String id;
 
+    /**
+     * comment html url.
+     */
     @TableField("html_url")
     private String htmlUrl;
 
+    /**
+     * content of comment.
+     */
     @TableField("body")
     private String body;
 
+    /**
+     * the create time of comment.
+     */
     @TableField("created_at")
     private OffsetDateTime createdAt;
 
+    /**
+     * the update time of comment.
+     */
     @TableField("updated_at")
     private OffsetDateTime updatedAt;
 
+    /**
+     * the user id of comment.
+     */
     @TableField("user_id")
     private String userId;
 
+    /**
+     * the comment user's login name.
+     */
     @TableField("user_login")
     private String userLogin;
 
+    /**
+     * the comment type.
+     */
     @TableField("comment_type")
     private String commentType;
 
+    /**
+     * the platform of comment.
+     */
     @TableField("code_platform")
     private String codePlatform;
 
+    /**
+     * the tag url of comment.
+     */
     @TableField("tag_url")
     private String tagUrl;
 
+    /**
+     * is self.
+     */
     @TableField("self")
     private String isSelf;
 
+    /**
+     * the repo namespace.
+     */
     private String namespace;
 
+    /**
+     * the repo path.
+     */
     @TableField("repo_path")
     private String repoPath;
 }

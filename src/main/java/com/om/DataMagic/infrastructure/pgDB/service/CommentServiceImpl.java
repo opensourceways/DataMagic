@@ -18,11 +18,12 @@ import com.om.DataMagic.infrastructure.pgDB.mapper.CommentDOMapper;
 import org.springframework.stereotype.Service;
 
 /**
- * comment service 实现类
+ * comment service 实现类.
  *
  * @author zhaoyan
  * @since 2025-01-17
  */
 @Service
-public class CommentServiceImpl extends ServiceImpl<CommentDOMapper, CommentDO> implements CommentService{
+public class CommentServiceImpl extends ServiceImpl<CommentDOMapper, CommentDO> implements CommentService {
+
 }

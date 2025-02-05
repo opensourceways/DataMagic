@@ -18,7 +18,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * 重试配置
+ * 重试配置.
  *
  * @author zhaoyan
  * @since 2025-01-26
@@ -29,10 +29,19 @@ import org.springframework.stereotype.Component;
 @Getter
 public class RetryConfig {
 
+    /**
+     * 重试次数.
+     */
     private String maxAttempts;
 
+    /**
+     * 重试延迟时间.
+     */
     private String delay;
 
+    /**
+     * 延迟规则.
+     */
     private String multiplier;
 
 }

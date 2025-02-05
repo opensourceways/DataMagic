@@ -13,5 +13,8 @@
 package com.om.DataMagic.process;
 
 public interface DriverManager {
-    public void run();
+    /**
+     * base process interface.
+     */
+    void run();
 }

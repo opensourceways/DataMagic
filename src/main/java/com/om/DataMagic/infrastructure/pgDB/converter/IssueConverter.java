@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * issue 转换器
+ * issue 转换器.
  *
  * @author zhaoyan
  * @since 2025-01-17
@@ -34,7 +34,7 @@ import java.util.List;
 public class IssueConverter {
 
     /**
-     * 将issue json数组转化为DO list
+     * 将issue json数组转化为DO list.
      *
      * @param arrayNode json数组
      * @param owner     所属者，用于设置namespace值
@@ -50,6 +50,10 @@ public class IssueConverter {
         return issueDOList;
     }
 
+    /**
+     * @param issueJson json.
+     * @return IssueDO
+     */
     public IssueDO toDO(JsonNode issueJson) {
         IssueDO issueDO = new IssueDO();
         issueDO.setId(issueJson.path("id").asText());

@@ -21,7 +21,12 @@ import com.om.DataMagic.infrastructure.pgDB.dataobject.PlatformUserDO;
 import com.om.DataMagic.infrastructure.pgDB.mapper.PlatformUserDOMapper;
 
 @Service
-public class PlatformUserServiceImpl extends ServiceImpl<PlatformUserDOMapper, PlatformUserDO> implements PlatformUserService {
+public class PlatformUserServiceImpl extends ServiceImpl<PlatformUserDOMapper, PlatformUserDO>
+        implements PlatformUserService {
+    /**
+     * @param entityList sava or update .
+     * @return
+     */
     @Override
     public boolean saveOrUpdateBatch(Collection<PlatformUserDO> entityList) {
         return super.saveOrUpdateBatch(entityList);

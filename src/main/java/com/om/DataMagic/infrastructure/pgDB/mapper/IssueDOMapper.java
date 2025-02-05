@@ -16,10 +16,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 
 /**
- * IssueDO mapper接口
+ * IssueDO mapper接口.
  *
  * @author zhaoyan
  * @since 2025-01-17
  */
 public interface IssueDOMapper extends BaseMapper<IssueDO> {
 }
+

@@ -18,7 +18,7 @@ import com.om.DataMagic.infrastructure.pgDB.mapper.PRDOMapper;
 import org.springframework.stereotype.Service;
 
 /**
- * pr service 实现类
+ * pr service 实现类.
  *
  * @author zhaoyan
  * @since 2025-01-14

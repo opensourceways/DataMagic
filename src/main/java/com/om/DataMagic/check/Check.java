@@ -12,6 +12,6 @@
 
 package com.om.DataMagic.check;
 
-public class check {
+public class Check {
 
 }
