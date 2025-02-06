@@ -77,7 +77,7 @@ public class GiteeStarProcess implements DriverManager {
      * @return Star信息字符串
      */
     private List<StarDO> getStarList(RepoDO repoDO) {
-        return formatStr(repoDO, service.getStarInfo(repoDO.getOwnerName(), repoDO.getRepoName()));
+        return formatStr(repoDO, service.getStarInfo(repoDO.getNamespace(), repoDO.getName()));
     }
 
     /**
@@ -90,7 +90,7 @@ public class GiteeStarProcess implements DriverManager {
     private List<StarDO> formatStr(RepoDO repoDO, List<ArrayNode> arrayNodeList) {
         List<StarDO> prDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName(), repoDO.getRepoName(),
+            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace(), repoDO.getName(),
                     CodePlatformEnum.GITEE.getText()));
         }
         return prDOList;

@@ -84,7 +84,7 @@ public class GitCodeIssueProcess implements DriverManager {
         List<String> issueArrayList = new ArrayList<>();
         int page = 1;
         while (true) {
-            String issueInfo = service.getIssueInfo(repoDO.getOwnerName(), repoDO.getRepoName(), page);
+            String issueInfo = service.getIssueInfo(repoDO.getNamespace(), repoDO.getName(), page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(issueInfo)) {
                 break;
             }
@@ -106,7 +106,7 @@ public class GitCodeIssueProcess implements DriverManager {
                 issueArray -> ObjectMapperUtil.toObject(ArrayNode.class, issueArray)).toList();
         List<IssueDO> issueDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            issueDOList.addAll(converter.toDOList(arrayNode, repoDO.getOwnerName()));
+            issueDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace()));
         }
         return issueDOList;
     }
