@@ -64,5 +64,33 @@ public class PlatformUserDO {
      */
     @TableField("code_platform")
     private String codePlatform;
-
+    /**
+     * html url.
+     */
+    @TableField("html_url")
+    private String htmlUrl;
+    /**
+     * user type.
+     */
+    private String type;
+    /**
+     * user bio.
+     */
+    private String bio;
+    /**
+     * user bio.
+     */
+    private String blog;
+    /**
+     * user company.
+     */
+    private String company;
+    /**
+     * user wechat.
+     */
+    private String wechat;
+    /**
+     * user qq.
+     */
+    private String qq;
 }
