@@ -13,16 +13,24 @@
 package com.om.DataMagic.process.codePlatform.gitcode;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.om.DataMagic.client.codePlatform.gitcode.GitCodeService;
+import com.om.DataMagic.infrastructure.pgDB.converter.PlatformUserConverter;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
+import com.om.DataMagic.infrastructure.pgDB.service.CommentService;
+import com.om.DataMagic.infrastructure.pgDB.service.IssueService;
+import com.om.DataMagic.infrastructure.pgDB.service.PRService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PlatformUserDO;
 import com.om.DataMagic.infrastructure.pgDB.service.platform.PlatformUserService;
@@ -42,6 +50,26 @@ public class GitCodeProcess implements DriverManager {
      */
     @Autowired
     private GitCodeService service;
+    /**
+     * pr service.
+     */
+    @Autowired
+    private PRService prService;
+    /**
+     * issue service.
+     */
+    @Autowired
+    private IssueService issueService;
+    /**
+     * comment service.
+     */
+    @Autowired
+    private CommentService commentService;
+    /**
+     * platform user service.
+     */
+    @Autowired
+    private PlatformUserConverter converter;
 
     /**
      * Logger for logging messages in App class.
@@ -53,56 +81,57 @@ public class GitCodeProcess implements DriverManager {
      */
     @Override
     public void run() {
-        List<String> users = getUserList();
-        saveData(users);
-    }
+        Set<String> userLoginSet = new HashSet<>();
 
-    /**
-     * Parese user api response string to object.
-     *
-     * @param userInfo The user api response content.
-     * @return UserDO.
-     */
-    public PlatformUserDO parseUser(String userInfo) {
-        JsonNode userJson = ObjectMapperUtil.toJsonNode(userInfo);
-        PlatformUserDO user = new PlatformUserDO();
-        user.setUserLogin(userJson.path("login").asText());
-        user.setUserName(userJson.path("name").asText());
-        user.setUserId(userJson.path("id").asText());
-        user.setAvatarUrl(userJson.path("avatar_url").asText());
-        user.setEmail(userJson.path("email").asText());
-        user.setCodePlatform("gitcode");
-        return user;
-    }
-
-    /**
-     * Save data into db.
-     *
-     * @param users The list of user login
-     * @return Result.
-     */
-    public boolean saveData(List<String> users) {
-        boolean res = false;
-        Collection<PlatformUserDO> userDetail = new ArrayList<>();
-        for (String user : users) {
-            String userInfo = service.getUserInfo(user);
-            PlatformUserDO obj = parseUser(userInfo);
-            userDetail.add(obj);
+        List<PRDO> prdoList = prService.list();
+        for (PRDO prdo : prdoList) {
+            userLoginSet.add(prdo.getUserLogin());
+            userLoginSet.add(prdo.getHeadUserLogin());
+            userLoginSet.add(prdo.getBaseUserLogin());
+            userLoginSet.add(prdo.getBaseOwnerUserLogin());
         }
-        if (!userDetail.isEmpty()) {
-            res = userService.saveOrUpdateBatch(userDetail);
+
+        List<IssueDO> issueDOList = issueService.list();
+        for (IssueDO issueDO : issueDOList) {
+            userLoginSet.add(issueDO.getUserLogin());
         }
-        return res;
+
+        List<CommentDO> commentDOList = commentService.list();
+        for (CommentDO commentDO : commentDOList) {
+            userLoginSet.add(commentDO.getUserLogin());
+        }
+
+        userLoginSet = userLoginSet.stream().filter(
+                s -> s != null && !s.isEmpty()).collect(Collectors.toSet());
+        List<PlatformUserDO> platformUserDOList = getUserList(userLoginSet);
+
+        if (!platformUserDOList.isEmpty()) {
+            userService.saveOrUpdateBatch(platformUserDOList);
+        }
     }
 
     /**
-     * Get a list of user login.
+     * 获取GitCode平台user信息.
      *
-     * @return a list of user login.
+     * @param userLoginSet user login set.
+     * @return PlatformUserDO 集合.
      */
-    public List<String> getUserList() {
-        List<String> users = new ArrayList<>();
-        return users;
+    private List<PlatformUserDO> getUserList(Set<String> userLoginSet) {
+        List<PlatformUserDO> platformUserList = new ArrayList<>();
+        for (String userLogin : userLoginSet) {
+            String userInfo = null;
+            try {
+                userInfo = service.getUserInfo(userLogin);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+                continue;
+            }
+            PlatformUserDO platformUserDO = converter.toDO(ObjectMapperUtil.toJsonNode(userInfo));
+            if (platformUserDO != null) {
+                platformUserList.add(platformUserDO);
+            }
+        }
+        return platformUserList;
     }
 
 }

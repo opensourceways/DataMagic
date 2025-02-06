@@ -24,6 +24,11 @@ public final class TableConstant {
     public static final String PLATFORM_USER = "platform_user";
 
     /**
+     * The fact repo table prefix.
+     */
+    public static final String REPO = "fact_repo";
+
+    /**
      * The fact pr table prefix.
      */
     public static final String PR = "fact_pr";
