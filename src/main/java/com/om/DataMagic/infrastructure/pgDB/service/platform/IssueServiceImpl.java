@@ -10,12 +10,15 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service;
+package com.om.DataMagic.infrastructure.pgDB.service.platform;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 import com.om.DataMagic.infrastructure.pgDB.mapper.IssueDOMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Issue service 实现类.
@@ -25,4 +28,21 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class IssueServiceImpl extends ServiceImpl<IssueDOMapper, IssueDO> implements IssueService {
+    /**
+     * @param entityList sava or update .
+     * @return
+     */
+    @Override
+    public boolean saveOrUpdateBatch(Collection<IssueDO> entityList) {
+        return super.saveOrUpdateBatch(entityList);
+    }
+
+    /**
+     * query return list.
+     * @return list
+     */
+    @Override
+    public List<IssueDO> list() {
+        return super.list();
+    }
 }

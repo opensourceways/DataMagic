@@ -10,7 +10,7 @@
  Created: 2025
 */
 
-package com.om.DataMagic.domain.codePlatform.gitcode.primitive;
+package com.om.DataMagic.common.constant;
 
 /**
  * gitcode 查询常量.

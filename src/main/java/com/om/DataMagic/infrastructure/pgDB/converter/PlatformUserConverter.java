@@ -14,7 +14,7 @@ package com.om.DataMagic.infrastructure.pgDB.converter;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
+import com.om.DataMagic.common.constant.CodePlatformEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PlatformUserDO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +37,7 @@ public class PlatformUserConverter {
     /**
      * 将user json数据转换成DO 对象.
      * @param userJson user json数据.
+     * @param codePlatformEnum 代码平台
      * @return DO 对象.
      */
     public PlatformUserDO toDO(JsonNode userJson, CodePlatformEnum codePlatformEnum) {

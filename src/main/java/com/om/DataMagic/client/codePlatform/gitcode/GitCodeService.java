@@ -15,7 +15,7 @@ package com.om.DataMagic.client.codePlatform.gitcode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.common.exception.RateLimitException;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
+import com.om.DataMagic.common.constant.GitCodeConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

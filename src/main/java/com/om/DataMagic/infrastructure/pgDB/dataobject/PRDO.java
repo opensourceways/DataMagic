@@ -15,6 +15,7 @@ package com.om.DataMagic.infrastructure.pgDB.dataobject;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.om.DataMagic.common.constant.TableConstant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +30,7 @@ import java.time.OffsetDateTime;
  */
 @Getter
 @Setter
-@TableName("fact_gitcode_pr")
+@TableName(TableConstant.PR)
 public class PRDO {
     @Serial
     private static final long serialVersionUID = 1L;

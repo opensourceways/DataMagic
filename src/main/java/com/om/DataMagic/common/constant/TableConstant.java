@@ -34,6 +34,16 @@ public final class TableConstant {
     public static final String PR = "fact_pr";
 
     /**
+     * The fact issue table prefix.
+     */
+    public static final String ISSUE = "fact_issue";
+
+    /**
+     * The fact comment table prefix.
+     */
+    public static final String COMMENT = "fact_comment";
+
+    /**
      * The fact dws contribute table prefix.
      */
     public static final String DWS_CONTRIB = "fact_contribute";

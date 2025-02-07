@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.common.util.DateUtil;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
+import com.om.DataMagic.common.constant.CodePlatformEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +38,7 @@ public class PRConverter {
      *
      * @param arrayNode json数组
      * @param owner     所属者，用于设置namespace值
+     * @param codePlatformEnum 代码平台
      * @return DO list
      */
     public List<PRDO> toDOList(ArrayNode arrayNode, String owner, CodePlatformEnum codePlatformEnum) {

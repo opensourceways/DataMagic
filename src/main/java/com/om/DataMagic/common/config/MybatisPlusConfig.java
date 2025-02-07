@@ -34,6 +34,7 @@ public class MybatisPlusConfig {
         DynamicTableNameInnerInterceptor dynamicTableNameYearInnerInterceptor = new DynamicTableNameInnerInterceptor();
         dynamicTableNameYearInnerInterceptor.setTableNameHandler(
                 new PlatformTableNameHandler(TableConstant.PLATFORM_USER, TableConstant.DWS_USER,
+                        TableConstant.REPO, TableConstant.PR, TableConstant.ISSUE, TableConstant.COMMENT,
                         TableConstant.DWS_CONTRIB));
         interceptor.addInnerInterceptor(dynamicTableNameYearInnerInterceptor);
 
