@@ -41,7 +41,7 @@ public class CommentDO {
     private String uuid;
 
     /**
-     * comment is.
+     * comment id.
      */
     @TableField("id")
     private String id;
@@ -116,4 +116,10 @@ public class CommentDO {
      */
     @TableField("repo_path")
     private String repoPath;
+
+    /**
+     * the comment isRemoved.
+     */
+    @TableField("is_removed")
+    private String isRemoved;
 }

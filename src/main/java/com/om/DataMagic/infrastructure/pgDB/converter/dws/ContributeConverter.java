@@ -59,6 +59,8 @@ public final class ContributeConverter {
         contrib.setClosedAt(obj.getClosedAt());
         contrib.setState(obj.getState());
         contrib.setClosedTime(DateUtil.getDuration(obj.getCreatedAt(), obj.getClosedAt()));
+        contrib.setIsRemoved(obj.getIsRemoved());
+        contrib.setVersion(null);
         return contrib;
     }
 
@@ -89,6 +91,7 @@ public final class ContributeConverter {
         contrib.setMergedAt(obj.getMergedAt());
         contrib.setAdd(obj.getAddedLines());
         contrib.setRemove(obj.getRemovedLines());
+        contrib.setBranch(obj.getBaseLabel());
         contrib.setIsPr(1);
         contrib.setContribType(ContribConstant.PR);
         return contrib;
@@ -106,6 +109,7 @@ public final class ContributeConverter {
         contrib.setUuid(obj.getUuid());
         contrib.setBody(obj.getBody());
         contrib.setIsComment(1);
+        contrib.setCommentType(obj.getCommentType());
         contrib.setContribType(ContribConstant.COMMENT);
         return contrib;
     }
