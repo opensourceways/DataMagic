@@ -8,7 +8,6 @@ on:
       - main
       - master
       - release/*
-      - develop
 
 jobs:
   codearts-check:
