@@ -14,6 +14,7 @@ package com.om.DataMagic.infrastructure.pgDB.converter;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
+import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
@@ -39,6 +40,7 @@ public class CommentConverterTest {
     @DisplayName("json数组转化为DO数组 PR")
     void testTODOSuccessByPR() {
         PRDO prdo = new PRDO();
+        prdo.setCodePlatform(CodePlatformEnum.GITCODE.getText());
         prdo.setHtmlUrl("prHtmlUrl");
         prdo.setUserId("708");
 
@@ -59,6 +61,7 @@ public class CommentConverterTest {
     @DisplayName("json数组转化为DO数组 Issue")
     void testTODOSuccessByIssue() {
         IssueDO issueDO = new IssueDO();
+        issueDO.setCodePlatform(CodePlatformEnum.GITCODE.getText());
         issueDO.setHtmlUrl("issueHtmlUrl");
         issueDO.setUserId("661ce4eab470b1430d456154");
 
@@ -73,6 +76,48 @@ public class CommentConverterTest {
         Assertions.assertEquals("issueHtmlUrl", doList.get(0).getTagUrl());
         Assertions.assertEquals("true", doList.get(0).getIsSelf());
         Assertions.assertEquals("issueHtmlUrl#tid-271624", doList.get(0).getHtmlUrl());
+    }
+
+    @Test
+    @DisplayName("json数组转化为DO数组 Gitee PR")
+    void testTODOSuccessByGiteePR() {
+        PRDO prdo = new PRDO();
+        prdo.setCodePlatform(CodePlatformEnum.GITEE.getText());
+        prdo.setHtmlUrl("prHtmlUrl");
+        prdo.setUserId("13000000");
+
+        CommentConverter converter = new CommentConverter();
+
+        ArrayNode arrayNode = ObjectMapperUtil.toObject(ArrayNode.class, getCommentByPrFromGitee());
+        Assertions.assertNotNull(arrayNode);
+
+        List<CommentDO> doList = converter.toDOList(arrayNode, prdo);
+        Assertions.assertEquals(1, doList.size());
+        Assertions.assertEquals(GitEnum.COMMENT_PR.getValue(), doList.get(0).getCommentType());
+        Assertions.assertEquals("prHtmlUrl", doList.get(0).getTagUrl());
+        Assertions.assertEquals("true", doList.get(0).getIsSelf());
+        Assertions.assertEquals("opengauss/infra/pulls/253#note_33548559_conversation_130632055", doList.get(0).getHtmlUrl());
+    }
+
+    @Test
+    @DisplayName("json数组转化为DO数组 Issue")
+    void testTODOSuccessByGiteeIssue() {
+        IssueDO issueDO = new IssueDO();
+        issueDO.setCodePlatform(CodePlatformEnum.GITEE.getText());
+        issueDO.setHtmlUrl("issueHtmlUrl");
+        issueDO.setUserId("13000000");
+
+        CommentConverter converter = new CommentConverter();
+
+        ArrayNode arrayNode = ObjectMapperUtil.toObject(ArrayNode.class, getCommentByIssueFromGitee());
+        Assertions.assertNotNull(arrayNode);
+
+        List<CommentDO> doList = converter.toDOList(arrayNode, issueDO);
+        Assertions.assertEquals(1, doList.size());
+        Assertions.assertEquals(GitEnum.COMMENT_ISSUE.getValue(), doList.get(0).getCommentType());
+        Assertions.assertEquals("issueHtmlUrl", doList.get(0).getTagUrl());
+        Assertions.assertEquals("true", doList.get(0).getIsSelf());
+        Assertions.assertEquals("issueHtmlUrl#note_24302778_link", doList.get(0).getHtmlUrl());
     }
 
     public String getCommentByPRFromAPI(){
@@ -129,5 +174,69 @@ public class CommentConverterTest {
                 "    \"updated_at\": \"2024-04-19T17:50:18.199+08:00\"\n" +
                 "  }\n" +
                 "]\n";
+    }
+    
+    public String getCommentByPrFromGitee(){
+        return "[\n" +
+                "    {\n" +
+                "        \"url\": \"api/v5/repos/opengauss/infra/pulls/comments/33548559\",\n" +
+                "        \"id\": 33548559,\n" +
+                "        \"path\": null,\n" +
+                "        \"position\": null,\n" +
+                "        \"original_position\": null,\n" +
+                "        \"new_line\": null,\n" +
+                "        \"commit_id\": null,\n" +
+                "        \"original_commit_id\": null,\n" +
+                "        \"user\": {\n" +
+                "            \"id\": 13000000,\n" +
+                "            \"login\": \"***\",\n" +
+                "            \"name\": \"***\",\n" +
+                "            \"type\": \"User\"\n" +
+                "        },\n" +
+                "        \"created_at\": \"2024-10-31T14:27:44+08:00\",\n" +
+                "        \"updated_at\": \"2024-10-31T14:27:44+08:00\",\n" +
+                "        \"body\": \"@**** , PullRequest must be associated with at least one issue.\",\n" +
+                "        \"html_url\": \"opengauss/infra/pulls/253#note_33548559\",\n" +
+                "        \"pull_request_url\": \"api/v5/repos/opengauss/infra/pulls/253\",\n" +
+                "        \"_links\": {\n" +
+                "            \"self\": {\n" +
+                "                \"href\": \"api/v5/repos/opengauss/infra/pulls/comments/33548559\"\n" +
+                "            },\n" +
+                "            \"html\": {\n" +
+                "                \"href\": \"opengauss/infra/pulls/253#note_33548559_conversation_130632055\"\n" +
+                "            },\n" +
+                "            \"pull_request\": {\n" +
+                "                \"href\": \"api/v5/repos/opengauss/infra/pulls/253\"\n" +
+                "            }\n" +
+                "        },\n" +
+                "        \"comment_type\": \"pr_comment\"\n" +
+                "    }\n" +
+                "]";
+    }
+
+    public  String getCommentByIssueFromGitee(){
+        return "[\n" +
+                "    {\n" +
+                "        \"id\": 24302778,\n" +
+                "        \"body\": \"Hey ***@mystarry-sky***, Welcome to openGauss Community.\\nAll of the projects in openGauss Community are maintained by ***@opengauss_bot***.\\nThat means the developers can comment below every pull request or issue to trigger Bot Commands.\\nPlease follow instructions at **[Here](opengauss/community/blob/master/contributors/command.en.md)** to find the details.\\n\",\n" +
+                "        \"user\": {\n" +
+                "            \"id\": 13000000,\n" +
+                "            \"login\": \"*****\",\n" +
+                "            \"name\": \"*****\",\n" +
+                "            \"type\": \"User\"\n" +
+                "        },\n" +
+                "        \"source\": null,\n" +
+                "        \"target\": {\n" +
+                "            \"issue\": {\n" +
+                "                \"id\": 14895024,\n" +
+                "                \"title\": \"openGauss 官网搜索引入人工智能搜索结果\",\n" +
+                "                \"number\": \"I8V92O\"\n" +
+                "            },\n" +
+                "            \"pull_request\": null\n" +
+                "        },\n" +
+                "        \"created_at\": \"2024-01-11T10:22:09+08:00\",\n" +
+                "        \"updated_at\": \"2024-01-11T10:22:09+08:00\"\n" +
+                "    }\n" +
+                "]";
     }
 }

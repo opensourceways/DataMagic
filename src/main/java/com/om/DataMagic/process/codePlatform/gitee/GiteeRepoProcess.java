@@ -10,14 +10,14 @@
  Created: 2025
 */
 
-package com.om.DataMagic.process.codePlatform.gitcode;
+package com.om.DataMagic.process.codePlatform.gitee;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.om.DataMagic.client.codePlatform.gitcode.GitCodeService;
+import com.om.DataMagic.client.codePlatform.gitee.GiteeService;
 import com.om.DataMagic.common.config.TaskConfig;
+import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
 import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
-import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.infrastructure.pgDB.converter.RepoConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import com.om.DataMagic.infrastructure.pgDB.service.RepoService;
@@ -32,16 +32,16 @@ import java.util.List;
  * repo application service.
  *
  * @author zhaoyan
- * @since 2025-01-15
+ * @since 2025-02-06
  */
 @Component
-public class GitCodeRepoProcess implements DriverManager {
+public class GiteeRepoProcess implements DriverManager {
 
     /**
-     * git code service.
+     * gitee service.
      */
     @Autowired
-    private GitCodeService service;
+    private GiteeService service;
 
     /**
      * repo converter .
@@ -71,7 +71,9 @@ public class GitCodeRepoProcess implements DriverManager {
         for (String orgName : split) {
             repoList.addAll(getRepoList(orgName));
         }
-        saveRepoData(repoList);
+        if (!repoList.isEmpty()){
+            saveRepoData(repoList);
+        }
     }
 
     /**
@@ -104,7 +106,7 @@ public class GitCodeRepoProcess implements DriverManager {
                 repoList.stream().map(repoArray -> ObjectMapperUtil.toObject(ArrayNode.class, repoArray)).toList();
         List<RepoDO> repoDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            repoDOList.addAll(converter.toDOList(arrayNode, CodePlatformEnum.GITCODE));
+            repoDOList.addAll(converter.toDOList(arrayNode, CodePlatformEnum.GITEE));
         }
         repoService.saveOrUpdateBatch(repoDOList);
     }
