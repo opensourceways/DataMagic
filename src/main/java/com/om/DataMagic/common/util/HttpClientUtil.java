@@ -94,7 +94,7 @@ public class HttpClientUtil {
     @Recover
     public String recoverApiResp(IOException e, final String uri, final Header header) {
         LOGGER.info(uri + e.getMessage());
-        return "IOException retry 3 times failed: " + uri;
+        return "IOException retry " + retryConfig.getMaxAttempts() + " times failed: " + uri;
     }
 
     /**
@@ -108,6 +108,6 @@ public class HttpClientUtil {
     @Recover
     public String recoverApiResp(RateLimitException e, final String uri, final Header header) {
         LOGGER.info(uri + e.getMessage());
-        return "RateLimitException retry 3 times failed: " + uri;
+        return "RateLimitException retry " + retryConfig.getMaxAttempts() + " times failed: " + uri;
     }
 }

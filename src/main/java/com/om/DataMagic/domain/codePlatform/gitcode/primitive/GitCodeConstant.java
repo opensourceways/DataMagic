@@ -40,8 +40,23 @@ public final class GitCodeConstant {
     public static final String NULL_ARRAY_RESPONSE = "[]";
 
     /**
+     * gitee查询，未发现项目.
+     */
+    public static final String NOT_FOUND_RESPONSE = "{message:Not Found Project}";
+
+    /**
      * 评论url.
      */
     public static final String COMMENT_URL_PARAM = "#tid-";
+
+    /**
+     * gitee评论url拼接-前缀.
+     */
+    public static final String COMMENT_URL_PREFIX = "#note_";
+
+    /**
+     * gitee评论url拼接-后缀.
+     */
+    public static final String COMMENT_URL_SUFFIX = "_link";
 
 }
