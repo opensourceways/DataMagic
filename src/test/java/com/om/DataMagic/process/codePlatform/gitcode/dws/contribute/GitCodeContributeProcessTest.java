@@ -36,11 +36,11 @@ import com.om.DataMagic.infrastructure.pgDB.converter.PRConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
-import com.om.DataMagic.infrastructure.pgDB.service.CommentService;
-import com.om.DataMagic.infrastructure.pgDB.service.IssueService;
-import com.om.DataMagic.infrastructure.pgDB.service.PRService;
 import com.om.DataMagic.infrastructure.pgDB.service.dws.ContributeService;
 import com.om.DataMagic.infrastructure.pgDB.service.dws.UserService;
+import com.om.DataMagic.infrastructure.pgDB.service.platform.CommentService;
+import com.om.DataMagic.infrastructure.pgDB.service.platform.IssueService;
+import com.om.DataMagic.infrastructure.pgDB.service.platform.PRService;
 
 @ExtendWith(MockitoExtension.class)
 public class GitCodeContributeProcessTest {
