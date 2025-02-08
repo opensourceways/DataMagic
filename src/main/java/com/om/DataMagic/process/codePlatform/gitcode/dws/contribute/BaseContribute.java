@@ -105,6 +105,11 @@ public class BaseContribute {
     private String contribType;
 
     /**
+     * The comment type of a comment.
+     */
+    private String commentType;
+
+    /**
      * The first reply time of a pr or issue.
      */
     private Long firstReplyTime;
@@ -118,4 +123,9 @@ public class BaseContribute {
      * The closed duration time of a pr or issue.
      */
     private Long closedTime;
+
+    /**
+     * The contribute isRemoved.
+     */
+    private String isRemoved;
 }
