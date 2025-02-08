@@ -15,9 +15,9 @@ package com.om.DataMagic.infrastructure.pgDB.converter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.common.util.DateUtil;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitEnum;
+import com.om.DataMagic.common.constant.CodePlatformEnum;
+import com.om.DataMagic.common.constant.GitCodeConstant;
+import com.om.DataMagic.common.constant.GitEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
@@ -46,7 +46,7 @@ public class CommentConverter {
         List<CommentDO> issueDOList = new ArrayList<>();
         for (JsonNode issueNode : arrayNode) {
             CommentDO commentDO = toDO(issueNode);
-            if (CodePlatformEnum.GITCODE.getText().equals(prdo.getCodePlatform())){
+            if (CodePlatformEnum.GITCODE.getText().equals(prdo.getCodePlatform())) {
                 commentDO.setHtmlUrl(prdo.getHtmlUrl() + GitCodeConstant.COMMENT_URL_PARAM + commentDO.getId());
             }
             commentDO.setCommentType(GitEnum.COMMENT_PR.getValue());
@@ -72,10 +72,11 @@ public class CommentConverter {
         List<CommentDO> issueDOList = new ArrayList<>();
         for (JsonNode issueNode : arrayNode) {
             CommentDO commentDO = toDO(issueNode);
-            if (CodePlatformEnum.GITCODE.getText().equals(issueDO.getCodePlatform())){
+            if (CodePlatformEnum.GITCODE.getText().equals(issueDO.getCodePlatform())) {
                 commentDO.setHtmlUrl(issueDO.getHtmlUrl() + GitCodeConstant.COMMENT_URL_PARAM + commentDO.getId());
-            } else if (CodePlatformEnum.GITEE.getText().equals(issueDO.getCodePlatform())){
-                commentDO.setHtmlUrl(issueDO.getHtmlUrl() + GitCodeConstant.COMMENT_URL_PREFIX + commentDO.getId() + GitCodeConstant.COMMENT_URL_SUFFIX);
+            } else if (CodePlatformEnum.GITEE.getText().equals(issueDO.getCodePlatform())) {
+                commentDO.setHtmlUrl(issueDO.getHtmlUrl() + GitCodeConstant.COMMENT_URL_PREFIX
+                        + commentDO.getId() + GitCodeConstant.COMMENT_URL_SUFFIX);
             }
             commentDO.setCommentType(GitEnum.COMMENT_ISSUE.getValue());
             commentDO.setTagUrl(issueDO.getHtmlUrl());

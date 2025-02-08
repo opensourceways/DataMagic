@@ -10,16 +10,16 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service;
+package com.om.DataMagic.infrastructure.pgDB.service.platform;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
 
 /**
- * comment service 接口.
+ * pr service 接口.
  *
  * @author zhaoyan
- * @since 2025-01-17
+ * @since 2025-01-14
  */
-public interface CommentService extends IService<CommentDO> {
+public interface PRService extends IService<PRDO> {
 }

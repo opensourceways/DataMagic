@@ -15,7 +15,7 @@ package com.om.DataMagic.infrastructure.pgDB.converter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.common.util.DateUtil;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
+import com.om.DataMagic.common.constant.CodePlatformEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
 import org.springframework.stereotype.Component;
 

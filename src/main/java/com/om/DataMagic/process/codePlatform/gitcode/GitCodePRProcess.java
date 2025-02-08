@@ -14,14 +14,14 @@ package com.om.DataMagic.process.codePlatform.gitcode;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.client.codePlatform.gitcode.GitCodeService;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitCodeConstant;
+import com.om.DataMagic.common.constant.CodePlatformEnum;
+import com.om.DataMagic.common.constant.GitCodeConstant;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
 import com.om.DataMagic.infrastructure.pgDB.converter.PRConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
-import com.om.DataMagic.infrastructure.pgDB.service.PRService;
-import com.om.DataMagic.infrastructure.pgDB.service.RepoService;
+import com.om.DataMagic.infrastructure.pgDB.service.platform.PRService;
+import com.om.DataMagic.infrastructure.pgDB.service.platform.RepoService;
 import com.om.DataMagic.process.DriverManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

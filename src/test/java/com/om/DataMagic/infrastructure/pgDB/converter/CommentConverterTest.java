@@ -14,8 +14,8 @@ package com.om.DataMagic.infrastructure.pgDB.converter;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.GitEnum;
+import com.om.DataMagic.common.constant.CodePlatformEnum;
+import com.om.DataMagic.common.constant.GitEnum;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;

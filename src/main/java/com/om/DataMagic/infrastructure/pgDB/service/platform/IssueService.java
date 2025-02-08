@@ -10,19 +10,16 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service;
+package com.om.DataMagic.infrastructure.pgDB.service.platform;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
-import com.om.DataMagic.infrastructure.pgDB.mapper.RepoDOMapper;
-import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 
 /**
- * repo service 实现类.
+ * Issue service 接口.
  *
  * @author zhaoyan
- * @since 2025-01-14
+ * @since 2025-01-17
  */
-@Service
-public class RepoServiceImpl extends ServiceImpl<RepoDOMapper, RepoDO> implements RepoService {
+public interface IssueService extends IService<IssueDO> {
 }

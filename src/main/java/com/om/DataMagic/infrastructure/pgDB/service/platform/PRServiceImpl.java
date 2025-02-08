@@ -10,12 +10,15 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service;
+package com.om.DataMagic.infrastructure.pgDB.service.platform;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
 import com.om.DataMagic.infrastructure.pgDB.mapper.PRDOMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * pr service 实现类.
@@ -25,4 +28,21 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PRServiceImpl extends ServiceImpl<PRDOMapper, PRDO> implements PRService {
+    /**
+     * @param entityList sava or update .
+     * @return
+     */
+    @Override
+    public boolean saveOrUpdateBatch(Collection<PRDO> entityList) {
+        return super.saveOrUpdateBatch(entityList);
+    }
+
+    /**
+     * query return list.
+     * @return list
+     */
+    @Override
+    public List<PRDO> list() {
+        return super.list();
+    }
 }

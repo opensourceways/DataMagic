@@ -10,16 +10,16 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service;
+package com.om.DataMagic.infrastructure.pgDB.service.platform;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 
 /**
- * Issue service 接口.
+ * Repo service接口.
  *
  * @author zhaoyan
- * @since 2025-01-17
+ * @since 2025-01-14
  */
-public interface IssueService extends IService<IssueDO> {
+public interface RepoService extends IService<RepoDO> {
 }

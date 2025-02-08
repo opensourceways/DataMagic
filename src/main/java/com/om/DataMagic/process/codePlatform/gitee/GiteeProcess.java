@@ -20,14 +20,14 @@ import java.util.stream.Collectors;
 
 import com.om.DataMagic.client.codePlatform.gitee.GiteeService;
 import com.om.DataMagic.common.util.ObjectMapperUtil;
-import com.om.DataMagic.domain.codePlatform.gitcode.primitive.CodePlatformEnum;
+import com.om.DataMagic.common.constant.CodePlatformEnum;
 import com.om.DataMagic.infrastructure.pgDB.converter.PlatformUserConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.CommentDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.IssueDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.PRDO;
-import com.om.DataMagic.infrastructure.pgDB.service.CommentService;
-import com.om.DataMagic.infrastructure.pgDB.service.IssueService;
-import com.om.DataMagic.infrastructure.pgDB.service.PRService;
+import com.om.DataMagic.infrastructure.pgDB.service.platform.CommentService;
+import com.om.DataMagic.infrastructure.pgDB.service.platform.IssueService;
+import com.om.DataMagic.infrastructure.pgDB.service.platform.PRService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,7 +125,8 @@ public class GiteeProcess implements DriverManager {
                 LOGGER.error(e.getMessage());
                 continue;
             }
-            PlatformUserDO platformUserDO = converter.toDO(ObjectMapperUtil.toJsonNode(userInfo), CodePlatformEnum.GITEE);
+            PlatformUserDO platformUserDO = converter.toDO(
+                    ObjectMapperUtil.toJsonNode(userInfo), CodePlatformEnum.GITEE);
             if (platformUserDO != null) {
                 platformUserList.add(platformUserDO);
             }
