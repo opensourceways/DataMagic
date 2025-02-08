@@ -174,4 +174,10 @@ public class IssueDO {
      */
     @TableField("code_platform")
     private String codePlatform;
+
+    /**
+     * the issue isRemoved.
+     */
+    @TableField("is_removed")
+    private String isRemoved;
 }

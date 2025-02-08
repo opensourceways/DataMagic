@@ -95,7 +95,9 @@ public class GitCodeContributeProcess implements DriverManager {
     }
 
     /**
-     * @param robots Compose DWS Issue.
+     * Compose DWS Issue.
+     *
+     * @param robots Login of robot.
      */
     public void composeIssue(List<String> robots) {
         List<IssueDO> doList = issueService.list();
@@ -111,9 +113,10 @@ public class GitCodeContributeProcess implements DriverManager {
         contributeService.saveOrUpdateBatch(items);
     }
 
-
     /**
-     * @param robots Compose DWS PR.
+     * Compose DWS PR.
+     *
+     * @param robots Login of robot.
      */
     public void composePR(List<String> robots) {
         List<PRDO> doList = prService.list();
@@ -156,7 +159,7 @@ public class GitCodeContributeProcess implements DriverManager {
     /**
      * Compute comment num of a pr or issue.
      *
-     * @param robots
+     * @param robots  Login of robot
      * @param htmlUrl The html url for pr or issue
      * @return comment num
      */
@@ -172,7 +175,7 @@ public class GitCodeContributeProcess implements DriverManager {
     /**
      * Get first comment of a pr or issue.
      *
-     * @param robots
+     * @param robots  Login of robot
      * @param htmlUrl The html url for pr or issue.
      * @return A comment.
      */
@@ -191,7 +194,7 @@ public class GitCodeContributeProcess implements DriverManager {
     /**
      * Compute comment num of a pr or issue.
      *
-     * @param robots
+     * @param robots Login of robot
      * @param obj    The BaseContribute object
      * @return The first reply time of a pr or issue
      */

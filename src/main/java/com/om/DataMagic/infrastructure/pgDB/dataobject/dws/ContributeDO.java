@@ -104,6 +104,16 @@ public class ContributeDO {
     private String codePlatform;
 
     /**
+     * The version of a contribute.
+     */
+    private String version;
+
+    /**
+     * The branch of a pr.
+     */
+    private String branch;
+
+    /**
      * The title of a pr or issue.
      */
     @TableField("title")
@@ -176,6 +186,12 @@ public class ContributeDO {
     private Long closedTime;
 
     /**
+     * The comment type of a comment.
+     */
+    @TableField("comment_type")
+    private String commentType;
+
+    /**
      * Indicate whether the contribute is a pr.
      */
     @TableField("is_pr")
@@ -204,4 +220,10 @@ public class ContributeDO {
      */
     @TableField("remove")
     private Long remove;
+
+    /**
+     * the contribute isRemoved.
+     */
+    @TableField("is_removed")
+    private String isRemoved;
 }
