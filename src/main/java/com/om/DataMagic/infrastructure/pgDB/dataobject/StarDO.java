@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.om.DataMagic.common.constant.TableConstant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +26,7 @@ import java.time.OffsetDateTime;
 
 @Getter
 @Setter
-@TableName("fact_star")
+@TableName(TableConstant.STAR)
 public class StarDO {
     @Serial
     private static final long serialVersionUID = 1L;

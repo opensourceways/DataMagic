@@ -10,12 +10,15 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service;
+package com.om.DataMagic.infrastructure.pgDB.service.platform;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.ForkDO;
 import com.om.DataMagic.infrastructure.pgDB.mapper.ForkDOMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * fork service 实现类.
@@ -25,5 +28,22 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ForkServiceImpl extends ServiceImpl<ForkDOMapper, ForkDO> implements ForkService {
+    /**
+     * @param entityList sava or update .
+     * @return
+     */
+    @Override
+    public boolean saveOrUpdateBatch(Collection<ForkDO> entityList) {
+        return super.saveOrUpdateBatch(entityList);
+    }
+
+    /**
+     * query return list.
+     * @return list
+     */
+    @Override
+    public List<ForkDO> list() {
+        return super.list();
+    }
 }
 

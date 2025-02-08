@@ -44,6 +44,21 @@ public final class TableConstant {
     public static final String COMMENT = "fact_comment";
 
     /**
+     * The fact fork table prefix.
+     */
+    public static final String FORK = "fact_fork";
+
+    /**
+     * The fact star table prefix.
+     */
+    public static final String STAR = "fact_star";
+
+    /**
+     * The fact watch table prefix.
+     */
+    public static final String WATCH = "fact_watch";
+
+    /**
      * The fact dws contribute table prefix.
      */
     public static final String DWS_CONTRIB = "fact_contribute";
