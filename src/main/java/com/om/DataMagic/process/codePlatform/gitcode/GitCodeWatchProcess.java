@@ -19,7 +19,7 @@ import com.om.DataMagic.infrastructure.pgDB.converter.WatchConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.WatchDO;
 import com.om.DataMagic.infrastructure.pgDB.service.platform.RepoService;
-import com.om.DataMagic.infrastructure.pgDB.service.WatchService;
+import com.om.DataMagic.infrastructure.pgDB.service.platform.WatchService;
 import com.om.DataMagic.process.DriverManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

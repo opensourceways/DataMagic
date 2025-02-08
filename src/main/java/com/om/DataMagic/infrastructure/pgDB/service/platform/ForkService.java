@@ -10,19 +10,17 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service;
+package com.om.DataMagic.infrastructure.pgDB.service.platform;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.StarDO;
-import com.om.DataMagic.infrastructure.pgDB.mapper.StarDOMapper;
-import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.ForkDO;
 
 /**
- * star service 实现类.
+ * fork service 接口.
  *
- * @author zhaoyan
+ * @author pengyue
  * @since 2025-01-14
  */
-@Service
-public class StarServiceImpl extends ServiceImpl<StarDOMapper, StarDO> implements StarService {
+public interface ForkService extends IService<ForkDO> {
 }
+

@@ -10,17 +10,16 @@
  Created: 2025
 */
 
-package com.om.DataMagic.infrastructure.pgDB.service;
+package com.om.DataMagic.infrastructure.pgDB.service.platform;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.om.DataMagic.infrastructure.pgDB.dataobject.ForkDO;
+import com.om.DataMagic.infrastructure.pgDB.dataobject.WatchDO;
 
 /**
- * fork service 接口.
+ * watch service 接口.
  *
- * @author pengyue
+ * @author zhaoyan
  * @since 2025-01-14
  */
-public interface ForkService extends IService<ForkDO> {
+public interface WatchService extends IService<WatchDO> {
 }
-
