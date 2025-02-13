@@ -77,7 +77,7 @@ public class GitCodeStarProcess implements DriverManager {
      * @return Star信息字符串
      */
     private List<StarDO> getStarList(RepoDO repoDO) {
-        return formatStr(repoDO, service.getStarInfo(repoDO.getNamespace(), repoDO.getName()));
+        return formatStr(repoDO, service.getStarInfo(repoDO.getNamespace(), repoDO.getPath()));
     }
 
     /**
@@ -90,7 +90,7 @@ public class GitCodeStarProcess implements DriverManager {
     private List<StarDO> formatStr(RepoDO repoDO, List<ArrayNode> arrayNodeList) {
         List<StarDO> prDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace(), repoDO.getName(),
+            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace(), repoDO.getPath(),
                     CodePlatformEnum.GITCODE.getText()));
         }
         return prDOList;

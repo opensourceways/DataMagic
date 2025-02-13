@@ -77,7 +77,7 @@ public class GitCodeForkProcess implements DriverManager {
      * @return Fork信息字符串
      */
     private List<ForkDO> getForkList(RepoDO repoDO) {
-        return formatStr(repoDO, service.getForkInfo(repoDO.getNamespace(), repoDO.getName()));
+        return formatStr(repoDO, service.getForkInfo(repoDO.getNamespace(), repoDO.getPath()));
     }
 
     /**
@@ -90,7 +90,7 @@ public class GitCodeForkProcess implements DriverManager {
     private List<ForkDO> formatStr(RepoDO repoDO, List<ArrayNode> arrayNodeList) {
         List<ForkDO> prDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace(), repoDO.getName(),
+            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace(), repoDO.getPath(),
                     CodePlatformEnum.GITCODE.getText()));
         }
         return prDOList;

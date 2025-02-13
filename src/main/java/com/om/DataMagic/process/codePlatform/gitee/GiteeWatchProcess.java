@@ -76,7 +76,7 @@ public class GiteeWatchProcess implements DriverManager {
      * @return Watch信息字符串
      */
     private List<WatchDO> getWatchList(RepoDO repoDO) {
-        return formatStr(repoDO, service.getWatchInfo(repoDO.getNamespace(), repoDO.getName()));
+        return formatStr(repoDO, service.getWatchInfo(repoDO.getNamespace(), repoDO.getPath()));
     }
 
     /**
@@ -90,7 +90,7 @@ public class GiteeWatchProcess implements DriverManager {
     private List<WatchDO> formatStr(RepoDO repoDO, List<ArrayNode> arrayNodeList) {
         List<WatchDO> watchDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            watchDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace(), repoDO.getName(),
+            watchDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace(), repoDO.getPath(),
                     CodePlatformEnum.GITEE.getText()));
         }
         return watchDOList;

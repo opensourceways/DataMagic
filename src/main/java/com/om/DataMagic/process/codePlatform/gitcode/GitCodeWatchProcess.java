@@ -77,7 +77,7 @@ public class GitCodeWatchProcess implements DriverManager {
      * @return Watch信息字符串
      */
     private List<WatchDO> getWatchList(RepoDO repoDO) {
-        return formatStr(repoDO, service.getWatchInfo(repoDO.getNamespace(), repoDO.getName()));
+        return formatStr(repoDO, service.getWatchInfo(repoDO.getNamespace(), repoDO.getPath()));
     }
 
     /**
@@ -90,7 +90,7 @@ public class GitCodeWatchProcess implements DriverManager {
     private List<WatchDO> formatStr(RepoDO repoDO, List<ArrayNode> arrayNodeList) {
         List<WatchDO> prDOList = new ArrayList<>();
         for (ArrayNode arrayNode : arrayNodeList) {
-            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace(), repoDO.getName(),
+            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace(), repoDO.getPath(),
                     CodePlatformEnum.GITCODE.getText()));
         }
         return prDOList;

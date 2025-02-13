@@ -85,7 +85,7 @@ public class GitCodePRProcess implements DriverManager {
         List<String> prArrayList = new ArrayList<>();
         int page = 1;
         while (true) {
-            String prInfo = service.getPRInfo(repoDO.getNamespace(), repoDO.getName(), page);
+            String prInfo = service.getPRInfo(repoDO.getNamespace(), repoDO.getPath(), page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(prInfo)) {
                 break;
             }

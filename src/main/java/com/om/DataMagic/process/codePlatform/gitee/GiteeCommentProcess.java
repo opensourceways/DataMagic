@@ -24,10 +24,11 @@ import com.om.DataMagic.infrastructure.pgDB.service.platform.CommentService;
 import com.om.DataMagic.infrastructure.pgDB.service.platform.IssueService;
 import com.om.DataMagic.infrastructure.pgDB.service.platform.PRService;
 import com.om.DataMagic.process.DriverManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +39,10 @@ import java.util.List;
  */
 @Component
 public class GiteeCommentProcess implements DriverManager {
-
+    /**
+     * Logger for logging messages in App class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(GiteeCommentProcess.class);
     /**
      * gitee service .
      */
@@ -74,20 +78,15 @@ public class GiteeCommentProcess implements DriverManager {
      */
     @Override
     public void run() {
-        List<CommentDO> commentDOList = new ArrayList<>();
-
+        LOGGER.info("comment data collection starting...... ");
         List<PRDO> prdoList = prService.list();
         for (PRDO prdo : prdoList) {
-            commentDOList.addAll(getCommentListByPr(prdo));
+            getCommentListByPr(prdo);
         }
 
         List<IssueDO> issueDOList = issueService.list();
         for (IssueDO issueDO : issueDOList) {
-            commentDOList.addAll(getCommentListByIssue(issueDO));
-        }
-
-        if (!commentDOList.isEmpty()) {
-            commentService.saveOrUpdateBatch(commentDOList);
+            getCommentListByIssue(issueDO);
         }
     }
 
@@ -96,78 +95,76 @@ public class GiteeCommentProcess implements DriverManager {
      * 获取GitCode平台仓库下PR下评论信息.
      *
      * @param prdo PR信息
-     * @return comment信息字符串
      */
-    private List<CommentDO> getCommentListByPr(PRDO prdo) {
-        List<String> commentArrayList = new ArrayList<>();
+    private void getCommentListByPr(PRDO prdo) {
         int page = 1;
         while (true) {
-            String commentInfo =
-                    service.getCommentInfoByPR(prdo.getNamespace(), prdo.getRepoName(), prdo.getNumber(), page);
-            if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(commentInfo)) {
+            if (page > GitCodeConstant.MAX_PAGE) {
+                LOGGER.error("pr comment data collection big page " + ObjectMapperUtil.writeValueAsString(prdo));
+                break;
+            }
+            String commentInfo = null;
+            try {
+                commentInfo = service.getCommentInfoByPR(prdo.getNamespace(),
+                        prdo.getRepoPath(), prdo.getNumber(), page);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+                continue;
+            }
+            if (GitCodeConstant.NOT_FOUND_RESPONSE.equals(commentInfo)
+                    || commentInfo.startsWith("IOException retry")
+                    || GitCodeConstant.NULL_ARRAY_RESPONSE.equals(commentInfo)) {
                 break;
             }
             page++;
-            commentArrayList.add(commentInfo);
+            try {
+                ArrayNode arrayNode = ObjectMapperUtil.toObject(ArrayNode.class, commentInfo);
+                List<CommentDO> doList = converter.toDOList(arrayNode, prdo);
+                if (!doList.isEmpty()) {
+                    commentService.saveOrUpdateBatch(doList);
+                }
+            } catch (Exception e) {
+                LOGGER.error("pr comment data collection error >>> " + e.getMessage());
+            }
         }
-        return formatStrByPr(prdo, commentArrayList);
     }
-
-    /**
-     * 转化并组装CommentDO数据.
-     *
-     * @param prdo             PR信息
-     * @param commentArrayList comment信息字符串
-     * @return comment do 对象
-     */
-    private List<CommentDO> formatStrByPr(PRDO prdo, List<String> commentArrayList) {
-        List<ArrayNode> arrayNodeList = commentArrayList.stream().map(
-                commentArray -> ObjectMapperUtil.toObject(ArrayNode.class, commentArray)).toList();
-        List<CommentDO> commentDOList = new ArrayList<>();
-        for (ArrayNode arrayNode : arrayNodeList) {
-            commentDOList.addAll(converter.toDOList(arrayNode, prdo));
-        }
-        return commentDOList;
-    }
-
 
     /**
      * 获取GitCode平台仓库下ISSUE评论信息.
      * 此接口存在bug，接口调用任意page值均有返回，会导致无法停止循环
      *
      * @param issueDO issue信息
-     * @return comment信息字符串
      */
-    private List<CommentDO> getCommentListByIssue(IssueDO issueDO) {
-        List<String> commentArrayList = new ArrayList<>();
+    private void getCommentListByIssue(IssueDO issueDO) {
         int page = 1;
-        while (page < GitCodeConstant.MAX_PAGE) {
-            String commentInfo =
-                    service.getCommentInfoByIssue(issueDO.getNamespace(), issueDO.getRepoName(), issueDO.getNumber(),
-                            page);
-            if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(commentInfo)) {
+        while (true) {
+            if (page > GitCodeConstant.MAX_PAGE) {
+                LOGGER.error("issue comment data collection big page " + ObjectMapperUtil.writeValueAsString(issueDO));
+                break;
+            }
+            String commentInfo = null;
+            try {
+                commentInfo = service.getCommentInfoByIssue(issueDO.getNamespace(),
+                        issueDO.getRepoPath(), issueDO.getNumber(), page);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+                continue;
+            }
+            if (GitCodeConstant.NOT_FOUND_RESPONSE.equals(commentInfo)
+                    || commentInfo.startsWith("IOException retry")
+                    || GitCodeConstant.NULL_ARRAY_RESPONSE.equals(commentInfo)) {
                 break;
             }
             page++;
-            commentArrayList.add(commentInfo);
+            try {
+                ArrayNode arrayNode = ObjectMapperUtil.toObject(ArrayNode.class, commentInfo);
+                List<CommentDO> doList = converter.toDOList(arrayNode, issueDO);
+                if (!doList.isEmpty()) {
+                    commentService.saveOrUpdateBatch(doList);
+                }
+            } catch (Exception e) {
+                LOGGER.error("issue comment data collection error >>> " + e.getMessage());
+            }
         }
-        return formatStrByIssue(issueDO, commentArrayList);
-    }
-
-    /**
-     * 转化并组装CommentDO数据.
-     *
-     * @param issueDO          issue信息
-     * @param commentArrayList comment信息字符串
-     * @return comment do 对象
-     */
-    private List<CommentDO> formatStrByIssue(IssueDO issueDO, List<String> commentArrayList) {
-        List<ArrayNode> arrayNodeList = commentArrayList.stream().map(
-                commentArray -> ObjectMapperUtil.toObject(ArrayNode.class, commentArray)).toList();
-        List<CommentDO> commentDOList = new ArrayList<>();
-        for (ArrayNode arrayNode : arrayNodeList) {
-            commentDOList.addAll(converter.toDOList(arrayNode, issueDO));
-        }
-        return commentDOList;
     }
 }

@@ -22,10 +22,11 @@ import com.om.DataMagic.infrastructure.pgDB.converter.RepoConverter;
 import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import com.om.DataMagic.infrastructure.pgDB.service.platform.RepoService;
 import com.om.DataMagic.process.DriverManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +37,10 @@ import java.util.List;
  */
 @Component
 public class GiteeRepoProcess implements DriverManager {
-
+    /**
+     * Logger for logging messages in App class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(GiteeRepoProcess.class);
     /**
      * gitee service.
      */
@@ -66,13 +70,10 @@ public class GiteeRepoProcess implements DriverManager {
      */
     @Override
     public void run() {
+        LOGGER.info("repo data collection starting...... ");
         String[] split = config.getOrgs().split(",");
-        List<String> repoList = new ArrayList<>();
         for (String orgName : split) {
-            repoList.addAll(getRepoList(orgName));
-        }
-        if (!repoList.isEmpty()) {
-            saveRepoData(repoList);
+            getRepoList(orgName);
         }
     }
 
@@ -80,34 +81,32 @@ public class GiteeRepoProcess implements DriverManager {
      * 获取gitcode平台组织下仓库信息.
      *
      * @param orgName 组织
-     * @return 仓库信息字符串
      */
-    private List<String> getRepoList(String orgName) {
-        List<String> repoArrayList = new ArrayList<>();
+    private void getRepoList(String orgName) {
         int page = 1;
         while (true) {
-            String repoInfo = service.getRepoInfo(orgName, page);
-            if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(repoInfo)) {
+            String repoInfo = null;
+            try {
+                repoInfo = service.getRepoInfo(orgName, page);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+                continue;
+            }
+            if (GitCodeConstant.NOT_FOUND_RESPONSE.equals(repoInfo)
+                    || repoInfo.startsWith("IOException retry")
+                    || GitCodeConstant.NULL_ARRAY_RESPONSE.equals(repoInfo)) {
                 break;
             }
             page++;
-            repoArrayList.add(repoInfo);
+            try {
+                ArrayNode arrayNode = ObjectMapperUtil.toObject(ArrayNode.class, repoInfo);
+                List<RepoDO> doList = converter.toDOList(arrayNode, CodePlatformEnum.GITEE);
+                if (!doList.isEmpty()) {
+                    repoService.saveOrUpdateBatch(doList);
+                }
+            } catch (Exception e) {
+                LOGGER.error("pr data collection error >>> " + e.getMessage());
+            }
         }
-        return repoArrayList;
-    }
-
-    /**
-     * 保存仓库信息到数据库.
-     *
-     * @param repoList 仓库数据列表
-     */
-    private void saveRepoData(List<String> repoList) {
-        List<ArrayNode> arrayNodeList =
-                repoList.stream().map(repoArray -> ObjectMapperUtil.toObject(ArrayNode.class, repoArray)).toList();
-        List<RepoDO> repoDOList = new ArrayList<>();
-        for (ArrayNode arrayNode : arrayNodeList) {
-            repoDOList.addAll(converter.toDOList(arrayNode, CodePlatformEnum.GITEE));
-        }
-        repoService.saveOrUpdateBatch(repoDOList);
     }
 }

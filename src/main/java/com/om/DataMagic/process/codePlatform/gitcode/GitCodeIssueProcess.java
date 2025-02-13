@@ -85,7 +85,7 @@ public class GitCodeIssueProcess implements DriverManager {
         List<String> issueArrayList = new ArrayList<>();
         int page = 1;
         while (true) {
-            String issueInfo = service.getIssueInfo(repoDO.getNamespace(), repoDO.getName(), page);
+            String issueInfo = service.getIssueInfo(repoDO.getNamespace(), repoDO.getPath(), page);
             if (GitCodeConstant.NULL_ARRAY_RESPONSE.equals(issueInfo)) {
                 break;
             }

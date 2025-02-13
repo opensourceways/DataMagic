@@ -23,10 +23,11 @@ import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import com.om.DataMagic.infrastructure.pgDB.service.platform.PRService;
 import com.om.DataMagic.infrastructure.pgDB.service.platform.RepoService;
 import com.om.DataMagic.process.DriverManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +38,10 @@ import java.util.List;
  */
 @Component
 public class GiteePRProcess implements DriverManager {
-
+    /**
+     * Logger for logging messages in App class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(GiteePRProcess.class);
     /**
      * gitee service.
      */
@@ -67,13 +71,10 @@ public class GiteePRProcess implements DriverManager {
      */
     @Override
     public void run() {
+        LOGGER.info("pr data collection starting...... ");
         List<RepoDO> repoDOList = repoService.list();
-        List<PRDO> prList = new ArrayList<>();
         for (RepoDO repoDO : repoDOList) {
-            prList.addAll(getPRList(repoDO));
-        }
-        if (!prList.isEmpty()) {
-            prService.saveOrUpdateBatch(prList);
+            getPRList(repoDO);
         }
     }
 
@@ -81,39 +82,36 @@ public class GiteePRProcess implements DriverManager {
      * 获取GitCode平台仓库下PR信息.
      *
      * @param repoDO 仓库信息
-     * @return PR信息字符串
      */
-    private List<PRDO> getPRList(RepoDO repoDO) {
-        List<String> prArrayList = new ArrayList<>();
+    private void getPRList(RepoDO repoDO) {
         int page = 1;
         while (true) {
-            String prInfo = service.getPRInfo(repoDO.getNamespace(), repoDO.getName(), page);
+            if (page > GitCodeConstant.MAX_PAGE) {
+                LOGGER.error("pr data collection big page " + ObjectMapperUtil.writeValueAsString(repoDO));
+                break;
+            }
+            String prInfo = null;
+            try {
+                prInfo = service.getPRInfo(repoDO.getNamespace(), repoDO.getPath(), page);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+                continue;
+            }
             if (GitCodeConstant.NOT_FOUND_RESPONSE.equals(prInfo)
                     || prInfo.startsWith("IOException retry")
                     || GitCodeConstant.NULL_ARRAY_RESPONSE.equals(prInfo)) {
                 break;
             }
             page++;
-            prArrayList.add(prInfo);
+            try {
+                ArrayNode arrayNode = ObjectMapperUtil.toObject(ArrayNode.class, prInfo);
+                List<PRDO> doList = converter.toDOList(arrayNode, repoDO.getNamespace(), CodePlatformEnum.GITEE);
+                if (!doList.isEmpty()) {
+                    prService.saveOrUpdateBatch(doList);
+                }
+            } catch (Exception e) {
+                LOGGER.error("pr data collection error >>> " + e.getMessage());
+            }
         }
-        return formatStr(repoDO, prArrayList);
-    }
-
-    /**
-     * 转化并组装PRDO数据.
-     *
-     *
-     * @param repoDO     仓库信息
-     * @param prInfoList pr信息字符串
-     * @return prdo 对象
-     */
-    private List<PRDO> formatStr(RepoDO repoDO, List<String> prInfoList) {
-        List<ArrayNode> arrayNodeList = prInfoList.stream().map(
-                prArray -> ObjectMapperUtil.toObject(ArrayNode.class, prArray)).toList();
-        List<PRDO> prDOList = new ArrayList<>();
-        for (ArrayNode arrayNode : arrayNodeList) {
-            prDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace(), CodePlatformEnum.GITEE));
-        }
-        return prDOList;
     }
 }
