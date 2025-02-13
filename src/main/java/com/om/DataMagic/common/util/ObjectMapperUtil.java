@@ -15,6 +15,7 @@ package com.om.DataMagic.common.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public final class ObjectMapperUtil {
     // Private constructor to prevent instantiation of the utility class
@@ -36,6 +37,7 @@ public final class ObjectMapperUtil {
      */
     public static String writeValueAsString(final Object obj) {
         try {
+            objectMapper.registerModule(new JavaTimeModule());
             return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException var2) {
             throw new RuntimeException("Convert to Json string error");

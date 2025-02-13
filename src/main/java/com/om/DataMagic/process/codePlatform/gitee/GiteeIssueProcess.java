@@ -23,10 +23,11 @@ import com.om.DataMagic.infrastructure.pgDB.dataobject.RepoDO;
 import com.om.DataMagic.infrastructure.pgDB.service.platform.IssueService;
 import com.om.DataMagic.infrastructure.pgDB.service.platform.RepoService;
 import com.om.DataMagic.process.DriverManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +38,10 @@ import java.util.List;
  */
 @Component
 public class GiteeIssueProcess implements DriverManager {
-
+    /**
+     * Logger for logging messages in App class.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(GiteeIssueProcess.class);
     /**
      * gitee service.
      */
@@ -67,13 +71,10 @@ public class GiteeIssueProcess implements DriverManager {
      */
     @Override
     public void run() {
+        LOGGER.info("issue data collection starting...... ");
         List<RepoDO> repoDOList = repoService.list();
-        List<IssueDO> issueList = new ArrayList<>();
         for (RepoDO repoDO : repoDOList) {
-            issueList.addAll(getIssueList(repoDO));
-        }
-        if (!issueList.isEmpty()) {
-            issueService.saveOrUpdateBatch(issueList);
+            getIssueList(repoDO);
         }
     }
 
@@ -81,38 +82,36 @@ public class GiteeIssueProcess implements DriverManager {
      * 获取GitCode平台仓库下Issue信息.
      *
      * @param repoDO 仓库信息
-     * @return issue信息字符串
      */
-    private List<IssueDO> getIssueList(RepoDO repoDO) {
-        List<String> issueArrayList = new ArrayList<>();
+    private void getIssueList(RepoDO repoDO) {
         int page = 1;
         while (true) {
-            String issueInfo = service.getIssueInfo(repoDO.getNamespace(), repoDO.getName(), page);
+            if (page > GitCodeConstant.MAX_PAGE) {
+                LOGGER.error("issue data collection big page " + ObjectMapperUtil.writeValueAsString(repoDO));
+                break;
+            }
+            String issueInfo = null;
+            try {
+                issueInfo = service.getIssueInfo(repoDO.getNamespace(), repoDO.getPath(), page);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+                continue;
+            }
             if (GitCodeConstant.NOT_FOUND_RESPONSE.equals(issueInfo)
                     || issueInfo.startsWith("IOException retry")
                     || GitCodeConstant.NULL_ARRAY_RESPONSE.equals(issueInfo)) {
                 break;
             }
             page++;
-            issueArrayList.add(issueInfo);
+            try {
+                ArrayNode arrayNode = ObjectMapperUtil.toObject(ArrayNode.class, issueInfo);
+                List<IssueDO> doList = converter.toDOList(arrayNode, repoDO.getNamespace(), CodePlatformEnum.GITEE);
+                if (!doList.isEmpty()) {
+                    issueService.saveOrUpdateBatch(doList);
+                }
+            } catch (Exception e) {
+                LOGGER.error("issue data collection error >>> " + e.getMessage());
+            }
         }
-        return formatStr(repoDO, issueArrayList);
-    }
-
-    /**
-     * 转化并组装IssueDO数据.
-     *
-     * @param repoDO        仓库信息
-     * @param issueInfoList issue信息字符串
-     * @return issue do 对象
-     */
-    private List<IssueDO> formatStr(RepoDO repoDO, List<String> issueInfoList) {
-        List<ArrayNode> arrayNodeList = issueInfoList.stream().map(
-                issueArray -> ObjectMapperUtil.toObject(ArrayNode.class, issueArray)).toList();
-        List<IssueDO> issueDOList = new ArrayList<>();
-        for (ArrayNode arrayNode : arrayNodeList) {
-            issueDOList.addAll(converter.toDOList(arrayNode, repoDO.getNamespace(), CodePlatformEnum.GITEE));
-        }
-        return issueDOList;
     }
 }

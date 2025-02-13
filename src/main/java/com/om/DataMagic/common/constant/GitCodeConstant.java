@@ -32,7 +32,7 @@ public final class GitCodeConstant {
      * 列表查询，最大页数，最大为 100，用于临时处理gitcode-传入任何页数均可返回数据-bug.
      * 当前存在问题接口：issue评论获取接口、fork评论接口
      */
-    public static final Integer MAX_PAGE = 10;
+    public static final Integer MAX_PAGE = 200;
 
     /**
      * 列表查询，空数组响应.
@@ -42,7 +42,7 @@ public final class GitCodeConstant {
     /**
      * gitee查询，未发现项目.
      */
-    public static final String NOT_FOUND_RESPONSE = "{message:Not Found Project}";
+    public static final String NOT_FOUND_RESPONSE = "{\"message\":\"Not Found Project\"}";
 
     /**
      * 评论url.
